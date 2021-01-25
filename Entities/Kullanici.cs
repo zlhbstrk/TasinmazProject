@@ -11,15 +11,21 @@ namespace Tasinmaz.Entities
         public int ID { get; set; }
 
         [Required]
+        [MaxLength(100)]
         [DataType(DataType.EmailAddress, ErrorMessage = "E-mail alanı boş geçilemez!")]
         public string Email { get; set; }
 
         [Required(ErrorMessage="Yetki alanı boş geçilemez!")]
         public YetkiTipi Yetki { get; set; } // Enum Kullanılıyor
 
+        [MinLength(8)]
         [Required(ErrorMessage="Şifre alanı boş geçilemez!")]
         public string Sifre { get; set; }
+
+        [MaxLength(30)]
         public string Ad { get; set; }
+
+        [MaxLength(30)]
         public string Soyad { get; set; }
         public bool AktifMi { get; set; }
     }

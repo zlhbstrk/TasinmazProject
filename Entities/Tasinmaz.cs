@@ -18,9 +18,11 @@ namespace Tasinmaz.Entities
         [Required(ErrorMessage="Parsel alanı boş geçilemez!")]
         public int Parsel { get; set; }
 
+        [MaxLength(50)]
         [Required(ErrorMessage="Nitelik alanı boş geçilemez!")]
         public string Nitelik { get; set; }
 
+        [MaxLength(50)]
         [Required(ErrorMessage="Adres alanı boş geçilemez!")]
         public string Adres { get; set; }
     }

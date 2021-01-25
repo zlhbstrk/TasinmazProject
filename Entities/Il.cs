@@ -9,6 +9,7 @@ namespace Tasinmaz.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
 
+        [MaxLength(30)]
         [Required(ErrorMessage="Ad alanı boş geçilemez!")]
         public string Ad { get; set; }
         public int Plaka { get; set; }

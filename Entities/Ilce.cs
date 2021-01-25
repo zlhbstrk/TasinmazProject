@@ -10,6 +10,7 @@ namespace Tasinmaz.Entities
         public int ID { get; set; }
         public int IlID { get; set; }
 
+        [MaxLength(30)]
         [Required(ErrorMessage="Ad alanı boş geçilemez!")]
         public string Ad { get; set; }
     }

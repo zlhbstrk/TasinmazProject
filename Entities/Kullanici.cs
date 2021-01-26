@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Tasinmaz.Helpers;
@@ -28,5 +29,7 @@ namespace Tasinmaz.Entities
         [MaxLength(30)]
         public string Soyad { get; set; }
         public bool AktifMi { get; set; }
+
+        public ICollection<Log> tblLog {get; set; }
     }
 }

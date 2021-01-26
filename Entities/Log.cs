@@ -9,13 +9,22 @@ namespace Tasinmaz.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
+
+        [ForeignKey("Kullanici")]
         public int KullaniciID { get; set; }
+        public Kullanici Kullanici { get; set; } 
 
         [MaxLength(30)]
         [Required(ErrorMessage="Ad alanı boş geçilemez!")]
         public string KullaniciAdi { get; set; }
+
+        [ForeignKey("Durum")]
         public int DurumID { get; set; }
+        public Durum Durum { get; set; } 
+
+        [ForeignKey("IslemTip")]
         public int IslemTipID { get; set; }
+        public IslemTip IslemTip { get; set; } 
 
         [MaxLength(100)]
         [Required(ErrorMessage="Açıklama alanı boş geçilemez!")]

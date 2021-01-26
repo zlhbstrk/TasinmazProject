@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,5 +14,8 @@ namespace Tasinmaz.Entities
         [Required(ErrorMessage="Ad alanı boş geçilemez!")]
         public string Ad { get; set; }
         public int Plaka { get; set; }
+
+        public ICollection<Ilce> tblIlce {get; set; }
+        public ICollection<Tasinmaz> tblTasinmaz {get; set; }
     }
 }

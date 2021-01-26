@@ -8,9 +8,18 @@ namespace Tasinmaz.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
+
+        [ForeignKey("Il")]
         public int IlID { get; set; }
+        public Il Il { get; set; }
+
+        [ForeignKey("Ilce")]
         public int IlceID { get; set; }
+        public Ilce Ilce { get; set; }
+
+        [ForeignKey("Mahalle")]
         public int MahalleID { get; set; }
+        public Mahalle Mahalle { get; set; }
 
         [Required(ErrorMessage="Ada alanı boş geçilemez!")]
         public int Ada { get; set; }

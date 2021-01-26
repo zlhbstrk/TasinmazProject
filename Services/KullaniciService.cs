@@ -1,6 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
+using System.Linq;
 using Tasinmaz.Contracts;
 using Tasinmaz.Entities;
 
@@ -8,39 +7,61 @@ namespace Tasinmaz.Services
 {
     public class KullaniciService : IRepository<Kullanici>
     {
-        public void Add(Kullanici entity)
+        public Kullanici Add(Kullanici entity) //try - catch kullanmayı unutma // summray
         {
-            throw new NotImplementedException();
+            using(var _DefaultDbContext = new DefaultDbContext())
+            {
+                _DefaultDbContext.tblKullanici.Add(entity);
+                _DefaultDbContext.SaveChanges();
+                return entity;
+            }
         }
 
-        public void AddRange(IEnumerable<Kullanici> entities)
+        public void Delete(int id)
         {
-            throw new NotImplementedException();
+            using(var _DefaultDbContext = new DefaultDbContext())
+            {
+                var silinenKullanici = GetById(id);
+                _DefaultDbContext.tblKullanici.Remove(silinenKullanici);
+                _DefaultDbContext.SaveChanges();
+            }
         }
 
-        public IEnumerable<Kullanici> Find(Expression<Func<Kullanici, bool>> predicate)
+        public IList<Kullanici> GetAll()
         {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Kullanici> GetAll()
-        {
-            throw new NotImplementedException();
+            using(var _DefaultDbContext = new DefaultDbContext())
+            {
+                return _DefaultDbContext.tblKullanici.ToList();
+            }
         }
 
         public Kullanici GetById(int id)
         {
-            throw new NotImplementedException();
+            using(var _DefaultDbContext = new DefaultDbContext())
+            {
+                return _DefaultDbContext.tblKullanici.Find(id);
+            }
         }
 
-        public void Remove(Kullanici entity)
+        public Kullanici Update(Kullanici entity)
         {
-            throw new NotImplementedException();
+            using(var _DefaultDbContext = new DefaultDbContext())
+            {
+                _DefaultDbContext.tblKullanici.Update(entity);
+                _DefaultDbContext.SaveChanges();
+                return entity;
+            }
         }
 
-        public void RemoveRange(IEnumerable<Kullanici> entities)
+        public IList<Kullanici> GetByFilter(string filter)
         {
-            throw new NotImplementedException();
+            using(var _DefaultDbContext = new DefaultDbContext())
+            {
+                
+                return (from k in _DefaultDbContext.tblKullanici
+                                       where k.Ad.ToUpper().Contains(filter.ToUpper()) || k.Email.Contains(filter) //filtre yapmak istediğin kolonları ekle!
+                                       select k).ToList();
+            }
         }
     }
 }

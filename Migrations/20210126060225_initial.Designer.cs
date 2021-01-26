@@ -9,7 +9,7 @@ using Tasinmaz.Entities;
 
 namespace Tasinmaz.Migrations
 {
-    [DbContext(typeof(DefaultContext))]
+    [DbContext(typeof(DefaultDbContext))]
     [Migration("20210126060225_initial")]
     partial class initial
     {

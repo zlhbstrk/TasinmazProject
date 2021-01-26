@@ -1,33 +1,55 @@
-using System.Threading.Tasks;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Tasinmaz.Contracts;
 using Tasinmaz.Entities;
-using Tasinmaz.Services;
 
 namespace Tasinmaz.Controllers
 {
     [ApiController]
-    [Route("[controller]/[action]")]
+    [Route("api/[controller]/[action]")]
     public class KullaniciController : ControllerBase
     {
-        [HttpPost]
-        public bool Add(Kullanici kullanici)
-        {
-            try
-            {
-                KullaniciService kullaniciServis = new KullaniciService();
-                kullaniciServis.Add(kullanici);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+        private IRepository<Kullanici> _kullanici;
 
+        public KullaniciController(IRepository<Kullanici> kullanici)
+        {
+            _kullanici = kullanici;
+        }
+
+        [HttpPost]
+        public Kullanici Add([FromBody]Kullanici entity)
+        {
+            return _kullanici.Add(entity);
+        }
+        
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            _kullanici.Delete(id);
         }
 
         [HttpGet]
-        public string Getir(){
-            return "test 1 2 3 45";
+        public IList<Kullanici> GetAll()
+        {
+            return _kullanici.GetAll();
+        }
+
+        [HttpGet("{id}")]
+        public Kullanici GetById(int id)
+        {
+            return _kullanici.GetById(id);
+        }
+
+              [HttpGet("{filtre}")]
+        public IList<Kullanici> GetByFilter(string filtre)
+        {
+            return _kullanici.GetByFilter(filtre);
+        }
+
+        [HttpPut]
+        public Kullanici Update([FromBody]Kullanici entity)
+        {
+            return _kullanici.Update(entity);
         }
     }
 }

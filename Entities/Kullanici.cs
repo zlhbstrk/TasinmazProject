@@ -8,7 +8,7 @@ namespace Tasinmaz.Entities
     public class Kullanici
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] //1'den başlar ve birer birer artar
         public int ID { get; set; }
 
         [Required]

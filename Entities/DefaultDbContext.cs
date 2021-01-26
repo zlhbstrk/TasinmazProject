@@ -2,13 +2,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Tasinmaz.Entities
 {
-    public class DefaultContext : DbContext
+    public class DefaultDbContext : DbContext
 
     {
-        public DefaultContext(DbContextOptions<DefaultContext> options) : base(options)
+        public DefaultDbContext()
+        {
+        }
+
+        public DefaultDbContext(DbContextOptions<DefaultDbContext> options) : base(options)
         {
 
         }
+        
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Username=postgres;Password=msn.msn123;Database=dbTasinmaz;");
+        }
+
         public DbSet<Kullanici> tblKullanici { get; set; }
         public DbSet<Il> tblIl {get; set; }
         public DbSet<Ilce> tblIlce {get; set; }

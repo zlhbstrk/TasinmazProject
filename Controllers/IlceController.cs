@@ -41,9 +41,9 @@ namespace Tasinmaz.Controllers
         }
 
         // [HttpGet("{filter}")]
-        // public IList<Il> GetAllFilter(string filtre)
+        // public IList<Ilce> GetAllFilter(string filtre)
         // {
-        //     return _il.GetAllFilter(filtre);
+        //     return _ilce.GetAllFilter(filtre);
         // }
 
         [HttpPut]

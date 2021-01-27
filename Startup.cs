@@ -27,7 +27,7 @@ namespace Tasinmaz
             services.AddControllers();  //*
             services.AddSingleton<IRepository<Kullanici>, KullaniciService>(); //tüm entitiyler için
             services.AddSingleton<IRepository<Il>, IlService>();
-            //services.AddSingleton<IRepository<Ilce>, IlceService>();
+            services.AddSingleton<IRepository<Ilce>, IlceService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Tasinmaz", Version = "v1" });

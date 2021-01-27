@@ -16,6 +16,6 @@ namespace Tasinmaz.Entities
         public int Plaka { get; set; }
 
         public ICollection<Ilce> tblIlce {get; set; }
-        public ICollection<Tasinmaz> tblTasinmaz {get; set; }
+        public ICollection<ETasinmaz> tblTasinmaz {get; set; }
     }
 }

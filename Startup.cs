@@ -25,10 +25,11 @@ namespace Tasinmaz
         {
             //services.AddDbContext<DefaultDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();  //*
-            services.AddSingleton<IRepository<Kullanici>, KullaniciService>(); //tüm entitiyler için
+            services.AddSingleton<IRepository<Kullanici>, KullaniciService>();
             services.AddSingleton<IRepository<Il>, IlService>();
             services.AddSingleton<IRepository<Ilce>, IlceService>();
             services.AddSingleton<IRepository<Mahalle>, MahalleService>();
+            services.AddSingleton<IRepository<ETasinmaz>, TasinmazService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Tasinmaz", Version = "v1" });

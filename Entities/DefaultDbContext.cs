@@ -24,7 +24,7 @@ namespace Tasinmaz.Entities
         public DbSet<Il> tblIl {get; set; }
         public DbSet<Ilce> tblIlce {get; set; }
         public DbSet<Mahalle> tblMahalle { get; set; }
-        public DbSet<Tasinmaz> tblTasinmaz { get; set; }
+        public DbSet<ETasinmaz> tblTasinmaz { get; set; }
         public DbSet<IslemTip> tblIslemTip {get; set; }
         public DbSet<Durum> tblDurum { get; set; }
         public DbSet<Log> tblLog {get; set; }

@@ -18,6 +18,6 @@ namespace Tasinmaz.Entities
         [Required(ErrorMessage="Ad alanı boş geçilemez!")]
         public string Ad { get; set; }
 
-        public ICollection<Tasinmaz> tblTasinmaz {get; set; }
+        public ICollection<ETasinmaz> tblTasinmaz {get; set; }
     }
 }

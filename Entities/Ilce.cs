@@ -19,6 +19,6 @@ namespace Tasinmaz.Entities
         public string Ad { get; set; }
 
         public ICollection<Mahalle> tblMahalle {get; set; }
-        public ICollection<Tasinmaz> tblTasinmaz {get; set; }
+        public ICollection<ETasinmaz> tblTasinmaz {get; set; }
     }
 }

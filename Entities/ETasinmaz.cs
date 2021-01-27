@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Tasinmaz.Entities
 {
-    public class Tasinmaz
+    public class ETasinmaz
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

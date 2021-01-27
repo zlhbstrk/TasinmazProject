@@ -40,10 +40,10 @@ namespace Tasinmaz.Controllers
             return _kullanici.GetById(id);
         }
 
-              [HttpGet("{filtre}")]
-        public IList<Kullanici> GetByFilter(string filtre)
+        [HttpGet("{filter}")]
+        public IList<Kullanici> GetAllFilter(string filtre)
         {
-            return _kullanici.GetByFilter(filtre);
+            return _kullanici.GetAllFilter(filtre);
         }
 
         [HttpPut]

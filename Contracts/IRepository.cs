@@ -9,6 +9,6 @@ namespace Tasinmaz.Contracts
         T Add(T entity);
         void Delete(int id);
         T Update(T entity);
-        IList<T> GetByFilter(string filter);
+        IList<T> GetAllFilter(string filter);
     }
 }

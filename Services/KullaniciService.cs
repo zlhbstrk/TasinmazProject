@@ -37,7 +37,7 @@ namespace Tasinmaz.Services
             }
         }
         
-        public async Task<IList<Kullanici>> GetAllFilter(string filter)
+        public Task<IList<Kullanici>> GetAllFilter(string filter)
         {
             throw new System.NotImplementedException();
         }

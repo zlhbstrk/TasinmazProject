@@ -36,7 +36,7 @@ namespace Tasinmaz.Services
             }
         }
 
-        public async Task<IList<Il>> GetAllFilter(string filter) //Kullanmıyorum!
+        public Task<IList<Il>> GetAllFilter(string filter) //Kullanmıyorum!
         {
             throw new System.NotImplementedException();
         }

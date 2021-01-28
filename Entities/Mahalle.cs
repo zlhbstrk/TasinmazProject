@@ -8,10 +8,10 @@ namespace Tasinmaz.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
+        public int ID { get; }
 
         [ForeignKey("Ilce")]
-        public int IlceID { get; set; }
+        public int IlceID { get; }
         public Ilce Ilce { get; set; }
         
         [MaxLength(30)]

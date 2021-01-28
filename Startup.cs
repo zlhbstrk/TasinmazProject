@@ -30,6 +30,7 @@ namespace Tasinmaz
             services.AddSingleton<IRepository<Ilce>, IlceService>();
             services.AddSingleton<IRepository<Mahalle>, MahalleService>();
             services.AddSingleton<IRepository<ETasinmaz>, TasinmazService>();
+            services.AddSingleton<IRepository<Log>, LogService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Tasinmaz", Version = "v1" });

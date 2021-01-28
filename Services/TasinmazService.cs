@@ -39,11 +39,11 @@ namespace Tasinmaz.Services
 
         public async Task<IList<ETasinmaz>> GetAllFilter(string filter) //ToUpper()-büyük/küçük harf duyarlılığı için
         {
-            using (var _DefaultDbContext = new DefaultDbContext()) //await kullanamadım bak...
+            using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return  (from t in _DefaultDbContext.tblTasinmaz
+                return  await (from t in _DefaultDbContext.tblTasinmaz
                         where t.Nitelik.ToUpper().Contains(filter.ToUpper()) || t.Adres.ToUpper().Contains(filter.ToUpper())
-                        select t).ToList();
+                        select t).ToListAsync();
             }
         }
 

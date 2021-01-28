@@ -9,15 +9,15 @@ namespace Tasinmaz.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)] //1'den başlar ve birer birer artar
-        public int ID { get; set; }
+        public int ID { get; }
 
         [Required]
-        [MaxLength(100)]
+        [MaxLength(50)]
         [DataType(DataType.EmailAddress, ErrorMessage = "E-mail alanı boş geçilemez!")]
         public string Email { get; set; }
 
         [Required(ErrorMessage="Yetki alanı boş geçilemez!")]
-        public YetkiTipi Yetki { get; set; } // Enum Kullanılıyor
+        public YetkiTipi Yetki { get; set; } // Enum Kullanılıyor.
 
         [MinLength(8)]
         [Required(ErrorMessage="Şifre alanı boş geçilemez!")]

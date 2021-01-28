@@ -8,10 +8,10 @@ namespace Tasinmaz.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
+        public int ID { get; }
 
         [MaxLength(30)]
-        public string Ad { get; set; } // Dışarıdan İşlemTip tanımlaması olmayacağından DataAnnotations kullanmadım
+        public string Ad { get; } // Dışarıdan İşlemTip tanımlaması olmayacağından DataAnnotations kullanmadım
 
         public ICollection<Log> tblLog {get; set; }
     }

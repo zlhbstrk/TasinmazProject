@@ -36,7 +36,7 @@ namespace Tasinmaz.Services
             }
         }
 
-        public async Task<IList<Mahalle>> GetAllFilter(string filter)
+        public Task<IList<Mahalle>> GetAllFilter(string filter)
         {
             throw new System.NotImplementedException();
         }

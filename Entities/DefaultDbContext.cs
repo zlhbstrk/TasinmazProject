@@ -7,6 +7,7 @@ namespace Tasinmaz.Entities
     {
         public DefaultDbContext()
         {
+            
         }
 
         public DefaultDbContext(DbContextOptions<DefaultDbContext> options) : base(options)
@@ -25,8 +26,8 @@ namespace Tasinmaz.Entities
         public DbSet<Ilce> tblIlce {get; set; }
         public DbSet<Mahalle> tblMahalle { get; set; }
         public DbSet<ETasinmaz> tblTasinmaz { get; set; }
-        public DbSet<IslemTip> tblIslemTip {get; set; }
-        public DbSet<Durum> tblDurum { get; set; }
-        public DbSet<Log> tblLog {get; set; }
+        public DbSet<IslemTip> tblIslemTip {get; }
+        public DbSet<Durum> tblDurum { get; }
+        public DbSet<Log> tblLog {get; }
     }
 }

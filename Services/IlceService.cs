@@ -36,7 +36,7 @@ namespace Tasinmaz.Services
             }
         }
 
-        public async Task<IList<Ilce>> GetAllFilter(string filter)
+        public Task<IList<Ilce>> GetAllFilter(string filter)
         {
             throw new System.NotImplementedException();
         }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "U98mrzj+mnLZglqMS25Yfi5DxQB6Bwjtcp+TZ1maMVaqImn/2PCg9hUEpJOnpf+NfpAUoq/QjUuQeMVgUt0BNQ==",
+  "dgSpecHash": "C/GgndOrX4+7nBekiCqa5pL9u5bZJdbbldmffkr7uzOEuw56ou6bSKQSerFE7MUq1TIvpYDOJ9O7FJ35qEPoHg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\zlhbs\\Desktop\\TasinmazProjesi\\TasinmazProjesiWeb\\Tasinmaz\\Tasinmaz.csproj",
+  "projectFilePath": "C:\\Users\\zlhbs\\Desktop\\TasinmazProjesi\\TasinmazProjesiWeb\\TasinmazProject\\Tasinmaz.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\zlhbs\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\zlhbs\\.nuget\\packages\\microsoft.aspnetcore.authorization\\1.0.3\\microsoft.aspnetcore.authorization.1.0.3.nupkg.sha512",

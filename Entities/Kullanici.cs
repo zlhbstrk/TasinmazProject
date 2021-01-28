@@ -9,7 +9,7 @@ namespace Tasinmaz.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)] //1'den başlar ve birer birer artar
-        public int ID { get; }
+        public int ID { get; set; }
 
         [Required]
         [MaxLength(50)]

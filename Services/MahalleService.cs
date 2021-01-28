@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Tasinmaz.Contracts;
 using Tasinmaz.Entities;
 
@@ -7,53 +8,53 @@ namespace Tasinmaz.Services
 {
     public class MahalleService : IRepository<Mahalle>
     {
-        public Mahalle Add(Mahalle entity)
+        public async Task<Mahalle> Add(Mahalle entity)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
                 _DefaultDbContext.tblMahalle.Add(entity);
-                _DefaultDbContext.SaveChanges();
+                await _DefaultDbContext.SaveChangesAsync();
                 return entity;
             }
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                var silinenMahalle = GetById(id);
+                var silinenMahalle = await GetById(id);
                 _DefaultDbContext.tblMahalle.Remove(silinenMahalle);
-                _DefaultDbContext.SaveChanges();
+                await _DefaultDbContext.SaveChangesAsync();
             }
         }
 
-        public IList<Mahalle> GetAll()
+        public async Task<IList<Mahalle>> GetAll()
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return _DefaultDbContext.tblMahalle.ToList();
+                return await _DefaultDbContext.tblMahalle.ToListAsync();
             }
         }
 
-        public IList<Mahalle> GetAllFilter(string filter)
+        public async Task<IList<Mahalle>> GetAllFilter(string filter)
         {
             throw new System.NotImplementedException();
         }
 
-        public Mahalle GetById(int id)
+        public async Task<Mahalle> GetById(int id)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return _DefaultDbContext.tblMahalle.Find(id);
+                return await _DefaultDbContext.tblMahalle.FindAsync(id);
             }
         }
 
-        public Mahalle Update(Mahalle entity)
+        public async Task<Mahalle> Update(Mahalle entity)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
                 _DefaultDbContext.tblMahalle.Update(entity);
-                _DefaultDbContext.SaveChanges();
+                await _DefaultDbContext.SaveChangesAsync();
                 return entity;
             }
         }

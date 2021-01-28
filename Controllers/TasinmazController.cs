@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Tasinmaz.Contracts;
 using Tasinmaz.Entities;
@@ -17,39 +17,67 @@ namespace Tasinmaz
         }
 
         [HttpPost]
-        public ETasinmaz Add([FromBody]ETasinmaz entity)
+        public async Task<IActionResult> Add([FromBody]ETasinmaz entity)
         {
-            return _tasinmaz.Add(entity);
+            if (ModelState.IsValid)
+            {
+                var eklenenTasinmaz = await _tasinmaz.Add(entity);
+                return CreatedAtAction("GetById", new { id= eklenenTasinmaz.ID}, eklenenTasinmaz);
+            }
+            return BadRequest(ModelState);
         }
         
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
-            _tasinmaz.Delete(id);
+            if (await _tasinmaz.GetById(id)!=null)
+            {
+                await _tasinmaz.Delete(id);
+                return Ok();
+            }
+            return NotFound();
         }
 
         [HttpGet]
-        public IList<ETasinmaz> GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            return _tasinmaz.GetAll();
+            var t = await _tasinmaz.GetAll();
+            return Ok(t);
         }
 
-        [HttpGet("{id}")]
-        public ETasinmaz GetById(int id)
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetById(int id)
         {
-            return _tasinmaz.GetById(id);
+            var t = await _tasinmaz.GetById(id);
+            if (t != null)
+            {
+                return Ok(t);
+            }
+            return NotFound();
         }
 
-        [HttpGet("{filter}")]
-        public IList<ETasinmaz> GetAllFilter(string filter)
+        [HttpGet]
+        [Route("{filter}")]
+        public async Task<IActionResult> GetAllFilter(string filter)
         {
-            return _tasinmaz.GetAllFilter(filter);
+            var t = await _tasinmaz.GetAllFilter(filter);
+            if (t != null)
+            {
+                return Ok(t);
+            }
+            return NotFound();
         }
 
         [HttpPut]
-        public ETasinmaz Update([FromBody]ETasinmaz entity)
+        public async Task<IActionResult> Update([FromBody]ETasinmaz entity)
         {
-            return _tasinmaz.Update(entity);
+            if (await _tasinmaz.GetById(entity.ID)!=null)
+            {
+                return Ok(_tasinmaz.Update(entity));
+            }
+            return NotFound();
         }
     }    
 }

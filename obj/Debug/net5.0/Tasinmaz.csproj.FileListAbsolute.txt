@@ -38,3 +38,15 @@ C:\Users\zlhbs\Desktop\TasinmazProjesi\TasinmazProjesiWeb\Tasinmaz\obj\Debug\net
 C:\Users\zlhbs\Desktop\TasinmazProjesi\TasinmazProjesiWeb\Tasinmaz\obj\Debug\net5.0\ref\Tasinmaz.dll
 C:\Users\zlhbs\Desktop\TasinmazProjesi\TasinmazProjesiWeb\Tasinmaz\obj\Debug\net5.0\Tasinmaz.pdb
 C:\Users\zlhbs\Desktop\TasinmazProjesi\TasinmazProjesiWeb\Tasinmaz\obj\Debug\net5.0\Tasinmaz.genruntimeconfig.cache
+C:\Users\zlhbs\Desktop\TasinmazProjesi\TasinmazProjesiWeb\Tasinmaz\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\zlhbs\Desktop\TasinmazProjesi\TasinmazProjesiWeb\Tasinmaz\bin\Debug\net5.0\Microsoft.DotNet.InternalAbstractions.dll
+C:\Users\zlhbs\Desktop\TasinmazProjesi\TasinmazProjesiWeb\Tasinmaz\bin\Debug\net5.0\Microsoft.Extensions.DependencyModel.dll
+C:\Users\zlhbs\Desktop\TasinmazProjesi\TasinmazProjesiWeb\Tasinmaz\bin\Debug\net5.0\Microsoft.Extensions.PlatformAbstractions.dll
+C:\Users\zlhbs\Desktop\TasinmazProjesi\TasinmazProjesiWeb\Tasinmaz\bin\Debug\net5.0\Namotion.Reflection.dll
+C:\Users\zlhbs\Desktop\TasinmazProjesi\TasinmazProjesiWeb\Tasinmaz\bin\Debug\net5.0\Newtonsoft.Json.dll
+C:\Users\zlhbs\Desktop\TasinmazProjesi\TasinmazProjesiWeb\Tasinmaz\bin\Debug\net5.0\NJsonSchema.dll
+C:\Users\zlhbs\Desktop\TasinmazProjesi\TasinmazProjesiWeb\Tasinmaz\bin\Debug\net5.0\NSwag.Annotations.dll
+C:\Users\zlhbs\Desktop\TasinmazProjesi\TasinmazProjesiWeb\Tasinmaz\bin\Debug\net5.0\NSwag.AspNetCore.dll
+C:\Users\zlhbs\Desktop\TasinmazProjesi\TasinmazProjesiWeb\Tasinmaz\bin\Debug\net5.0\NSwag.Core.dll
+C:\Users\zlhbs\Desktop\TasinmazProjesi\TasinmazProjesiWeb\Tasinmaz\bin\Debug\net5.0\NSwag.Generation.dll
+C:\Users\zlhbs\Desktop\TasinmazProjesi\TasinmazProjesiWeb\Tasinmaz\bin\Debug\net5.0\NSwag.Generation.AspNetCore.dll

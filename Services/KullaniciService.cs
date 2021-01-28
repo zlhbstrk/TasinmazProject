@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Tasinmaz.Contracts;
 using Tasinmaz.Entities;
 
@@ -7,55 +9,55 @@ namespace Tasinmaz.Services
 {
     public class KullaniciService : IRepository<Kullanici>
     {
-        public Kullanici Add(Kullanici entity) //try - catch kullanmayı unutma // summray
+        public async Task<Kullanici> Add(Kullanici entity) //try - catch kullanmayı unutma // summray
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
                 _DefaultDbContext.tblKullanici.Add(entity);
-                _DefaultDbContext.SaveChanges();
+                await _DefaultDbContext.SaveChangesAsync();
                 return entity;
             }
         }
-
-        public void Delete(int id)
+ 
+        public async Task Delete(int id)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                var silinenKullanici = GetById(id);
+                var silinenKullanici = await GetById(id);
                 _DefaultDbContext.tblKullanici.Remove(silinenKullanici);
-                _DefaultDbContext.SaveChanges();
+                await _DefaultDbContext.SaveChangesAsync();
             }
         }
 
-        public IList<Kullanici> GetAll()
+        public async Task<IList<Kullanici>> GetAll()
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return _DefaultDbContext.tblKullanici.ToList();
+                return await _DefaultDbContext.tblKullanici.ToListAsync();
             }
         }
+        
+        public async Task<IList<Kullanici>> GetAllFilter(string filter)
+        {
+            throw new System.NotImplementedException();
+        }
 
-        public Kullanici GetById(int id)
+        public async Task<Kullanici> GetById(int id)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return _DefaultDbContext.tblKullanici.Find(id);
+                return await _DefaultDbContext.tblKullanici.FindAsync(id);
             }
         }
 
-        public Kullanici Update(Kullanici entity)
+        public async Task<Kullanici> Update(Kullanici entity)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
                 _DefaultDbContext.tblKullanici.Update(entity);
-                _DefaultDbContext.SaveChanges();
+                await _DefaultDbContext.SaveChangesAsync();
                 return entity;
             }
-        }
-
-        public IList<Kullanici> GetAllFilter(string filter)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

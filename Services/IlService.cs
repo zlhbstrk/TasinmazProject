@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Tasinmaz.Contracts;
 using Tasinmaz.Entities;
 
@@ -7,53 +8,53 @@ namespace Tasinmaz.Services
 {
     public class IlService : IRepository<Il>
     {
-        public Il Add(Il entity)
+        public async Task<Il> Add(Il entity)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
                 _DefaultDbContext.tblIl.Add(entity);
-                _DefaultDbContext.SaveChanges();
+                await _DefaultDbContext.SaveChangesAsync();
                 return entity;
             }
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                var silinenIl = GetById(id);
+                var silinenIl = await GetById(id);
                 _DefaultDbContext.tblIl.Remove(silinenIl);
-                _DefaultDbContext.SaveChanges();
+                await _DefaultDbContext.SaveChangesAsync();
             }
         }
 
-        public IList<Il> GetAll()
+        public async Task<IList<Il>> GetAll()
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return _DefaultDbContext.tblIl.ToList();
+                return await _DefaultDbContext.tblIl.ToListAsync();
             }
         }
 
-        public IList<Il> GetAllFilter(string filter) //Kullanmıyorum!
+        public async Task<IList<Il>> GetAllFilter(string filter) //Kullanmıyorum!
         {
             throw new System.NotImplementedException();
         }
 
-        public Il GetById(int id)
+        public async Task<Il> GetById(int id)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return _DefaultDbContext.tblIl.Find(id);
+                return await _DefaultDbContext.tblIl.FindAsync(id);
             }
         }
 
-        public Il Update(Il entity)
+        public async Task<Il> Update(Il entity)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
                 _DefaultDbContext.tblIl.Update(entity);
-                _DefaultDbContext.SaveChanges();
+                await _DefaultDbContext.SaveChangesAsync();
                 return entity;
             }
         }

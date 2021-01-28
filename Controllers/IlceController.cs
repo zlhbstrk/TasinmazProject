@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Tasinmaz.Contracts;
 using Tasinmaz.Entities;
@@ -17,39 +17,55 @@ namespace Tasinmaz.Controllers
         }
 
         [HttpPost]
-        public Ilce Add([FromBody]Ilce entity)
+        public async Task<IActionResult> Add([FromBody]Ilce entity)
         {
-            return _ilce.Add(entity);
+            if (ModelState.IsValid)
+            {
+                var eklenenIlce = await _ilce.Add(entity);
+                return CreatedAtAction("GetById", new { id= eklenenIlce.ID}, eklenenIlce);
+            }
+            return BadRequest(ModelState);
         }
         
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
-            _ilce.Delete(id);
+            if (await _ilce.GetById(id)!=null)
+            {
+                await _ilce.Delete(id);
+                return Ok();
+            }
+            return NotFound();
         }
 
         [HttpGet]
-        public IList<Ilce> GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            return _ilce.GetAll();
+            var i = await _ilce.GetAll();
+            return Ok(i);
         }
 
-        [HttpGet("{id}")]
-        public Ilce GetById(int id)
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetById(int id)
         {
-            return _ilce.GetById(id);
+            var i = await _ilce.GetById(id);
+            if (i != null)
+            {
+                return Ok(i);
+            }
+            return NotFound();
         }
-
-        // [HttpGet("{filter}")]
-        // public IList<Ilce> GetAllFilter(string filtre)
-        // {
-        //     return _ilce.GetAllFilter(filtre);
-        // }
 
         [HttpPut]
-        public Ilce Update([FromBody]Ilce entity)
+        public async Task<IActionResult> Update([FromBody]Ilce entity)
         {
-            return _ilce.Update(entity);
+            if (await _ilce.GetById(entity.ID)!=null)
+            {
+                return Ok(_ilce.Update(entity));
+            }
+            return NotFound();
         }
     }
 }

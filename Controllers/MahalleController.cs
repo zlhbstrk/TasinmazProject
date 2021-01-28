@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Tasinmaz.Contracts;
 using Tasinmaz.Entities;
@@ -17,39 +17,55 @@ namespace Tasinmaz.Controllers
         }
 
         [HttpPost]
-        public Mahalle Add([FromBody]Mahalle entity)
+        public async Task<IActionResult> Add([FromBody]Mahalle entity)
         {
-            return _mahalle.Add(entity);
+            if (ModelState.IsValid)
+            {
+                var eklenenMahalle = await _mahalle.Add(entity);
+                return CreatedAtAction("GetById", new { id= eklenenMahalle.ID}, eklenenMahalle);
+            }
+            return BadRequest(ModelState);
         }
         
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
-            _mahalle.Delete(id);
+            if (await _mahalle.GetById(id)!=null)
+            {
+                await _mahalle.Delete(id);
+                return Ok();
+            }
+            return NotFound();
         }
 
         [HttpGet]
-        public IList<Mahalle> GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            return _mahalle.GetAll();
+            var m = await _mahalle.GetAll();
+            return Ok(m);
         }
 
-        [HttpGet("{id}")]
-        public Mahalle GetById(int id)
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetById(int id)
         {
-            return _mahalle.GetById(id);
+            var m = await _mahalle.GetById(id);
+            if (m != null)
+            {
+                return Ok(m);
+            }
+            return NotFound();
         }
-
-        // [HttpGet("{filter}")]
-        // public IList<Mahalle> GetAllFilter(string filtre)
-        // {
-        //     return _mahalle.GetAllFilter(filtre);
-        // }
 
         [HttpPut]
-        public Mahalle Update([FromBody]Mahalle entity)
+        public async Task<IActionResult> Update([FromBody]Mahalle entity)
         {
-            return _mahalle.Update(entity);
+            if (await _mahalle.GetById(entity.ID)!=null)
+            {
+                return Ok(_mahalle.Update(entity));
+            }
+            return NotFound();
         }
     }
 }

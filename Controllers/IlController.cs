@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Tasinmaz.Contracts;
 using Tasinmaz.Entities;
@@ -17,39 +17,55 @@ namespace Tasinmaz.Controllers
         }
 
         [HttpPost]
-        public Il Add([FromBody]Il entity)
+        public async Task<IActionResult> Add([FromBody]Il entity)
         {
-            return _il.Add(entity);
+            if (ModelState.IsValid)
+            {
+                var eklenenIl = await _il.Add(entity);
+                return CreatedAtAction("GetById", new { id= eklenenIl.ID}, eklenenIl);
+            }
+            return BadRequest(ModelState);
         }
         
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
-            _il.Delete(id);
+            if (await _il.GetById(id)!=null)
+            {
+                await _il.Delete(id);
+                return Ok();
+            }
+            return NotFound();
         }
 
         [HttpGet]
-        public IList<Il> GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            return _il.GetAll();
+            var i = await _il.GetAll();
+            return Ok(i);
         }
 
-        [HttpGet("{id}")]
-        public Il GetById(int id)
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetById(int id)
         {
-            return _il.GetById(id);
+            var i = await _il.GetById(id);
+            if (i != null)
+            {
+                return Ok(i);
+            }
+            return NotFound();
         }
-
-        // [HttpGet("{filter}")]
-        // public IList<Il> GetAllFilter(string filtre)
-        // {
-        //     return _il.GetAllFilter(filtre);
-        // }
 
         [HttpPut]
-        public Il Update([FromBody]Il entity)
+        public async Task<IActionResult> Update([FromBody]Il entity)
         {
-            return _il.Update(entity);
+            if (await _il.GetById(entity.ID)!=null)
+            {
+                return Ok(_il.Update(entity));
+            }
+            return NotFound();
         }
     }
 }

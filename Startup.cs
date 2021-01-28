@@ -34,6 +34,7 @@ namespace Tasinmaz
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Tasinmaz", Version = "v1" });
             });
+            services.AddSwaggerDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,12 +43,13 @@ namespace Tasinmaz
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage(); //*
-                app.UseSwagger();
+                // app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Tasinmaz v1"));
             }
-
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
             app.UseHttpsRedirection();
-
+        
             app.UseRouting();
 
             app.UseAuthorization();

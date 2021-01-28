@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Tasinmaz.Contracts;
 using Tasinmaz.Entities;
@@ -17,39 +17,55 @@ namespace Tasinmaz.Controllers
         }
 
         [HttpPost]
-        public Kullanici Add([FromBody]Kullanici entity)
+        public async Task<IActionResult> Add([FromBody]Kullanici entity)
         {
-            return _kullanici.Add(entity);
+            if (ModelState.IsValid)
+            {
+                var eklenenKullanici = await _kullanici.Add(entity);
+                return CreatedAtAction("GetById", new { id= eklenenKullanici.ID}, eklenenKullanici); //201 + eklenenKullanici
+            }
+            return BadRequest(ModelState); //Response Code-400 + validation errors
         }
         
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
-            _kullanici.Delete(id);
+            if (await _kullanici.GetById(id)!=null)
+            {
+                await _kullanici.Delete(id);
+                return Ok(); //200
+            }
+            return NotFound();
         }
 
         [HttpGet]
-        public IList<Kullanici> GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            return _kullanici.GetAll();
+            var k = await _kullanici.GetAll();
+            return Ok(k); //Response Code-200 + (body kısmına) k ekle
         }
 
-        [HttpGet("{id}")]
-        public Kullanici GetById(int id)
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetById(int id)
         {
-            return _kullanici.GetById(id);
-        }
-
-        [HttpGet("{filter}")]
-        public IList<Kullanici> GetAllFilter(string filtre)
-        {
-            return _kullanici.GetAllFilter(filtre);
+            var k = await _kullanici.GetById(id);
+            if (k != null)
+            {
+                return Ok(k);
+            }
+            return NotFound(); //Response Code-404
         }
 
         [HttpPut]
-        public Kullanici Update([FromBody]Kullanici entity)
+        public async Task<IActionResult> Update([FromBody]Kullanici entity)
         {
-            return _kullanici.Update(entity);
+            if (await _kullanici.GetById(entity.ID)!=null)
+            {
+                return Ok(_kullanici.Update(entity)); //200 + data
+            }
+            return NotFound();
         }
     }
 }

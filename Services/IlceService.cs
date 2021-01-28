@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Tasinmaz.Contracts;
 using Tasinmaz.Entities;
 
@@ -7,53 +8,53 @@ namespace Tasinmaz.Services
 {
     public class IlceService : IRepository<Ilce>
     {
-        public Ilce Add(Ilce entity)
+        public async Task<Ilce> Add(Ilce entity)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
                 _DefaultDbContext.tblIlce.Add(entity);
-                _DefaultDbContext.SaveChanges();
+                await _DefaultDbContext.SaveChangesAsync();
                 return entity;
             }
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                var silinenIlce = GetById(id);
+                var silinenIlce = await GetById(id);
                 _DefaultDbContext.tblIlce.Remove(silinenIlce);
-                _DefaultDbContext.SaveChanges();
+                await _DefaultDbContext.SaveChangesAsync();
             }
         }
 
-        public IList<Ilce> GetAll()
+        public async Task<IList<Ilce>> GetAll()
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return _DefaultDbContext.tblIlce.ToList();
+                return await _DefaultDbContext.tblIlce.ToListAsync();
             }
         }
 
-        public IList<Ilce> GetAllFilter(string filter)
+        public async Task<IList<Ilce>> GetAllFilter(string filter)
         {
             throw new System.NotImplementedException();
         }
 
-        public Ilce GetById(int id)
+        public async Task<Ilce> GetById(int id)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return _DefaultDbContext.tblIlce.Find(id);
+                return await _DefaultDbContext.tblIlce.FindAsync(id);
             }
         }
 
-        public Ilce Update(Ilce entity)
+        public async Task<Ilce> Update(Ilce entity)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
                 _DefaultDbContext.tblIlce.Update(entity);
-                _DefaultDbContext.SaveChanges();
+                await _DefaultDbContext.SaveChangesAsync();
                 return entity;
             }
         }

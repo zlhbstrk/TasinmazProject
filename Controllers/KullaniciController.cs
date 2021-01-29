@@ -10,20 +10,36 @@ namespace Tasinmaz.Controllers
     public class KullaniciController : ControllerBase
     {
         private IRepository<Kullanici> _kullanici;
+        private IRepository<Log> _log;
 
-        public KullaniciController(IRepository<Kullanici> kullanici)
+        public KullaniciController(IRepository<Kullanici> kullanici, IRepository<Log> log)
         {
             _kullanici = kullanici;
+            _log = log;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody]Kullanici entity)
+        public async Task<IActionResult> Add([FromBody]Kullanici entity) //try - catch kullanmayı unutma
         {
             if (ModelState.IsValid)
             {
                 var eklenenKullanici = await _kullanici.Add(entity);
+                await _log.Add(new Log(){
+                    DurumID = 1,
+                    IslemTipID = 3,
+                    Aciklama = entity.Ad + " Kullanıcısı Eklendi",
+                    //KullaniciID = token'dan çekilecek,
+                    //KullaniciAdi = token'dan çekilecek,
+                    //Tarih = 
+                    //IP = "js ile çekilmeye çalışılacak"   
+                });
                 return CreatedAtAction("GetById", new { id= eklenenKullanici.ID}, eklenenKullanici); //201 + eklenenKullanici
             }
+            await _log.Add(new Log(){
+                    DurumID = 2,
+                    IslemTipID = 3,
+                    Aciklama = entity.Ad + " Kullanıcısı Eklenemedi",
+                });
             return BadRequest(ModelState); //Response Code-400 + validation errors
         }
         
@@ -34,8 +50,18 @@ namespace Tasinmaz.Controllers
             if (await _kullanici.GetById(id)!=null)
             {
                 await _kullanici.Delete(id);
+                await _log.Add(new Log(){
+                    DurumID = 1,
+                    IslemTipID = 4,
+                    Aciklama = "Kullanıcı Silindi", 
+                });
                 return Ok(); //200
             }
+            await _log.Add(new Log(){
+                    DurumID = 2,
+                    IslemTipID = 4,
+                    Aciklama = "Kullanıcı Silinemedi", 
+                });
             return NotFound();
         }
 
@@ -43,6 +69,11 @@ namespace Tasinmaz.Controllers
         public async Task<IActionResult> GetAll()
         {
             var k = await _kullanici.GetAll();
+            await _log.Add(new Log(){
+                    DurumID = 1,
+                    IslemTipID = 6,
+                    Aciklama = "Kullanıcılar Listelendi", 
+                });
             return Ok(k); //Response Code-200 + (body kısmına) k ekle
         }
 
@@ -53,8 +84,18 @@ namespace Tasinmaz.Controllers
             var k = await _kullanici.GetById(id);
             if (k != null)
             {
+                await _log.Add(new Log(){
+                    DurumID = 1,
+                    IslemTipID = 7,
+                    Aciklama = "Kullanıcı Listelendi", 
+                });
                 return Ok(k);
             }
+            await _log.Add(new Log(){
+                    DurumID = 2,
+                    IslemTipID = 7,
+                    Aciklama = "Kullanıcı Listelenemedi", 
+                });
             return NotFound(); //Response Code-404
         }
 
@@ -63,8 +104,18 @@ namespace Tasinmaz.Controllers
         {
             if (await _kullanici.GetById(entity.ID)!=null)
             {
+                await _log.Add(new Log(){
+                    DurumID = 1,
+                    IslemTipID = 5,
+                    Aciklama = entity.Ad + " Kullanıcısı Düzenlendi", 
+                });
                 return Ok(_kullanici.Update(entity)); //200 + data
             }
+            await _log.Add(new Log(){
+                    DurumID = 2,
+                    IslemTipID = 5,
+                    Aciklama = entity.Ad + " Kullanıcısı Düzenemelendi", 
+                });
             return NotFound();
         }
     }

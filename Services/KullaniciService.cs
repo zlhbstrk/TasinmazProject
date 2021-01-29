@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Tasinmaz.Contracts;
@@ -9,7 +8,7 @@ namespace Tasinmaz.Services
 {
     public class KullaniciService : IRepository<Kullanici>
     {
-        public async Task<Kullanici> Add(Kullanici entity) //try - catch kullanmayı unutma // summray
+        public async Task<Kullanici> Add(Kullanici entity) // summray
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {

@@ -10,10 +10,12 @@ namespace Tasinmaz.Controllers
     public class MahalleController : ControllerBase
     {
         private IRepository<Mahalle> _mahalle;
+        private IRepository<Log> _log;
 
-        public MahalleController(IRepository<Mahalle> mahalle)
+        public MahalleController(IRepository<Mahalle> mahalle, IRepository<Log> log)
         {
             _mahalle = mahalle;
+            _log = log;
         }
 
         [HttpPost]
@@ -22,8 +24,18 @@ namespace Tasinmaz.Controllers
             if (ModelState.IsValid)
             {
                 var eklenenMahalle = await _mahalle.Add(entity);
+                await _log.Add(new Log(){
+                    DurumID = 1,
+                    IslemTipID = 3,
+                    Aciklama = entity.Ad + " Mahallesi Eklendi",   
+                });
                 return CreatedAtAction("GetById", new { id= eklenenMahalle.ID}, eklenenMahalle);
             }
+            await _log.Add(new Log(){
+                    DurumID = 2,
+                    IslemTipID = 3,
+                    Aciklama = entity.Ad + " Mahallesi Eklenemedi",   
+                });
             return BadRequest(ModelState);
         }
         
@@ -34,8 +46,18 @@ namespace Tasinmaz.Controllers
             if (await _mahalle.GetById(id)!=null)
             {
                 await _mahalle.Delete(id);
+                await _log.Add(new Log(){
+                    DurumID = 1,
+                    IslemTipID = 4,
+                    Aciklama = "Mahalle Silindi",   
+                });
                 return Ok();
             }
+            await _log.Add(new Log(){
+                    DurumID = 2,
+                    IslemTipID = 4,
+                    Aciklama = "Mahalle Silinemedi",   
+                });
             return NotFound();
         }
 
@@ -43,6 +65,11 @@ namespace Tasinmaz.Controllers
         public async Task<IActionResult> GetAll()
         {
             var m = await _mahalle.GetAll();
+            await _log.Add(new Log(){
+                    DurumID = 1,
+                    IslemTipID = 6,
+                    Aciklama = "Mahalleler Listelendi",   
+                });
             return Ok(m);
         }
 
@@ -53,8 +80,18 @@ namespace Tasinmaz.Controllers
             var m = await _mahalle.GetById(id);
             if (m != null)
             {
+                await _log.Add(new Log(){
+                    DurumID = 1,
+                    IslemTipID = 7,
+                    Aciklama = "Mahalle Listelendi",   
+                });
                 return Ok(m);
             }
+            await _log.Add(new Log(){
+                    DurumID = 2,
+                    IslemTipID = 7,
+                    Aciklama = "Mahalle Listelenemedi",   
+                });
             return NotFound();
         }
 
@@ -63,8 +100,18 @@ namespace Tasinmaz.Controllers
         {
             if (await _mahalle.GetById(entity.ID)!=null)
             {
+                await _log.Add(new Log(){
+                    DurumID = 1,
+                    IslemTipID = 5,
+                    Aciklama = entity.Ad + " Mahallesi Düzenlendi",   
+                });
                 return Ok(_mahalle.Update(entity));
             }
+            await _log.Add(new Log(){
+                    DurumID = 2,
+                    IslemTipID = 5,
+                    Aciklama = entity.Ad + " Mahallesi Düzenlenemedi",   
+                });
             return NotFound();
         }
     }

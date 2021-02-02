@@ -13,6 +13,9 @@ namespace Tasinmaz.Entities
         [MaxLength(30)]
         [Required(ErrorMessage="Ad alanı boş geçilemez!")]
         public string Ad { get; set; }
+
+        [MaxLength(2)]
+        [Required(ErrorMessage="Plaka alanı boş geçilemez!")]
         public int Plaka { get; set; }
 
         public ICollection<Ilce> tblIlce {get; set; }

@@ -8,10 +8,10 @@ namespace Tasinmaz.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         [ForeignKey("Kullanici")]
-        public int KullaniciID { get; set; }
+        public int KullaniciId { get; set; }
         public Kullanici Kullanici { get; set; } 
 
         [MaxLength(30)]
@@ -19,11 +19,11 @@ namespace Tasinmaz.Entities
         public string KullaniciAdi { get; set; }
 
         [ForeignKey("Durum")]
-        public int DurumID { get; set; }
+        public int DurumId { get; set; }
         public Durum Durum { get; set; } 
 
         [ForeignKey("IslemTip")]
-        public int IslemTipID { get; set; }
+        public int IslemTipId { get; set; }
         public IslemTip IslemTip { get; set; } 
 
         [MaxLength(100)]

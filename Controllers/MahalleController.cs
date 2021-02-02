@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Tasinmaz.Contracts;
@@ -25,16 +26,24 @@ namespace Tasinmaz.Controllers
             {
                 var eklenenMahalle = await _mahalle.Add(entity);
                 await _log.Add(new Log(){
-                    DurumID = 1,
-                    IslemTipID = 3,
-                    Aciklama = entity.Ad + " Mahallesi Eklendi",   
+                    DurumId = 1,
+                    IslemTipId = 3,
+                    Aciklama = entity.Ad + " Mahallesi Eklendi",
+                    KullaniciId = 1,
+                    KullaniciAdi = "zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123" 
                 });
-                return CreatedAtAction("GetById", new { id= eklenenMahalle.ID}, eklenenMahalle);
+                return CreatedAtAction("GetById", new { id= eklenenMahalle.Id}, eklenenMahalle);
             }
             await _log.Add(new Log(){
-                    DurumID = 2,
-                    IslemTipID = 3,
-                    Aciklama = entity.Ad + " Mahallesi Eklenemedi",   
+                    DurumId = 2,
+                    IslemTipId = 3,
+                    Aciklama = entity.Ad + " Mahallesi Eklenemedi",
+                    KullaniciId = 1,
+                    KullaniciAdi = "zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
                 });
             return BadRequest(ModelState);
         }
@@ -47,16 +56,24 @@ namespace Tasinmaz.Controllers
             {
                 await _mahalle.Delete(id);
                 await _log.Add(new Log(){
-                    DurumID = 1,
-                    IslemTipID = 4,
-                    Aciklama = "Mahalle Silindi",   
+                    DurumId = 1,
+                    IslemTipId = 4,
+                    Aciklama = "Mahalle Silindi",
+                    KullaniciId = 1,
+                    KullaniciAdi = "zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
                 });
                 return Ok();
             }
             await _log.Add(new Log(){
-                    DurumID = 2,
-                    IslemTipID = 4,
-                    Aciklama = "Mahalle Silinemedi",   
+                    DurumId = 2,
+                    IslemTipId = 4,
+                    Aciklama = "Mahalle Silinemedi",
+                    KullaniciId = 1,
+                    KullaniciAdi = "zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
                 });
             return NotFound();
         }
@@ -66,9 +83,13 @@ namespace Tasinmaz.Controllers
         {
             var m = await _mahalle.GetAll();
             await _log.Add(new Log(){
-                    DurumID = 1,
-                    IslemTipID = 6,
-                    Aciklama = "Mahalleler Listelendi",   
+                    DurumId = 1,
+                    IslemTipId = 6,
+                    Aciklama = "Mahalleler Listelendi",
+                    KullaniciId = 1,
+                    KullaniciAdi = "zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
                 });
             return Ok(m);
         }
@@ -81,16 +102,24 @@ namespace Tasinmaz.Controllers
             if (m != null)
             {
                 await _log.Add(new Log(){
-                    DurumID = 1,
-                    IslemTipID = 7,
-                    Aciklama = "Mahalle Listelendi",   
+                    DurumId = 1,
+                    IslemTipId = 7,
+                    Aciklama = "Mahalle Listelendi",
+                    KullaniciId = 1,
+                    KullaniciAdi = "zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
                 });
                 return Ok(m);
             }
             await _log.Add(new Log(){
-                    DurumID = 2,
-                    IslemTipID = 7,
-                    Aciklama = "Mahalle Listelenemedi",   
+                    DurumId = 2,
+                    IslemTipId = 7,
+                    Aciklama = "Mahalle Listelenemedi",
+                    KullaniciId = 1,
+                    KullaniciAdi = "zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
                 });
             return NotFound();
         }
@@ -98,19 +127,27 @@ namespace Tasinmaz.Controllers
         [HttpPut]
         public async Task<IActionResult> Update([FromBody]Mahalle entity)
         {
-            if (await _mahalle.GetById(entity.ID)!=null)
+            if (await _mahalle.GetById(entity.Id)!=null)
             {
                 await _log.Add(new Log(){
-                    DurumID = 1,
-                    IslemTipID = 5,
-                    Aciklama = entity.Ad + " Mahallesi Düzenlendi",   
+                    DurumId = 1,
+                    IslemTipId = 5,
+                    Aciklama = entity.Ad + " Mahallesi Düzenlendi",
+                    KullaniciId = 1,
+                    KullaniciAdi = "zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
                 });
                 return Ok(_mahalle.Update(entity));
             }
             await _log.Add(new Log(){
-                    DurumID = 2,
-                    IslemTipID = 5,
-                    Aciklama = entity.Ad + " Mahallesi Düzenlenemedi",   
+                    DurumId = 2,
+                    IslemTipId = 5,
+                    Aciklama = entity.Ad + " Mahallesi Düzenlenemedi",
+                    KullaniciId = 1,
+                    KullaniciAdi = "zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
                 });
             return NotFound();
         }

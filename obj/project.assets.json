@@ -11,6 +11,21 @@
           "lib/netstandard2.0/Humanizer.dll": {}
         }
       },
+      "Microsoft.AspNetCore.Authentication.Certificate/5.0.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Caching.Memory": "5.0.0"
+        },
+        "compile": {
+          "lib/net5.0/Microsoft.AspNetCore.Authentication.Certificate.dll": {}
+        },
+        "runtime": {
+          "lib/net5.0/Microsoft.AspNetCore.Authentication.Certificate.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
+      },
       "Microsoft.AspNetCore.Authorization/1.0.3": {
         "type": "package",
         "dependencies": {
@@ -2341,6 +2356,21 @@
         "lib/netstandard2.0/Humanizer.dll",
         "lib/netstandard2.0/Humanizer.xml",
         "logo.png"
+      ]
+    },
+    "Microsoft.AspNetCore.Authentication.Certificate/5.0.2": {
+      "sha512": "kJ6v3tQwRd+I25lxRViBtHmowzzVCPnuZpZP5VNbZ09miYcocbQy/U4RXM+bn+KQ24Cvb7hoy24ZW+gdKb9zng==",
+      "type": "package",
+      "path": "microsoft.aspnetcore.authentication.certificate/5.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net5.0/Microsoft.AspNetCore.Authentication.Certificate.dll",
+        "lib/net5.0/Microsoft.AspNetCore.Authentication.Certificate.xml",
+        "microsoft.aspnetcore.authentication.certificate.5.0.2.nupkg.sha512",
+        "microsoft.aspnetcore.authentication.certificate.nuspec"
       ]
     },
     "Microsoft.AspNetCore.Authorization/1.0.3": {
@@ -7434,6 +7464,7 @@
   },
   "projectFileDependencyGroups": {
     "net5.0": [
+      "Microsoft.AspNetCore.Authentication.Certificate >= 5.0.2",
       "Microsoft.EntityFrameworkCore >= 5.0.2",
       "Microsoft.EntityFrameworkCore.Design >= 5.0.2",
       "Microsoft.EntityFrameworkCore.Tools >= 5.0.2",
@@ -7449,19 +7480,21 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\zlhbs\\Desktop\\TasinmazProjesi\\TasinmazProjesiWeb\\TasinmazProject\\Tasinmaz.csproj",
+      "projectUniqueName": "C:\\Users\\zlhbs\\Desktop\\TasinmazProjesi\\TasinmazProjesiWeb\\Tasinmaz\\TasinmazProject\\Tasinmaz.csproj",
       "projectName": "Tasinmaz",
-      "projectPath": "C:\\Users\\zlhbs\\Desktop\\TasinmazProjesi\\TasinmazProjesiWeb\\TasinmazProject\\Tasinmaz.csproj",
+      "projectPath": "C:\\Users\\zlhbs\\Desktop\\TasinmazProjesi\\TasinmazProjesiWeb\\Tasinmaz\\TasinmazProject\\Tasinmaz.csproj",
       "packagesPath": "C:\\Users\\zlhbs\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\zlhbs\\Desktop\\TasinmazProjesi\\TasinmazProjesiWeb\\TasinmazProject\\obj\\",
+      "outputPath": "C:\\Users\\zlhbs\\Desktop\\TasinmazProjesi\\TasinmazProjesiWeb\\Tasinmaz\\TasinmazProject\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\zlhbs\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\zlhbs\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net5.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -7480,6 +7513,10 @@
       "net5.0": {
         "targetAlias": "net5.0",
         "dependencies": {
+          "Microsoft.AspNetCore.Authentication.Certificate": {
+            "target": "Package",
+            "version": "[5.0.2, )"
+          },
           "Microsoft.EntityFrameworkCore": {
             "target": "Package",
             "version": "[5.0.2, )"

@@ -7,6 +7,7 @@ using Microsoft.OpenApi.Models;
 using Tasinmaz.Entities;
 using Tasinmaz.Contracts;
 using Tasinmaz.Services;
+using Microsoft.AspNetCore.Authentication.Certificate;
 
 namespace Tasinmaz
 {
@@ -16,7 +17,6 @@ namespace Tasinmaz
         {
             Configuration = configuration;
         }
-
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -35,11 +35,17 @@ namespace Tasinmaz
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Tasinmaz", Version = "v1" });
             });
             services.AddSwaggerDocument();
+            services.AddCors();
+            services.AddAuthentication(
+        CertificateAuthenticationDefaults.AuthenticationScheme)
+        .AddCertificate();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseAuthentication();
+            app.UseCors(options => options.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader());
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage(); //*
@@ -49,7 +55,7 @@ namespace Tasinmaz
             app.UseOpenApi();
             app.UseSwaggerUi3();
             app.UseHttpsRedirection();
-        
+
             app.UseRouting();
 
             app.UseAuthorization();

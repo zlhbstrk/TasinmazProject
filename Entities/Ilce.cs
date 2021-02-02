@@ -8,10 +8,10 @@ namespace Tasinmaz.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         [ForeignKey("Il")]
-        public int IlID { get; set; }
+        public int IlId { get; set; }
         public Il Il { get; set; } //Navigation Property
 
         [MaxLength(30)]

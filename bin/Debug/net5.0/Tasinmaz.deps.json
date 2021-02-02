@@ -25,6 +25,7 @@
     ".NETCoreApp,Version=v5.0": {
       "Tasinmaz/1.0.0": {
         "dependencies": {
+          "Microsoft.AspNetCore.Authentication.Certificate": "5.0.2",
           "Microsoft.EntityFrameworkCore": "5.0.2",
           "Microsoft.EntityFrameworkCore.Design": "5.0.2",
           "Microsoft.EntityFrameworkCore.Tools": "5.0.2",
@@ -327,6 +328,20 @@
             "assemblyVersion": "2.8.0.0",
             "fileVersion": "2.8.26.1919"
           }
+        }
+      },
+      "Microsoft.AspNetCore.Authentication.Certificate/5.0.2": {
+        "dependencies": {
+          "Microsoft.Extensions.Caching.Memory": "5.0.0"
+        },
+        "runtime": {
+          "lib/net5.0/Microsoft.AspNetCore.Authentication.Certificate.dll": {
+            "assemblyVersion": "5.0.2.0",
+            "fileVersion": "5.0.220.61302"
+          }
+        },
+        "compile": {
+          "lib/net5.0/Microsoft.AspNetCore.Authentication.Certificate.dll": {}
         }
       },
       "Microsoft.AspNetCore.Authorization/1.0.3": {
@@ -3498,6 +3513,13 @@
       "sha512": "sha512-OiKusGL20vby4uDEswj2IgkdchC1yQ6rwbIkZDVBPIR6al2b7n3pC91elBul9q33KaBgRKhbZH3+2Ur4fnWx2A==",
       "path": "humanizer.core/2.8.26",
       "hashPath": "humanizer.core.2.8.26.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Authentication.Certificate/5.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kJ6v3tQwRd+I25lxRViBtHmowzzVCPnuZpZP5VNbZ09miYcocbQy/U4RXM+bn+KQ24Cvb7hoy24ZW+gdKb9zng==",
+      "path": "microsoft.aspnetcore.authentication.certificate/5.0.2",
+      "hashPath": "microsoft.aspnetcore.authentication.certificate.5.0.2.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Authorization/1.0.3": {
       "type": "package",

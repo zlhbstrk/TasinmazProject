@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Tasinmaz.Contracts;
@@ -25,20 +26,28 @@ namespace Tasinmaz.Controllers
             {
                 var eklenenKullanici = await _kullanici.Add(entity);
                 await _log.Add(new Log(){
-                    DurumID = 1,
-                    IslemTipID = 3,
+                    DurumId = 1,
+                    IslemTipId = 3,
                     Aciklama = entity.Ad + " Kullanıcısı Eklendi",
+                    KullaniciId = 1,
+                    KullaniciAdi = "zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
                     //KullaniciID = token'dan çekilecek,
                     //KullaniciAdi = token'dan çekilecek,
                     //Tarih = 
                     //IP = "js ile çekilmeye çalışılacak"   
                 });
-                return CreatedAtAction("GetById", new { id= eklenenKullanici.ID}, eklenenKullanici); //201 + eklenenKullanici
+                return CreatedAtAction("GetById", new { id= eklenenKullanici.Id}, eklenenKullanici); //201 + eklenenKullanici
             }
             await _log.Add(new Log(){
-                    DurumID = 2,
-                    IslemTipID = 3,
+                    DurumId = 2,
+                    IslemTipId = 3,
                     Aciklama = entity.Ad + " Kullanıcısı Eklenemedi",
+                    KullaniciId = 1,
+                    KullaniciAdi = "zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
                 });
             return BadRequest(ModelState); //Response Code-400 + validation errors
         }
@@ -51,16 +60,24 @@ namespace Tasinmaz.Controllers
             {
                 await _kullanici.Delete(id);
                 await _log.Add(new Log(){
-                    DurumID = 1,
-                    IslemTipID = 4,
-                    Aciklama = "Kullanıcı Silindi", 
+                    DurumId = 1,
+                    IslemTipId = 4,
+                    Aciklama = "Kullanıcı Silindi",
+                    KullaniciId = 1,
+                    KullaniciAdi = "zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
                 });
                 return Ok(); //200
             }
             await _log.Add(new Log(){
-                    DurumID = 2,
-                    IslemTipID = 4,
-                    Aciklama = "Kullanıcı Silinemedi", 
+                    DurumId = 2,
+                    IslemTipId = 4,
+                    Aciklama = "Kullanıcı Silinemedi",
+                    KullaniciId = 1,
+                    KullaniciAdi = "zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
                 });
             return NotFound();
         }
@@ -70,9 +87,13 @@ namespace Tasinmaz.Controllers
         {
             var k = await _kullanici.GetAll();
             await _log.Add(new Log(){
-                    DurumID = 1,
-                    IslemTipID = 6,
-                    Aciklama = "Kullanıcılar Listelendi", 
+                    DurumId = 1,
+                    IslemTipId = 6,
+                    Aciklama = "Kullanıcılar Listelendi",
+                    KullaniciId = 1,
+                    KullaniciAdi = "zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
                 });
             return Ok(k); //Response Code-200 + (body kısmına) k ekle
         }
@@ -85,16 +106,24 @@ namespace Tasinmaz.Controllers
             if (k != null)
             {
                 await _log.Add(new Log(){
-                    DurumID = 1,
-                    IslemTipID = 7,
-                    Aciklama = "Kullanıcı Listelendi", 
+                    DurumId = 1,
+                    IslemTipId = 7,
+                    Aciklama = "Kullanıcı Listelendi",
+                    KullaniciId = 1,
+                    KullaniciAdi = "zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
                 });
                 return Ok(k);
             }
             await _log.Add(new Log(){
-                    DurumID = 2,
-                    IslemTipID = 7,
-                    Aciklama = "Kullanıcı Listelenemedi", 
+                    DurumId = 2,
+                    IslemTipId = 7,
+                    Aciklama = "Kullanıcı Listelenemedi",
+                    KullaniciId = 1,
+                    KullaniciAdi = "zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
                 });
             return NotFound(); //Response Code-404
         }
@@ -102,19 +131,27 @@ namespace Tasinmaz.Controllers
         [HttpPut]
         public async Task<IActionResult> Update([FromBody]Kullanici entity)
         {
-            if (await _kullanici.GetById(entity.ID)!=null)
+            if (await _kullanici.GetById(entity.Id)!=null)
             {
                 await _log.Add(new Log(){
-                    DurumID = 1,
-                    IslemTipID = 5,
-                    Aciklama = entity.Ad + " Kullanıcısı Düzenlendi", 
+                    DurumId = 1,
+                    IslemTipId = 5,
+                    Aciklama = entity.Ad + " Kullanıcısı Düzenlendi",
+                    KullaniciId = 1,
+                    KullaniciAdi = "zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
                 });
                 return Ok(_kullanici.Update(entity)); //200 + data
             }
             await _log.Add(new Log(){
-                    DurumID = 2,
-                    IslemTipID = 5,
-                    Aciklama = entity.Ad + " Kullanıcısı Düzenemelendi", 
+                    DurumId = 2,
+                    IslemTipId = 5,
+                    Aciklama = entity.Ad + " Kullanıcısı Düzenemelendi",
+                    KullaniciId = 1,
+                    KullaniciAdi = "zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
                 });
             return NotFound();
         }

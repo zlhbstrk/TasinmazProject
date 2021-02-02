@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "C/GgndOrX4+7nBekiCqa5pL9u5bZJdbbldmffkr7uzOEuw56ou6bSKQSerFE7MUq1TIvpYDOJ9O7FJ35qEPoHg==",
+  "dgSpecHash": "KRhudbZBokYWn3FAnWhonXbVKeeywjtLis+e/c4EK926gKgTZf4WjGhVcixOjNvLS89g/VMPY//kfqRhsOkOEA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\zlhbs\\Desktop\\TasinmazProjesi\\TasinmazProjesiWeb\\TasinmazProject\\Tasinmaz.csproj",
+  "projectFilePath": "C:\\Users\\zlhbs\\Desktop\\TasinmazProjesi\\TasinmazProjesiWeb\\Tasinmaz\\TasinmazProject\\Tasinmaz.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\zlhbs\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
+    "C:\\Users\\zlhbs\\.nuget\\packages\\microsoft.aspnetcore.authentication.certificate\\5.0.2\\microsoft.aspnetcore.authentication.certificate.5.0.2.nupkg.sha512",
     "C:\\Users\\zlhbs\\.nuget\\packages\\microsoft.aspnetcore.authorization\\1.0.3\\microsoft.aspnetcore.authorization.1.0.3.nupkg.sha512",
     "C:\\Users\\zlhbs\\.nuget\\packages\\microsoft.aspnetcore.hosting.abstractions\\1.0.4\\microsoft.aspnetcore.hosting.abstractions.1.0.4.nupkg.sha512",
     "C:\\Users\\zlhbs\\.nuget\\packages\\microsoft.aspnetcore.hosting.server.abstractions\\1.0.4\\microsoft.aspnetcore.hosting.server.abstractions.1.0.4.nupkg.sha512",

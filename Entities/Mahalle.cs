@@ -17,7 +17,5 @@ namespace Tasinmaz.Entities
         [MaxLength(30)]
         [Required(ErrorMessage="Ad alanı boş geçilemez!")]
         public string Ad { get; set; }
-
-        public ICollection<ETasinmaz> tblTasinmaz {get; set; }
     }
 }

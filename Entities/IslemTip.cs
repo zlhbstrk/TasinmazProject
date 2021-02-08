@@ -12,7 +12,5 @@ namespace Tasinmaz.Entities
 
         [MaxLength(30)]
         public string Ad { get; set; } // Dışarıdan İşlemTip tanımlaması olmayacağından DataAnnotations kullanmadım
-
-        public ICollection<Log> tblLog {get; set; }
     }
 }

@@ -23,7 +23,8 @@ namespace Tasinmaz.Services
             using (var _DefaultDbContext = new DefaultDbContext())
             {
                 var silinenKullanici = await GetById(id);
-                _DefaultDbContext.tblKullanici.Remove(silinenKullanici);
+                silinenKullanici.AktifMi = false;
+                _DefaultDbContext.tblKullanici.Update(silinenKullanici);
                 await _DefaultDbContext.SaveChangesAsync();
             }
         }

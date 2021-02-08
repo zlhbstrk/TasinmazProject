@@ -1,6 +1,6 @@
 namespace Tasinmaz.Helpers
 {
-    public enum YetkiTipi : byte
+    public enum YetkiTipi : int
     {
         SistemYöneticisi = 1,
         Kullanici = 2

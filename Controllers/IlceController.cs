@@ -29,8 +29,8 @@ namespace Tasinmaz.Controllers
                     DurumId = 1,
                     IslemTipId = 3,
                     Aciklama = entity.Ad + " İlçesi Eklendi",
-                    KullaniciId = 1,
-                    KullaniciAdi = "zeliha",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
                     IP = "123.123.123"
                 });
@@ -40,8 +40,8 @@ namespace Tasinmaz.Controllers
                     DurumId = 2,
                     IslemTipId = 3,
                     Aciklama = entity.Ad + " İlçesi Eklenemedi",
-                    KullaniciId = 1,
-                    KullaniciAdi = "zeliha",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
                     IP = "123.123.123"
                 });
@@ -59,8 +59,8 @@ namespace Tasinmaz.Controllers
                     DurumId = 1,
                     IslemTipId = 4,
                     Aciklama = "İlçe Silindi",
-                    KullaniciId = 1,
-                    KullaniciAdi = "zeliha",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
                     IP = "123.123.123"
                 });
@@ -70,8 +70,8 @@ namespace Tasinmaz.Controllers
                     DurumId = 2,
                     IslemTipId = 4,
                     Aciklama = "İlçe Silinemedi",
-                    KullaniciId = 1,
-                    KullaniciAdi = "zeliha",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
                     IP = "123.123.123"
                 });
@@ -86,8 +86,8 @@ namespace Tasinmaz.Controllers
                     DurumId = 1,
                     IslemTipId = 6,
                     Aciklama = "İlçeler Listelendi",
-                    KullaniciId = 1,
-                    KullaniciAdi = "zeliha",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
                     IP = "123.123.123"
                 });
@@ -105,8 +105,8 @@ namespace Tasinmaz.Controllers
                     DurumId = 1,
                     IslemTipId = 7,
                     Aciklama = "İlçe Listelendi",
-                    KullaniciId = 1,
-                    KullaniciAdi = "zeliha",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
                     IP = "123.123.123"
                 });
@@ -116,8 +116,8 @@ namespace Tasinmaz.Controllers
                     DurumId = 2,
                     IslemTipId = 7,
                     Aciklama = "İlçe Listelenemedi",
-                    KullaniciId = 1,
-                    KullaniciAdi = "zeliha",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
                     IP = "123.123.123"
                 });
@@ -133,8 +133,8 @@ namespace Tasinmaz.Controllers
                     DurumId = 1,
                     IslemTipId = 5,
                     Aciklama = entity.Ad + " İlçesi Düzenlendi",
-                    KullaniciId = 1,
-                    KullaniciAdi = "zeliha",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
                     IP = "123.123.123"
                 });
@@ -144,8 +144,8 @@ namespace Tasinmaz.Controllers
                     DurumId = 2,
                     IslemTipId = 5,
                     Aciklama = entity.Ad + " İlçesi Düzenlenemedi",
-                    KullaniciId = 1,
-                    KullaniciAdi = "zeliha",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
                     IP = "123.123.123"
                 });

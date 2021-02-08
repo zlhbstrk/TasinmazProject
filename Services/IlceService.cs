@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Tasinmaz.Contracts;
 using Tasinmaz.Entities;
+using System.Linq;
 
 namespace Tasinmaz.Services
 {
@@ -32,7 +33,22 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return await _DefaultDbContext.tblIlce.ToListAsync();
+                IList<Ilce> ilceler = await _DefaultDbContext.tblIlce.ToListAsync();
+                IList<Il> iller = await _DefaultDbContext.tblIl.ToListAsync();
+
+                return (from il in iller
+                         join ilce in ilceler on il.Id equals ilce.IlId
+                         select new Ilce()
+                         {
+                             Id = ilce.Id,
+                             Ad = ilce.Ad,
+                             IlId = ilce.IlId,
+                             Il = new Il(){
+                                 Ad = il.Ad,
+                                 Id = il.Id,
+                                 Plaka = il.Plaka
+                             } 
+                         }).ToList<Ilce>();
             }
         }
 

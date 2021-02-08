@@ -29,7 +29,5 @@ namespace Tasinmaz.Entities
         [MaxLength(30)]
         public string Soyad { get; set; }
         public bool AktifMi { get; set; }
-
-        public ICollection<Log> tblLog {get; set; }
     }
 }

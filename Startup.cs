@@ -23,7 +23,12 @@ namespace Tasinmaz
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddDbContext<DefaultDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddControllers();  //*
+            // services.AddControllers().AddJsonOptions(options =>
+            //          {
+            //              // Use the default property (Pascal) casing.
+            //              options.JsonSerializerOptions.PropertyNamingPolicy = null;
+            //          }
+            //     );  //*
             services.AddSingleton<IRepository<Kullanici>, KullaniciService>();
             services.AddSingleton<IRepository<Il>, IlService>();
             services.AddSingleton<IRepository<Ilce>, IlceService>();
@@ -36,9 +41,9 @@ namespace Tasinmaz
             });
             services.AddSwaggerDocument();
             services.AddCors();
-            services.AddAuthentication(
-        CertificateAuthenticationDefaults.AuthenticationScheme)
-        .AddCertificate();
+            services.AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme).AddCertificate();
+            services.AddControllersWithViews().AddNewtonsoftJson(options =>
+                options.UseMemberCasing().SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

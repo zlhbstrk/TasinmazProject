@@ -155,3 +155,5 @@ C:\Users\zlhbs\Desktop\TasinmazProjesi\TasinmazProjesiWeb\Tasinmaz\TasinmazProje
 C:\Users\zlhbs\Desktop\TasinmazProjesi\TasinmazProjesiWeb\Tasinmaz\TasinmazProject\obj\Debug\net5.0\Tasinmaz.pdb
 C:\Users\zlhbs\Desktop\TasinmazProjesi\TasinmazProjesiWeb\Tasinmaz\TasinmazProject\obj\Debug\net5.0\Tasinmaz.genruntimeconfig.cache
 C:\Users\zlhbs\Desktop\TasinmazProjesi\TasinmazProjesiWeb\Tasinmaz\TasinmazProject\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.Certificate.dll
+C:\Users\zlhbs\Desktop\TasinmazProjesi\TasinmazProjesiWeb\Tasinmaz\TasinmazProject\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\zlhbs\Desktop\TasinmazProjesi\TasinmazProjesiWeb\Tasinmaz\TasinmazProject\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll

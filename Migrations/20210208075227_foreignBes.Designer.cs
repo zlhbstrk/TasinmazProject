@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Tasinmaz.Entities;
@@ -9,9 +10,10 @@ using Tasinmaz.Entities;
 namespace Tasinmaz.Migrations
 {
     [DbContext(typeof(DefaultDbContext))]
-    partial class DefaultContextModelSnapshot : ModelSnapshot
+    [Migration("20210208075227_foreignBes")]
+    partial class foreignBes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -177,8 +179,8 @@ namespace Tasinmaz.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("Email")
-                        .HasName("AlternatifEmail");
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("tblKullanici");
                 });
@@ -256,19 +258,19 @@ namespace Tasinmaz.Migrations
             modelBuilder.Entity("Tasinmaz.Entities.ETasinmaz", b =>
                 {
                     b.HasOne("Tasinmaz.Entities.Il", "Il")
-                        .WithMany()
+                        .WithMany("tblTasinmaz")
                         .HasForeignKey("IlId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Tasinmaz.Entities.Ilce", "Ilce")
-                        .WithMany()
+                        .WithMany("tblTasinmaz")
                         .HasForeignKey("IlceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Tasinmaz.Entities.Mahalle", "Mahalle")
-                        .WithMany()
+                        .WithMany("tblTasinmaz")
                         .HasForeignKey("MahalleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -283,7 +285,7 @@ namespace Tasinmaz.Migrations
             modelBuilder.Entity("Tasinmaz.Entities.Ilce", b =>
                 {
                     b.HasOne("Tasinmaz.Entities.Il", "Il")
-                        .WithMany()
+                        .WithMany("tblIlce")
                         .HasForeignKey("IlId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -294,19 +296,19 @@ namespace Tasinmaz.Migrations
             modelBuilder.Entity("Tasinmaz.Entities.Log", b =>
                 {
                     b.HasOne("Tasinmaz.Entities.Durum", "Durum")
-                        .WithMany()
+                        .WithMany("tblLog")
                         .HasForeignKey("DurumId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Tasinmaz.Entities.IslemTip", "IslemTip")
-                        .WithMany()
+                        .WithMany("tblLog")
                         .HasForeignKey("IslemTipId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Tasinmaz.Entities.Kullanici", "Kullanici")
-                        .WithMany()
+                        .WithMany("tblLog")
                         .HasForeignKey("KullaniciId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -321,12 +323,46 @@ namespace Tasinmaz.Migrations
             modelBuilder.Entity("Tasinmaz.Entities.Mahalle", b =>
                 {
                     b.HasOne("Tasinmaz.Entities.Ilce", "Ilce")
-                        .WithMany()
+                        .WithMany("tblMahalle")
                         .HasForeignKey("IlceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Ilce");
+                });
+
+            modelBuilder.Entity("Tasinmaz.Entities.Durum", b =>
+                {
+                    b.Navigation("tblLog");
+                });
+
+            modelBuilder.Entity("Tasinmaz.Entities.Il", b =>
+                {
+                    b.Navigation("tblIlce");
+
+                    b.Navigation("tblTasinmaz");
+                });
+
+            modelBuilder.Entity("Tasinmaz.Entities.Ilce", b =>
+                {
+                    b.Navigation("tblMahalle");
+
+                    b.Navigation("tblTasinmaz");
+                });
+
+            modelBuilder.Entity("Tasinmaz.Entities.IslemTip", b =>
+                {
+                    b.Navigation("tblLog");
+                });
+
+            modelBuilder.Entity("Tasinmaz.Entities.Kullanici", b =>
+                {
+                    b.Navigation("tblLog");
+                });
+
+            modelBuilder.Entity("Tasinmaz.Entities.Mahalle", b =>
+                {
+                    b.Navigation("tblTasinmaz");
                 });
 #pragma warning restore 612, 618
         }

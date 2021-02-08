@@ -29,8 +29,8 @@ namespace Tasinmaz.Controllers
                     DurumId = 1,
                     IslemTipId = 3,
                     Aciklama = entity.Ad + " Kullanıcısı Eklendi",
-                    KullaniciId = 1,
-                    KullaniciAdi = "zeliha",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
                     IP = "123.123.123"
                     //KullaniciID = token'dan çekilecek,
@@ -44,8 +44,8 @@ namespace Tasinmaz.Controllers
                     DurumId = 2,
                     IslemTipId = 3,
                     Aciklama = entity.Ad + " Kullanıcısı Eklenemedi",
-                    KullaniciId = 1,
-                    KullaniciAdi = "zeliha",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
                     IP = "123.123.123"
                 });
@@ -63,8 +63,8 @@ namespace Tasinmaz.Controllers
                     DurumId = 1,
                     IslemTipId = 4,
                     Aciklama = "Kullanıcı Silindi",
-                    KullaniciId = 1,
-                    KullaniciAdi = "zeliha",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
                     IP = "123.123.123"
                 });
@@ -74,8 +74,8 @@ namespace Tasinmaz.Controllers
                     DurumId = 2,
                     IslemTipId = 4,
                     Aciklama = "Kullanıcı Silinemedi",
-                    KullaniciId = 1,
-                    KullaniciAdi = "zeliha",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
                     IP = "123.123.123"
                 });
@@ -90,8 +90,8 @@ namespace Tasinmaz.Controllers
                     DurumId = 1,
                     IslemTipId = 6,
                     Aciklama = "Kullanıcılar Listelendi",
-                    KullaniciId = 1,
-                    KullaniciAdi = "zeliha",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
                     IP = "123.123.123"
                 });
@@ -109,8 +109,8 @@ namespace Tasinmaz.Controllers
                     DurumId = 1,
                     IslemTipId = 7,
                     Aciklama = "Kullanıcı Listelendi",
-                    KullaniciId = 1,
-                    KullaniciAdi = "zeliha",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
                     IP = "123.123.123"
                 });
@@ -120,8 +120,8 @@ namespace Tasinmaz.Controllers
                     DurumId = 2,
                     IslemTipId = 7,
                     Aciklama = "Kullanıcı Listelenemedi",
-                    KullaniciId = 1,
-                    KullaniciAdi = "zeliha",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
                     IP = "123.123.123"
                 });
@@ -137,8 +137,8 @@ namespace Tasinmaz.Controllers
                     DurumId = 1,
                     IslemTipId = 5,
                     Aciklama = entity.Ad + " Kullanıcısı Düzenlendi",
-                    KullaniciId = 1,
-                    KullaniciAdi = "zeliha",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
                     IP = "123.123.123"
                 });
@@ -148,8 +148,8 @@ namespace Tasinmaz.Controllers
                     DurumId = 2,
                     IslemTipId = 5,
                     Aciklama = entity.Ad + " Kullanıcısı Düzenemelendi",
-                    KullaniciId = 1,
-                    KullaniciAdi = "zeliha",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
                     IP = "123.123.123"
                 });

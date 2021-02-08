@@ -28,9 +28,9 @@ namespace Tasinmaz
                 await _log.Add(new Log(){
                     DurumId = 1,
                     IslemTipId = 3,
-                    Aciklama = entity.Id + " Taşınmazı Eklendi",
-                    KullaniciId = 1,
-                    KullaniciAdi = "zeliha",
+                    Aciklama = "Taşınmaz Eklendi",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
                     IP = "123.123.123" 
                 });
@@ -39,9 +39,9 @@ namespace Tasinmaz
             await _log.Add(new Log(){
                     DurumId = 2,
                     IslemTipId = 3,
-                    Aciklama = entity.Id + " Taşınmazı Eklenemedi",
-                    KullaniciId = 1,
-                    KullaniciAdi = "zeliha",
+                    Aciklama = "Taşınmaz Eklenemedi",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
                     IP = "123.123.123"
                 });
@@ -59,8 +59,8 @@ namespace Tasinmaz
                     DurumId = 1,
                     IslemTipId = 4,
                     Aciklama = "Taşınmaz Silindi",
-                    KullaniciId = 1,
-                    KullaniciAdi = "zeliha",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
                     IP = "123.123.123"
                 });
@@ -70,8 +70,8 @@ namespace Tasinmaz
                     DurumId = 2,
                     IslemTipId = 4,
                     Aciklama = "Taşınmaz Silinemedi",
-                    KullaniciId = 1,
-                    KullaniciAdi = "zeliha",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
                     IP = "123.123.123"
                 });
@@ -86,8 +86,8 @@ namespace Tasinmaz
                     DurumId = 1,
                     IslemTipId = 6,
                     Aciklama = "Taşınmazlar Listelendi",
-                    KullaniciId = 1,
-                    KullaniciAdi = "zeliha",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
                     IP = "123.123.123"
                 });
@@ -105,8 +105,8 @@ namespace Tasinmaz
                     DurumId = 1,
                     IslemTipId = 7,
                     Aciklama = "Taşınmaz Listelendi",
-                    KullaniciId = 1,
-                    KullaniciAdi = "zeliha",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
                     IP = "123.123.123"
                 });
@@ -114,10 +114,10 @@ namespace Tasinmaz
             }
             await _log.Add(new Log(){
                     DurumId = 2,
-                    IslemTipId = 4,
+                    IslemTipId = 7,
                     Aciklama = "Taşınmaz Listelenemedi",
-                    KullaniciId = 1,
-                    KullaniciAdi = "zeliha",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
                     IP = "123.123.123"
                 });
@@ -135,8 +135,8 @@ namespace Tasinmaz
                     DurumId = 1,
                     IslemTipId = 8,
                     Aciklama = "Taşınmaz Filtrelendi",
-                    KullaniciId = 1,
-                    KullaniciAdi = "zeliha",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
                     IP = "123.123.123"
                 });
@@ -146,8 +146,8 @@ namespace Tasinmaz
                     DurumId = 2,
                     IslemTipId = 8,
                     Aciklama = "Taşınmaz Filtrelenemedi",
-                    KullaniciId = 1,
-                    KullaniciAdi = "zeliha",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
                     IP = "123.123.123"
                 });
@@ -163,8 +163,8 @@ namespace Tasinmaz
                     DurumId = 1,
                     IslemTipId = 5,
                     Aciklama = entity.Id + " Taşınmazı Düzenlendi",
-                    KullaniciId = 1,
-                    KullaniciAdi = "zeliha",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
                     IP = "123.123.123"
                 });
@@ -174,8 +174,8 @@ namespace Tasinmaz
                     DurumId = 2,
                     IslemTipId = 5,
                     Aciklama = entity.Id + " Taşınmazı Düzenlenemedi",
-                    KullaniciId = 1,
-                    KullaniciAdi = "zeliha",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
                     IP = "123.123.123"
                 });

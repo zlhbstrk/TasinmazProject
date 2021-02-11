@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Tasinmaz.Contracts;
@@ -28,7 +29,14 @@ namespace Tasinmaz.Services
             }
         }
 
-        public async Task<IList<Il>> GetAll()
+        public async Task<IList<Il>> GetAll(int skipDeger, int takeDeger)
+        {
+            using (var _DefaultDbContext = new DefaultDbContext())
+            {
+                return (await _DefaultDbContext.tblIl.ToListAsync<Il>()).Skip(skipDeger).Take<Il>(takeDeger).ToList<Il>();
+            }
+        }
+        public async Task<IList<Il>> FullGetAll()
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
@@ -46,6 +54,14 @@ namespace Tasinmaz.Services
             using (var _DefaultDbContext = new DefaultDbContext())
             {
                 return await _DefaultDbContext.tblIl.FindAsync(id);
+            }
+        }
+
+        public async Task<int> GetCount()
+        {
+            using (var _DefaultDbContext = new DefaultDbContext())
+            {
+                return await (_DefaultDbContext.tblIl.CountAsync());
             }
         }
 

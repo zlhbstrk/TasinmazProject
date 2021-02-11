@@ -17,10 +17,18 @@ namespace Tasinmaz.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> FullGetAll()
         {
-            var t = await _log.GetAll();
-            return Ok(t);
+            var l = await _log.FullGetAll();
+            return Ok(l);
+        }
+
+        [HttpGet]
+        [Route("{skipDeger}/{takeDeger}")]
+        public async Task<IActionResult> GetAll(int skipDeger, int takeDeger)
+        {
+            var l = await _log.GetAll(skipDeger, takeDeger);
+            return Ok(l);
         }
 
         [HttpGet]
@@ -33,6 +41,12 @@ namespace Tasinmaz.Controllers
                 return Ok(l);
             }
             return NotFound();
+        }
+
+        [HttpGet]
+        public async Task<int> GetCount()
+        {
+            return await _log.GetCount();
         }
     }
 }

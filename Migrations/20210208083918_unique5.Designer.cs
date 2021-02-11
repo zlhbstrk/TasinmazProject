@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Tasinmaz.Entities;
@@ -9,9 +10,10 @@ using Tasinmaz.Entities;
 namespace Tasinmaz.Migrations
 {
     [DbContext(typeof(DefaultDbContext))]
-    partial class DefaultContextModelSnapshot : ModelSnapshot
+    [Migration("20210208083918_unique5")]
+    partial class unique5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,7 +77,7 @@ namespace Tasinmaz.Migrations
 
                     b.HasIndex("MahalleId");
 
-                    b.HasIndex("Ada", "Parsel", "IlId", "IlceId", "MahalleId")
+                    b.HasIndex("Ada", "Parsel")
                         .IsUnique();
 
                     b.ToTable("tblTasinmaz");
@@ -177,7 +179,8 @@ namespace Tasinmaz.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("Email");
+                    b.HasAlternateKey("Email")
+                        .HasName("AlternatifEmail");
 
                     b.ToTable("tblKullanici");
                 });
@@ -244,10 +247,10 @@ namespace Tasinmaz.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IlceId");
-
-                    b.HasIndex("Ad", "IlceId")
+                    b.HasIndex("Ad")
                         .IsUnique();
+
+                    b.HasIndex("IlceId");
 
                     b.ToTable("tblMahalle");
                 });

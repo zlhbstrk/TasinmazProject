@@ -79,9 +79,26 @@ namespace Tasinmaz.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> FullGetAll()
         {
-            var m = await _mahalle.GetAll();
+            var m = await _mahalle.FullGetAll();
+            await _log.Add(new Log(){
+                    DurumId = 1,
+                    IslemTipId = 6,
+                    Aciklama = "Mahalleler Listelendi",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
+                });
+            return Ok(m);
+        }
+
+        [HttpGet]
+        [Route("{skipDeger}/{takeDeger}")]
+        public async Task<IActionResult> GetAll(int skipDeger, int takeDeger)
+        {
+            var m = await _mahalle.GetAll(skipDeger, takeDeger);
             await _log.Add(new Log(){
                     DurumId = 1,
                     IslemTipId = 6,
@@ -122,6 +139,12 @@ namespace Tasinmaz.Controllers
                     IP = "123.123.123"
                 });
             return NotFound();
+        }
+
+        [HttpGet]
+        public async Task<int> GetCount()
+        {
+            return await _mahalle.GetCount();
         }
 
         [HttpPut]

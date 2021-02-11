@@ -83,9 +83,26 @@ namespace Tasinmaz.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        [Route("{skipDeger}/{takeDeger}")]
+        public async Task<IActionResult> GetAll(int skipDeger, int takeDeger)
         {
-            var k = await _kullanici.GetAll();
+            var k = await _kullanici.GetAll(skipDeger, takeDeger);
+            await _log.Add(new Log(){
+                    DurumId = 1,
+                    IslemTipId = 6,
+                    Aciklama = "Kullanıcılar Listelendi",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
+                });
+            return Ok(k); //Response Code-200 + (body kısmına) k ekle
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> FullGetAll()
+        {
+            var k = await _kullanici.FullGetAll();
             await _log.Add(new Log(){
                     DurumId = 1,
                     IslemTipId = 6,
@@ -126,6 +143,12 @@ namespace Tasinmaz.Controllers
                     IP = "123.123.123"
                 });
             return NotFound(); //Response Code-404
+        }
+
+        [HttpGet]
+        public async Task<int> GetCount()
+        {
+            return await _kullanici.GetCount();
         }
 
         [HttpPut]

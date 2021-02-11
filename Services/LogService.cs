@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Tasinmaz.Contracts;
@@ -14,7 +15,6 @@ namespace Tasinmaz.Services
             //KullaniciAdi = token'dan çekilecek,
             //Tarih = DateTime.Now kullanılacak,
             //IP = "js ile çekilmeye çalışılacak" 
-            // throw new System.NotImplementedException();
             using (var _DefaultDbContext = new DefaultDbContext())
             {
                 _DefaultDbContext.tblLog.Add(entity);
@@ -28,7 +28,16 @@ namespace Tasinmaz.Services
             throw new System.NotImplementedException();
         }
 
-        public async Task<IList<Log>> GetAll()
+        public async Task<IList<Log>> GetAll(int skipDeger, int takeDeger)
+        {
+            using (var _DefaultDbContext = new DefaultDbContext())
+            {
+                // return await _DefaultDbContext.tblLog.ToListAsync();
+
+                return (await _DefaultDbContext.tblLog.ToListAsync<Log>()).Skip(skipDeger).Take<Log>(takeDeger).ToList<Log>();
+            }
+        }
+        public async Task<IList<Log>> FullGetAll()
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
@@ -44,6 +53,14 @@ namespace Tasinmaz.Services
         public Task<Log> GetById(int id)
         {
             throw new System.NotImplementedException();
+        }
+
+        public async Task<int> GetCount()
+        {
+            using (var _DefaultDbContext = new DefaultDbContext())
+            {
+                return await (_DefaultDbContext.tblLog.CountAsync());
+            }
         }
 
         public Task<Log> Update(Log entity)

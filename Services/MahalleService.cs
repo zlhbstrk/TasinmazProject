@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Tasinmaz.Contracts;
@@ -28,14 +29,47 @@ namespace Tasinmaz.Services
             }
         }
 
-        public async Task<IList<Mahalle>> GetAll()
+        public async Task<IList<Mahalle>> GetAll(int skipDeger, int takeDeger)
+        {
+            using (var _DefaultDbContext = new DefaultDbContext())
+            {
+                // return await _DefaultDbContext.tblMahalle.ToListAsync();
+
+                IList<Mahalle> mahalleler = await _DefaultDbContext.tblMahalle.ToListAsync();
+                IList<Ilce> ilceler = await _DefaultDbContext.tblIlce.ToListAsync();
+                IList<Il> iller = await _DefaultDbContext.tblIl.ToListAsync();
+
+                return (from il in iller
+                        join ilce in ilceler on il.Id equals ilce.IlId
+                        join mahalle in mahalleler on ilce.Id equals mahalle.IlceId
+                        select new Mahalle()
+                        {
+                            Id = mahalle.Id,
+                            Ad = mahalle.Ad,
+                            IlceId = mahalle.IlceId,
+                            Ilce = new Ilce()
+                            {
+                                Ad = ilce.Ad,
+                                Id = ilce.Id,
+                                IlId = ilce.IlId,
+                                Il = new Il()
+                                {
+                                    Id = il.Id,
+                                    Ad = il.Ad,
+                                    Plaka = il.Plaka
+                                }
+                            }
+                        }).ToList<Mahalle>();
+                // return (await _DefaultDbContext.tblMahalle.ToListAsync<Mahalle>()).Skip(skipDeger).Take<Mahalle>(takeDeger).ToList<Mahalle>();
+            }
+        }
+        public async Task<IList<Mahalle>> FullGetAll()
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
                 return await _DefaultDbContext.tblMahalle.ToListAsync();
             }
         }
-
         public Task<IList<Mahalle>> GetAllFilter(string filter)
         {
             throw new System.NotImplementedException();
@@ -45,7 +79,22 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return await _DefaultDbContext.tblMahalle.FindAsync(id);
+                Mahalle mahalle = _DefaultDbContext.tblMahalle.Where<Mahalle>(m => m.Id == id).FirstOrDefault();
+                Ilce ilce = _DefaultDbContext.tblIlce.Where<Ilce>(i => i.Id == mahalle.IlceId).FirstOrDefault();
+                Il il = _DefaultDbContext.tblIl.Where<Il>(il => il.Id == ilce.IlId).FirstOrDefault();
+
+                ilce.Il = il;
+                mahalle.Ilce = ilce;
+
+                return mahalle;
+            }
+        }
+
+        public async Task<int> GetCount()
+        {
+            using (var _DefaultDbContext = new DefaultDbContext())
+            {
+                return await (_DefaultDbContext.tblMahalle.CountAsync());
             }
         }
 

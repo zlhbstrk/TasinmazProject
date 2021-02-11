@@ -29,7 +29,7 @@ namespace Tasinmaz.Services
             }
         }
 
-        public async Task<IList<Ilce>> GetAll()
+        public async Task<IList<Ilce>> GetAll(int skipDeger, int takeDeger)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
@@ -37,18 +37,36 @@ namespace Tasinmaz.Services
                 IList<Il> iller = await _DefaultDbContext.tblIl.ToListAsync();
 
                 return (from il in iller
-                         join ilce in ilceler on il.Id equals ilce.IlId
-                         select new Ilce()
-                         {
-                             Id = ilce.Id,
-                             Ad = ilce.Ad,
-                             IlId = ilce.IlId,
-                             Il = new Il(){
-                                 Ad = il.Ad,
-                                 Id = il.Id,
-                                 Plaka = il.Plaka
-                             } 
-                         }).ToList<Ilce>();
+                        join ilce in ilceler on il.Id equals ilce.IlId
+                        select new Ilce()
+                        {
+                            Id = ilce.Id,
+                            Ad = ilce.Ad,
+                            IlId = ilce.IlId,
+                            Il = new Il()
+                            {
+                                Ad = il.Ad,
+                                Id = il.Id,
+                                Plaka = il.Plaka
+                            }
+                        }).ToList<Ilce>();
+                
+                // return (await _DefaultDbContext.tblIlce.ToListAsync<Ilce>()).Skip(skipDeger).Take<Ilce>(takeDeger).ToList<Ilce>();
+
+                // var model = (await _DefaultDbContext.tblIlce.ToListAsync<Ilce>()).Include(x => x.Il.Where(k => IlId == k.Id)).ToList<Ilce>();
+                // if (model != null)
+                // {
+                //     Ilce Ilce = new Ilce();
+                //     Il Il = new Il();
+                // }
+            }
+        }
+
+        public async Task<IList<Ilce>> FullGetAll()
+        {
+            using (var _DefaultDbContext = new DefaultDbContext())
+            {
+                return await _DefaultDbContext.tblIlce.ToListAsync();
             }
         }
 
@@ -62,6 +80,14 @@ namespace Tasinmaz.Services
             using (var _DefaultDbContext = new DefaultDbContext())
             {
                 return await _DefaultDbContext.tblIlce.FindAsync(id);
+            }
+        }
+
+        public async Task<int> GetCount()
+        {
+            using (var _DefaultDbContext = new DefaultDbContext())
+            {
+                return await (_DefaultDbContext.tblIlce.CountAsync());
             }
         }
 

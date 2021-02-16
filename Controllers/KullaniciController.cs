@@ -178,5 +178,35 @@ namespace Tasinmaz.Controllers
                 });
             return NotFound();
         }
+
+        [HttpGet]
+        [Route("{email}/{sifre}")]
+        public async Task<Boolean> Login(string email, string sifre)
+        {
+            var k = await _kullanici.Login(email, sifre);
+            if (k == true)
+            {
+                await _log.Add(new Log(){
+                    DurumId = 1,
+                    IslemTipId = 1,
+                    Aciklama = "Sisteme Giriş Yapıldı",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
+                });
+                return k;
+            }
+            await _log.Add(new Log(){
+                    DurumId = 2,
+                    IslemTipId = 1,
+                    Aciklama = "Sisteme Giriş Yapılamadı",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
+                });
+            return k; //Response Code-404
+        }
     }
 }

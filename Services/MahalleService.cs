@@ -59,7 +59,7 @@ namespace Tasinmaz.Services
                                     Plaka = il.Plaka
                                 }
                             }
-                        }).ToList<Mahalle>();
+                        }).Skip(skipDeger).Take<Mahalle>(takeDeger).ToList<Mahalle>();
                 // return (await _DefaultDbContext.tblMahalle.ToListAsync<Mahalle>()).Skip(skipDeger).Take<Mahalle>(takeDeger).ToList<Mahalle>();
             }
         }
@@ -67,7 +67,7 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return await _DefaultDbContext.tblMahalle.ToListAsync();
+                return await _DefaultDbContext.tblMahalle.OrderBy(m => m.Ad).ToListAsync();
             }
         }
         public Task<IList<Mahalle>> GetAllFilter(string filter)
@@ -106,6 +106,11 @@ namespace Tasinmaz.Services
                 await _DefaultDbContext.SaveChangesAsync();
                 return entity;
             }
+        }
+
+        public Task<bool> Login(string email, string sifre)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -21,11 +21,13 @@ namespace Tasinmaz.Entities
         public int MahalleId { get; set; }
         public Mahalle Mahalle { get; set; }
 
+        [MaxLength(10)]
         [Required(ErrorMessage="Ada alanı boş geçilemez!")]
-        public int Ada { get; set; }
+        public string Ada { get; set; }
 
+        [MaxLength(10)]
         [Required(ErrorMessage="Parsel alanı boş geçilemez!")]
-        public int Parsel { get; set; }
+        public string Parsel { get; set; }
 
         [MaxLength(50)]
         [Required(ErrorMessage="Nitelik alanı boş geçilemez!")]
@@ -34,5 +36,10 @@ namespace Tasinmaz.Entities
         [MaxLength(100)]
         [Required(ErrorMessage="Adres alanı boş geçilemez!")]
         public string Adres { get; set; }
+
+        [ForeignKey("Kullanici")]
+        public int KullaniciId { get; set; }
+        public Kullanici Kullanici { get; set; }
+        public bool AktifMi { get; set; }
     }
 }

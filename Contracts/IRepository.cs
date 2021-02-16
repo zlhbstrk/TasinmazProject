@@ -6,6 +6,7 @@ namespace Tasinmaz.Contracts
     public interface IRepository<T> where T : class
     {
         Task<T> GetById(int id);
+        Task<bool> Login(string email, string sifre);
         Task<IList<T>> FullGetAll();
         Task<IList<T>> GetAll(int skipDeger, int takeDeger);
         Task<int> GetCount();

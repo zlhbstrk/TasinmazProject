@@ -35,7 +35,7 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return (await _DefaultDbContext.tblKullanici.ToListAsync<Kullanici>()).Where(k => k.AktifMi == true).Skip(skipDeger).Take<Kullanici>(takeDeger).ToList<Kullanici>();
+                return (await _DefaultDbContext.tblKullanici.ToListAsync<Kullanici>()).OrderBy(k => k.Ad).Where(k => k.AktifMi).Skip(skipDeger).Take<Kullanici>(takeDeger).ToList<Kullanici>();
             }
         }
 
@@ -43,7 +43,7 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return (await _DefaultDbContext.tblKullanici.ToListAsync<Kullanici>()).Where(k => k.AktifMi == true).ToList<Kullanici>();
+                return (await _DefaultDbContext.tblKullanici.OrderBy(k => k.Ad).ToListAsync<Kullanici>()).Where(k => k.AktifMi).ToList<Kullanici>();
             }
         }
 
@@ -64,7 +64,7 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return await (_DefaultDbContext.tblKullanici.CountAsync());
+                return await (_DefaultDbContext.tblKullanici.Where<Kullanici>(k => k.AktifMi).CountAsync());
             }
         }
 
@@ -76,6 +76,19 @@ namespace Tasinmaz.Services
                 entity.AktifMi = true;
                 await _DefaultDbContext.SaveChangesAsync();
                 return entity;
+            }
+        }
+        public async Task<bool> Login(string email, string sifre)
+        {
+            using (var _DefaultDbContext = new DefaultDbContext())
+            {
+                var liste = await _DefaultDbContext.tblKullanici.Where<Kullanici>(k => k.Email == email && k.Sifre == sifre && k.AktifMi).ToListAsync();
+
+                if(liste.Count > 0){
+                    return true;
+                }else{
+                    return false;
+                }
             }
         }
     }

@@ -36,8 +36,11 @@ namespace Tasinmaz.Services
                 IList<Ilce> ilceler = await _DefaultDbContext.tblIlce.ToListAsync();
                 IList<Il> iller = await _DefaultDbContext.tblIl.ToListAsync();
 
-                return (from il in iller
-                        join ilce in ilceler on il.Id equals ilce.IlId
+                // var model = _DefaultDbContext.tblIlce.Include(m => m.Il).ToListAsync();
+                
+
+                return (from ilce in ilceler
+                        join il in iller on ilce.IlId equals il.Id
                         select new Ilce()
                         {
                             Id = ilce.Id,
@@ -49,7 +52,7 @@ namespace Tasinmaz.Services
                                 Id = il.Id,
                                 Plaka = il.Plaka
                             }
-                        }).ToList<Ilce>();
+                        }).OrderBy(i => i.Ad).Skip(skipDeger).Take<Ilce>(takeDeger).ToList<Ilce>();
                 
                 // return (await _DefaultDbContext.tblIlce.ToListAsync<Ilce>()).Skip(skipDeger).Take<Ilce>(takeDeger).ToList<Ilce>();
 
@@ -59,6 +62,8 @@ namespace Tasinmaz.Services
                 //     Ilce Ilce = new Ilce();
                 //     Il Il = new Il();
                 // }
+
+                
             }
         }
 
@@ -66,7 +71,7 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return await _DefaultDbContext.tblIlce.ToListAsync();
+                return await _DefaultDbContext.tblIlce.OrderBy(i => i.Ad).ToListAsync();
             }
         }
 
@@ -99,6 +104,11 @@ namespace Tasinmaz.Services
                 await _DefaultDbContext.SaveChangesAsync();
                 return entity;
             }
+        }
+
+        public Task<bool> Login(string email, string sifre)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

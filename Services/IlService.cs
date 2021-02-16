@@ -33,14 +33,14 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return (await _DefaultDbContext.tblIl.ToListAsync<Il>()).Skip(skipDeger).Take<Il>(takeDeger).ToList<Il>();
+                return (await _DefaultDbContext.tblIl.ToListAsync<Il>()).OrderBy(i => i.Plaka).Skip(skipDeger).Take<Il>(takeDeger).ToList<Il>();
             }
         }
         public async Task<IList<Il>> FullGetAll()
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return await _DefaultDbContext.tblIl.ToListAsync();
+                return await _DefaultDbContext.tblIl.OrderBy(i => i.Ad).ToListAsync();
             }
         }
 
@@ -73,6 +73,11 @@ namespace Tasinmaz.Services
                 await _DefaultDbContext.SaveChangesAsync();
                 return entity;
             }
+        }
+
+        public Task<bool> Login(string email, string sifre)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -28,7 +28,7 @@ namespace Tasinmaz
                 await _log.Add(new Log(){
                     DurumId = 1,
                     IslemTipId = 3,
-                    Aciklama = "Taşınmaz Eklendi",
+                    Aciklama = entity.Id + " Id'li Taşınmaz Eklendi",
                     KullaniciId = 29,
                     KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
@@ -39,7 +39,7 @@ namespace Tasinmaz
             await _log.Add(new Log(){
                     DurumId = 2,
                     IslemTipId = 3,
-                    Aciklama = "Taşınmaz Eklenemedi",
+                    Aciklama = entity.Id + " Id'li Taşınmaz Eklenemedi",
                     KullaniciId = 29,
                     KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
@@ -58,7 +58,7 @@ namespace Tasinmaz
                 await _log.Add(new Log(){
                     DurumId = 1,
                     IslemTipId = 4,
-                    Aciklama = "Taşınmaz Silindi",
+                    Aciklama = id + " Id'li Taşınmaz Silindi",
                     KullaniciId = 29,
                     KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
@@ -69,7 +69,7 @@ namespace Tasinmaz
             await _log.Add(new Log(){
                     DurumId = 2,
                     IslemTipId = 4,
-                    Aciklama = "Taşınmaz Silinemedi",
+                    Aciklama = id + "Id'li Taşınmaz Silinemedi",
                     KullaniciId = 29,
                     KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
@@ -98,7 +98,7 @@ namespace Tasinmaz
         [Route("{skipDeger}/{takeDeger}")]
         public async Task<IActionResult> GetAll(int skipDeger, int takeDeger)
         {
-            var t = await _tasinmaz.GetAll(skipDeger, takeDeger);
+            var t = await _tasinmaz.GetAll(skipDeger, takeDeger, 29);
             await _log.Add(new Log(){
                     DurumId = 1,
                     IslemTipId = 6,
@@ -121,7 +121,7 @@ namespace Tasinmaz
                 await _log.Add(new Log(){
                     DurumId = 1,
                     IslemTipId = 7,
-                    Aciklama = "Taşınmaz Listelendi",
+                    Aciklama = id + " Id'li Taşınmaz Listelendi",
                     KullaniciId = 29,
                     KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
@@ -132,7 +132,7 @@ namespace Tasinmaz
             await _log.Add(new Log(){
                     DurumId = 2,
                     IslemTipId = 7,
-                    Aciklama = "Taşınmaz Listelenemedi",
+                    Aciklama = id + " Id'li Taşınmaz Listelenemedi",
                     KullaniciId = 29,
                     KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
@@ -185,7 +185,7 @@ namespace Tasinmaz
                 await _log.Add(new Log(){
                     DurumId = 1,
                     IslemTipId = 5,
-                    Aciklama = entity.Id + " Taşınmazı Düzenlendi",
+                    Aciklama = entity.Id + " Id'li Taşınmaz Düzenlendi",
                     KullaniciId = 29,
                     KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
@@ -196,7 +196,7 @@ namespace Tasinmaz
             await _log.Add(new Log(){
                     DurumId = 2,
                     IslemTipId = 5,
-                    Aciklama = entity.Id + " Taşınmazı Düzenlenemedi",
+                    Aciklama = entity.Id + " Id'li Taşınmaz Düzenlenemedi",
                     KullaniciId = 29,
                     KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,

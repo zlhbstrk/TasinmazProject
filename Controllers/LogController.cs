@@ -27,7 +27,7 @@ namespace Tasinmaz.Controllers
         [Route("{skipDeger}/{takeDeger}")]
         public async Task<IActionResult> GetAll(int skipDeger, int takeDeger)
         {
-            var l = await _log.GetAll(skipDeger, takeDeger);
+            var l = await _log.GetAll(skipDeger, takeDeger, 1);
             return Ok(l);
         }
 

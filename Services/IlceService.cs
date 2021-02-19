@@ -29,7 +29,7 @@ namespace Tasinmaz.Services
             }
         }
 
-        public async Task<IList<Ilce>> GetAll(int skipDeger, int takeDeger)
+        public async Task<IList<Ilce>> GetAll(int skipDeger, int takeDeger, int kullaniciId)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
@@ -106,7 +106,7 @@ namespace Tasinmaz.Services
             }
         }
 
-        public Task<bool> Login(string email, string sifre)
+        public Task<Ilce> Login(string email, string sifre)
         {
             throw new System.NotImplementedException();
         }

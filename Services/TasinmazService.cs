@@ -32,12 +32,12 @@ namespace Tasinmaz.Services
             }
         }
 
-        public async Task<IList<ETasinmaz>> GetAll(int skipDeger, int takeDeger)
+        public async Task<IList<ETasinmaz>> GetAll(int skipDeger, int takeDeger, int kullaniciId)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                IList<Kullanici> kullanicilar = await _DefaultDbContext.tblKullanici.ToListAsync();
-                IList<ETasinmaz> tasinmazlar = await _DefaultDbContext.tblTasinmaz.ToListAsync();
+                IList<Kullanici> kullanicilar = await _DefaultDbContext.tblKullanici.Where(k => k.Id == kullaniciId).ToListAsync();
+                IList<ETasinmaz> tasinmazlar = await _DefaultDbContext.tblTasinmaz.Where(t => t.AktifMi && t.KullaniciId == kullaniciId).ToListAsync();
                 IList<Mahalle> mahalleler = await _DefaultDbContext.tblMahalle.ToListAsync();
                 IList<Ilce> ilceler = await _DefaultDbContext.tblIlce.ToListAsync();
                 IList<Il> iller = await _DefaultDbContext.tblIl.ToListAsync();
@@ -45,8 +45,8 @@ namespace Tasinmaz.Services
                 return (from tasinmaz in tasinmazlar
                         join kullanici in kullanicilar on tasinmaz.KullaniciId equals kullanici.Id
                         join il in iller on tasinmaz.IlId equals il.Id
-                        join ilce in ilceler on il.Id equals ilce.IlId
-                        join mahalle in mahalleler on ilce.Id equals mahalle.IlceId
+                        join ilce in ilceler on tasinmaz.IlceId equals ilce.Id
+                        join mahalle in mahalleler on tasinmaz.MahalleId equals mahalle.Id
                         select new ETasinmaz()
                         {
                             Id = tasinmaz.Id,
@@ -85,7 +85,7 @@ namespace Tasinmaz.Services
                                     }
                                 }
                             }
-                        }).OrderBy(t => t.Adres).Where(t => t.AktifMi).Skip(skipDeger).Take<ETasinmaz>(takeDeger).ToList<ETasinmaz>();
+                        }).OrderBy(t => t.Adres).Skip(skipDeger).Take<ETasinmaz>(takeDeger).ToList<ETasinmaz>();
                 // return (await _DefaultDbContext.tblTasinmaz.ToListAsync<ETasinmaz>()).Skip(skipDeger).Take<ETasinmaz>(takeDeger).ToList<ETasinmaz>();
             }
         }
@@ -96,13 +96,19 @@ namespace Tasinmaz.Services
                 return (await _DefaultDbContext.tblTasinmaz.OrderBy(t => t.Adres).ToListAsync<ETasinmaz>()).Where(t => t.AktifMi).ToList<ETasinmaz>();
             }
         }
-        public async Task<IList<ETasinmaz>> GetAllFilter(string filter) //ToUpper()-büyük/küçük harf duyarlılığı için
+        public async Task<IList<ETasinmaz>> GetAllFilter(string filter) 
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return await (from t in _DefaultDbContext.tblTasinmaz
-                              where t.Nitelik.ToUpper().Contains(filter.ToUpper()) || t.Adres.ToUpper().Contains(filter.ToUpper())
-                              select t).ToListAsync();
+                return await (from t in _DefaultDbContext.tblTasinmaz where
+                                t.Mahalle.Ad.ToLower().Contains(filter.ToLower()) ||
+                                t.Ilce.Ad.ToLower().Contains(filter.ToLower()) ||
+                                t.Il.Ad.ToLower().Contains(filter.ToLower()) ||
+                                t.Ada.ToLower().Contains(filter.ToLower()) ||
+                                t.Parsel.ToLower().Contains(filter.ToLower()) ||
+                                t.Nitelik.ToLower().Contains(filter.ToLower()) ||
+                                t.Adres.ToLower().Contains(filter.ToLower())
+                              select t).Where(t => t.AktifMi).OrderBy(t => t.Adres).ToListAsync<ETasinmaz>();
             }
         }
 
@@ -134,7 +140,7 @@ namespace Tasinmaz.Services
             }
         }
 
-        public Task<bool> Login(string email, string sifre)
+        public Task<ETasinmaz> Login(string email, string sifre)
         {
             throw new System.NotImplementedException();
         }

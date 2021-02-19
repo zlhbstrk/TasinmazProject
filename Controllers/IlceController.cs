@@ -58,7 +58,7 @@ namespace Tasinmaz.Controllers
                 await _log.Add(new Log(){
                     DurumId = 1,
                     IslemTipId = 4,
-                    Aciklama = "İlçe Silindi",
+                    Aciklama = id + " Id'li İlçe Silindi",
                     KullaniciId = 29,
                     KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
@@ -69,7 +69,7 @@ namespace Tasinmaz.Controllers
             await _log.Add(new Log(){
                     DurumId = 2,
                     IslemTipId = 4,
-                    Aciklama = "İlçe Silinemedi",
+                    Aciklama = id + " Id'li İlçe Silinemedi",
                     KullaniciId = 29,
                     KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
@@ -82,7 +82,7 @@ namespace Tasinmaz.Controllers
         [Route("{skipDeger}/{takeDeger}")]
         public async Task<IActionResult> GetAll(int skipDeger, int takeDeger)
         {
-            var i = await _ilce.GetAll(skipDeger, takeDeger);
+            var i = await _ilce.GetAll(skipDeger, takeDeger, 1);
             await _log.Add(new Log(){
                     DurumId = 1,
                     IslemTipId = 6,
@@ -121,7 +121,7 @@ namespace Tasinmaz.Controllers
                 await _log.Add(new Log(){
                     DurumId = 1,
                     IslemTipId = 7,
-                    Aciklama = "İlçe Listelendi",
+                    Aciklama = id + " Id'li İlçe Listelendi",
                     KullaniciId = 29,
                     KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
@@ -132,7 +132,7 @@ namespace Tasinmaz.Controllers
             await _log.Add(new Log(){
                     DurumId = 2,
                     IslemTipId = 7,
-                    Aciklama = "İlçe Listelenemedi",
+                    Aciklama = id + " Id'li İlçe Listelenemedi",
                     KullaniciId = 29,
                     KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,

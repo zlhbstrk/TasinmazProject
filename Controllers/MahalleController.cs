@@ -58,7 +58,7 @@ namespace Tasinmaz.Controllers
                 await _log.Add(new Log(){
                     DurumId = 1,
                     IslemTipId = 4,
-                    Aciklama = "Mahalle Silindi",
+                    Aciklama = id + " Id'li Mahalle Silindi",
                     KullaniciId = 29,
                     KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
@@ -69,7 +69,7 @@ namespace Tasinmaz.Controllers
             await _log.Add(new Log(){
                     DurumId = 2,
                     IslemTipId = 4,
-                    Aciklama = "Mahalle Silinemedi",
+                    Aciklama = id + " Id'li Mahalle Silinemedi",
                     KullaniciId = 29,
                     KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
@@ -98,7 +98,7 @@ namespace Tasinmaz.Controllers
         [Route("{skipDeger}/{takeDeger}")]
         public async Task<IActionResult> GetAll(int skipDeger, int takeDeger)
         {
-            var m = await _mahalle.GetAll(skipDeger, takeDeger);
+            var m = await _mahalle.GetAll(skipDeger, takeDeger, 1);
             await _log.Add(new Log(){
                     DurumId = 1,
                     IslemTipId = 6,
@@ -121,7 +121,7 @@ namespace Tasinmaz.Controllers
                 await _log.Add(new Log(){
                     DurumId = 1,
                     IslemTipId = 7,
-                    Aciklama = "Mahalle Listelendi",
+                    Aciklama = id + " Id'li Mahalle Listelendi",
                     KullaniciId = 29,
                     KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
@@ -132,7 +132,7 @@ namespace Tasinmaz.Controllers
             await _log.Add(new Log(){
                     DurumId = 2,
                     IslemTipId = 7,
-                    Aciklama = "Mahalle Listelenemedi",
+                    Aciklama = id + " Id'li Mahalle Listelenemedi",
                     KullaniciId = 29,
                     KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,

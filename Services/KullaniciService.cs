@@ -31,11 +31,11 @@ namespace Tasinmaz.Services
             }
         }
 
-        public async Task<IList<Kullanici>> GetAll(int skipDeger, int takeDeger)
+        public async Task<IList<Kullanici>> GetAll(int skipDeger, int takeDeger, int kullaniciId)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return (await _DefaultDbContext.tblKullanici.ToListAsync<Kullanici>()).OrderBy(k => k.Ad).Where(k => k.AktifMi).Skip(skipDeger).Take<Kullanici>(takeDeger).ToList<Kullanici>();
+                return (await _DefaultDbContext.tblKullanici.ToListAsync<Kullanici>()).Where(k => k.AktifMi).OrderBy(k => k.Ad).Skip(skipDeger).Take<Kullanici>(takeDeger).ToList<Kullanici>();
             }
         }
 
@@ -78,16 +78,17 @@ namespace Tasinmaz.Services
                 return entity;
             }
         }
-        public async Task<bool> Login(string email, string sifre)
+        public async Task<Kullanici> Login(string email, string sifre)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
                 var liste = await _DefaultDbContext.tblKullanici.Where<Kullanici>(k => k.Email == email && k.Sifre == sifre && k.AktifMi).ToListAsync();
 
                 if(liste.Count > 0){
-                    return true;
+                    liste[0].Sifre = null;
+                    return liste[0];
                 }else{
-                    return false;
+                    return null;
                 }
             }
         }

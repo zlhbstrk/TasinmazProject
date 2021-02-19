@@ -8,6 +8,7 @@ using Tasinmaz.Entities;
 using Tasinmaz.Contracts;
 using Tasinmaz.Services;
 using Microsoft.AspNetCore.Authentication.Certificate;
+using Microsoft.AspNetCore.Cors;
 
 namespace Tasinmaz
 {

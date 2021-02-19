@@ -62,7 +62,7 @@ namespace Tasinmaz.Controllers
                 await _log.Add(new Log(){
                     DurumId = 1,
                     IslemTipId = 4,
-                    Aciklama = "Kullanıcı Silindi",
+                    Aciklama = id + " Id'li Kullanıcı Silindi",
                     KullaniciId = 29,
                     KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
@@ -73,7 +73,7 @@ namespace Tasinmaz.Controllers
             await _log.Add(new Log(){
                     DurumId = 2,
                     IslemTipId = 4,
-                    Aciklama = "Kullanıcı Silinemedi",
+                    Aciklama = id + " Id'li Kullanıcı Silinemedi",
                     KullaniciId = 29,
                     KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
@@ -86,7 +86,7 @@ namespace Tasinmaz.Controllers
         [Route("{skipDeger}/{takeDeger}")]
         public async Task<IActionResult> GetAll(int skipDeger, int takeDeger)
         {
-            var k = await _kullanici.GetAll(skipDeger, takeDeger);
+            var k = await _kullanici.GetAll(skipDeger, takeDeger, 1);
             await _log.Add(new Log(){
                     DurumId = 1,
                     IslemTipId = 6,
@@ -125,7 +125,7 @@ namespace Tasinmaz.Controllers
                 await _log.Add(new Log(){
                     DurumId = 1,
                     IslemTipId = 7,
-                    Aciklama = "Kullanıcı Listelendi",
+                    Aciklama = id + " Id'li Kullanıcı Listelendi",
                     KullaniciId = 29,
                     KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
@@ -136,7 +136,7 @@ namespace Tasinmaz.Controllers
             await _log.Add(new Log(){
                     DurumId = 2,
                     IslemTipId = 7,
-                    Aciklama = "Kullanıcı Listelenemedi",
+                    Aciklama = id + " Id'li Kullanıcı Listelenemedi",
                     KullaniciId = 29,
                     KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
@@ -181,10 +181,10 @@ namespace Tasinmaz.Controllers
 
         [HttpGet]
         [Route("{email}/{sifre}")]
-        public async Task<Boolean> Login(string email, string sifre)
+        public async Task<IActionResult> Login(string email, string sifre)
         {
             var k = await _kullanici.Login(email, sifre);
-            if (k == true)
+            if (k != null)
             {
                 await _log.Add(new Log(){
                     DurumId = 1,
@@ -195,7 +195,7 @@ namespace Tasinmaz.Controllers
                     Tarih = DateTime.Now,
                     IP = "123.123.123"
                 });
-                return k;
+                return Ok(k);
             }
             await _log.Add(new Log(){
                     DurumId = 2,
@@ -206,7 +206,7 @@ namespace Tasinmaz.Controllers
                     Tarih = DateTime.Now,
                     IP = "123.123.123"
                 });
-            return k; //Response Code-404
+            return NotFound(); //Response Code-404
         }
     }
 }

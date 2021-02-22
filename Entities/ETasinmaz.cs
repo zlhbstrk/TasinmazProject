@@ -22,19 +22,19 @@ namespace Tasinmaz.Entities
         public Mahalle Mahalle { get; set; }
 
         [MaxLength(10)]
-        [Required(ErrorMessage="Ada alanı boş geçilemez!")]
+        [Required(ErrorMessage = "Ada alanı boş geçilemez!")]
         public string Ada { get; set; }
 
         [MaxLength(10)]
-        [Required(ErrorMessage="Parsel alanı boş geçilemez!")]
+        [Required(ErrorMessage = "Parsel alanı boş geçilemez!")]
         public string Parsel { get; set; }
 
         [MaxLength(50)]
-        [Required(ErrorMessage="Nitelik alanı boş geçilemez!")]
+        [Required(ErrorMessage = "Nitelik alanı boş geçilemez!")]
         public string Nitelik { get; set; }
 
         [MaxLength(100)]
-        [Required(ErrorMessage="Adres alanı boş geçilemez!")]
+        [Required(ErrorMessage = "Adres alanı boş geçilemez!")]
         public string Adres { get; set; }
 
         [ForeignKey("Kullanici")]

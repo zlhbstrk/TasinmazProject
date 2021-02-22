@@ -11,10 +11,9 @@ namespace Tasinmaz.Services
     {
         public async Task<Log> Add(Log entity)
         {
-            //KullaniciID = token'dan çekilecek,
-            //KullaniciAdi = token'dan çekilecek,
-            //Tarih = DateTime.Now kullanılacak,
-            //IP = "js ile çekilmeye çalışılacak" 
+            // KullaniciID = Local Storage 'den alınan veri ile dolacak!
+            // KullaniciAdi = Local Storage 'den alınan veri ile dolacak!
+            // IP = "js ile çekilmeye çalışılacak" 
             using (var _DefaultDbContext = new DefaultDbContext())
             {
                 _DefaultDbContext.tblLog.Add(entity);
@@ -32,51 +31,22 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                IList<Durum> durumlar = await _DefaultDbContext.tblDurum.ToListAsync();
-                IList<IslemTip> islemTipleri = await _DefaultDbContext.tblIslemTip.ToListAsync();
-                IList<Kullanici> kullanicilar = await _DefaultDbContext.tblKullanici.ToListAsync();
-                IList<Log> loglar = await _DefaultDbContext.tblLog.ToListAsync();
+                IList<Log> model = await _DefaultDbContext.tblLog.Include(l => l.Kullanici).Include(l => l.Durum).Include(l => l.IslemTip)
+                                    .OrderByDescending(l => l.Tarih).Skip(skipDeger).Take(takeDeger).ToListAsync();
 
-                return (from log in loglar 
-                        join kullanici in kullanicilar on log.KullaniciId equals kullanici.Id
-                        join durum in durumlar on log.DurumId equals durum.Id
-                        join islemTip in islemTipleri on log.IslemTipId equals islemTip.Id
-                        select new Log()
-                        {
-                            Id = log.Id,
-                            KullaniciAdi = log.KullaniciAdi,
-                            KullaniciId = log.KullaniciId,
-                            Kullanici = new Kullanici()
-                            {
-                                Email = kullanici.Email,
-                                Yetki = kullanici.Yetki,
-                                Sifre = kullanici.Sifre,
-                                Ad = kullanici.Ad,
-                                Soyad = kullanici.Soyad,
-                                AktifMi = true
-                            },
-                            DurumId = log.DurumId,
-                            Durum = new Durum()
-                            {
-                                Ad = durum.Ad
-                            },
-                            IslemTipId = log.IslemTipId,
-                            IslemTip = new IslemTip()
-                            {
-                                Ad = islemTip.Ad
-                            },
-                            Aciklama = log.Aciklama,
-                            Tarih = log.Tarih,
-                            IP = log.IP                            
-                        }).OrderByDescending(l => l.Tarih).Skip(skipDeger).Take<Log>(takeDeger).ToList<Log>();
-                //return (await _DefaultDbContext.tblLog.ToListAsync<Log>()).Skip(skipDeger).Take<Log>(takeDeger).ToList<Log>();
+                if (model == null)
+                {
+                    throw new System.NotImplementedException();
+                }
+                return model;
             }
         }
         public async Task<IList<Log>> FullGetAll()
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return await _DefaultDbContext.tblLog.OrderBy(l => l.Tarih).ToListAsync();
+                return await _DefaultDbContext.tblLog.Include(l => l.Kullanici).Include(l => l.Durum).Include(l => l.IslemTip)
+                        .OrderBy(l => l.Tarih).ToListAsync();
             }
         }
 
@@ -94,7 +64,7 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return await (_DefaultDbContext.tblLog.CountAsync());
+                return await _DefaultDbContext.tblLog.CountAsync();
             }
         }
 

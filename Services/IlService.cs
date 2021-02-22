@@ -33,7 +33,7 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return (await _DefaultDbContext.tblIl.ToListAsync<Il>()).OrderBy(i => i.Plaka).Skip(skipDeger).Take<Il>(takeDeger).ToList<Il>();
+                return await _DefaultDbContext.tblIl.OrderBy(i => i.Plaka).Skip(skipDeger).Take(takeDeger).ToListAsync();
             }
         }
         public async Task<IList<Il>> FullGetAll()
@@ -44,7 +44,7 @@ namespace Tasinmaz.Services
             }
         }
 
-        public Task<IList<Il>> GetAllFilter(string filter) //Kullanmıyorum!
+        public Task<IList<Il>> GetAllFilter(string filter)
         {
             throw new System.NotImplementedException();
         }
@@ -53,7 +53,7 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return await _DefaultDbContext.tblIl.FindAsync(id);
+                return await _DefaultDbContext.tblIl.FirstOrDefaultAsync(i => i.Id == id);
             }
         }
 
@@ -61,7 +61,7 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return await (_DefaultDbContext.tblIl.CountAsync());
+                return await _DefaultDbContext.tblIl.CountAsync();
             }
         }
 

@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Tasinmaz.Contracts;
 using Tasinmaz.Entities;
-using Tasinmaz.Models;
 
 namespace Tasinmaz.Services
 {
@@ -15,7 +14,7 @@ namespace Tasinmaz.Services
             using (var _DefaultDbContext = new DefaultDbContext())
             {
                 _DefaultDbContext.tblTasinmaz.Add(entity);
-                entity.KullaniciId = 29;
+                entity.KullaniciId = 29; //Log Add() -> Local Storage 'den alınan veri ile dolacak!
                 await _DefaultDbContext.SaveChangesAsync();
                 return entity;
             }
@@ -36,79 +35,38 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                IList<Kullanici> kullanicilar = await _DefaultDbContext.tblKullanici.Where(k => k.Id == kullaniciId).ToListAsync();
-                IList<ETasinmaz> tasinmazlar = await _DefaultDbContext.tblTasinmaz.Where(t => t.AktifMi && t.KullaniciId == kullaniciId).ToListAsync();
-                IList<Mahalle> mahalleler = await _DefaultDbContext.tblMahalle.ToListAsync();
-                IList<Ilce> ilceler = await _DefaultDbContext.tblIlce.ToListAsync();
-                IList<Il> iller = await _DefaultDbContext.tblIl.ToListAsync();
+                IList<ETasinmaz> model = await _DefaultDbContext.tblTasinmaz.Include(t => t.Mahalle).ThenInclude(t => t.Ilce).ThenInclude(t => t.Il)
+                                            .Include(t => t.Kullanici).OrderBy(t => t.Adres).Where(t => t.AktifMi).Skip(skipDeger).Take(takeDeger).ToListAsync();
 
-                return (from tasinmaz in tasinmazlar
-                        join kullanici in kullanicilar on tasinmaz.KullaniciId equals kullanici.Id
-                        join il in iller on tasinmaz.IlId equals il.Id
-                        join ilce in ilceler on tasinmaz.IlceId equals ilce.Id
-                        join mahalle in mahalleler on tasinmaz.MahalleId equals mahalle.Id
-                        select new ETasinmaz()
-                        {
-                            Id = tasinmaz.Id,
-                            Ada = tasinmaz.Ada,
-                            Parsel = tasinmaz.Parsel,
-                            Nitelik = tasinmaz.Nitelik,
-                            Adres = tasinmaz.Adres,
-                            AktifMi = tasinmaz.AktifMi,
-                            KullaniciId = tasinmaz.KullaniciId,
-                            Kullanici = new Kullanici()
-                            {
-                                Id = kullanici.Id,
-                                Email = kullanici.Email,
-                                Yetki = kullanici.Yetki,
-                                Sifre = kullanici.Sifre,
-                                Ad = kullanici.Ad,
-                                Soyad = kullanici.Soyad,
-                                AktifMi = kullanici.AktifMi
-                            },
-                            MahalleId = tasinmaz.MahalleId,
-                            Mahalle = new Mahalle()
-                            {
-                                Id = mahalle.Id,
-                                Ad = mahalle.Ad,
-                                IlceId = mahalle.IlceId,
-                                Ilce = new Ilce()
-                                {
-                                    Ad = ilce.Ad,
-                                    Id = ilce.Id,
-                                    IlId = ilce.IlId,
-                                    Il = new Il()
-                                    {
-                                        Id = il.Id,
-                                        Ad = il.Ad,
-                                        Plaka = il.Plaka
-                                    }
-                                }
-                            }
-                        }).OrderBy(t => t.Adres).Skip(skipDeger).Take<ETasinmaz>(takeDeger).ToList<ETasinmaz>();
-                // return (await _DefaultDbContext.tblTasinmaz.ToListAsync<ETasinmaz>()).Skip(skipDeger).Take<ETasinmaz>(takeDeger).ToList<ETasinmaz>();
+                if (model == null)
+                {
+                    throw new System.NotImplementedException(); //*
+                }
+                return model;
             }
         }
         public async Task<IList<ETasinmaz>> FullGetAll()
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return (await _DefaultDbContext.tblTasinmaz.OrderBy(t => t.Adres).ToListAsync<ETasinmaz>()).Where(t => t.AktifMi).ToList<ETasinmaz>();
+                return await _DefaultDbContext.tblTasinmaz.Include(t => t.Mahalle).ThenInclude(t => t.Ilce).ThenInclude(t => t.Il)
+                            .Include(t => t.Kullanici).OrderBy(t => t.Adres).Where(t => t.AktifMi).ToListAsync();
             }
         }
-        public async Task<IList<ETasinmaz>> GetAllFilter(string filter) 
+        public async Task<IList<ETasinmaz>> GetAllFilter(string filter)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return await (from t in _DefaultDbContext.tblTasinmaz where
-                                t.Mahalle.Ad.ToLower().Contains(filter.ToLower()) ||
-                                t.Ilce.Ad.ToLower().Contains(filter.ToLower()) ||
-                                t.Il.Ad.ToLower().Contains(filter.ToLower()) ||
-                                t.Ada.ToLower().Contains(filter.ToLower()) ||
-                                t.Parsel.ToLower().Contains(filter.ToLower()) ||
-                                t.Nitelik.ToLower().Contains(filter.ToLower()) ||
-                                t.Adres.ToLower().Contains(filter.ToLower())
-                              select t).Where(t => t.AktifMi).OrderBy(t => t.Adres).ToListAsync<ETasinmaz>();
+                return await (from t in _DefaultDbContext.tblTasinmaz
+                              where
+                                    t.Mahalle.Ad.ToLower().Contains(filter.ToLower()) ||
+                                    t.Ilce.Ad.ToLower().Contains(filter.ToLower()) ||
+                                    t.Il.Ad.ToLower().Contains(filter.ToLower()) ||
+                                    t.Ada.ToLower().Contains(filter.ToLower()) ||
+                                    t.Parsel.ToLower().Contains(filter.ToLower()) ||
+                                    t.Nitelik.ToLower().Contains(filter.ToLower()) ||
+                                    t.Adres.ToLower().Contains(filter.ToLower())
+                              select t).Where(t => t.AktifMi).OrderBy(t => t.Adres).ToListAsync();
             }
         }
 
@@ -116,7 +74,8 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return await _DefaultDbContext.tblTasinmaz.FindAsync(id);
+                return await _DefaultDbContext.tblTasinmaz.Include(t => t.Mahalle).ThenInclude(t => t.Ilce).ThenInclude(t => t.Il)
+                            .Include(t => t.Kullanici).OrderBy(t => t.Adres).FirstOrDefaultAsync(t => t.Id == id);
             }
         }
 
@@ -124,7 +83,7 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return await (_DefaultDbContext.tblTasinmaz.Where(t => t.AktifMi)).CountAsync();
+                return await _DefaultDbContext.tblTasinmaz.Where(t => t.AktifMi).CountAsync();
             }
         }
 

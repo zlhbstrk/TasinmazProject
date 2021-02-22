@@ -25,29 +25,24 @@ namespace Tasinmaz.Entities
         {
             builder.Entity<Il>(entity =>
             {
-                entity.HasIndex(e => new {e.Ad, e.Plaka}).IsUnique();
+                entity.HasIndex(e => new { e.Ad, e.Plaka }).IsUnique();
             });
 
             builder.Entity<Ilce>(entity =>
             {
-                entity.HasIndex(e => new {e.Ad, e.IlId}).IsUnique();
+                entity.HasIndex(e => new { e.Ad, e.IlId }).IsUnique();
             });
 
             builder.Entity<Mahalle>(entity =>
             {
-                entity.HasIndex(e => new {e.Ad, e.IlceId}).IsUnique();
+                entity.HasIndex(e => new { e.Ad, e.IlceId }).IsUnique();
             });
-
-            // builder.Entity<Kullanici>(entity =>
-            // {
-            //     entity.HasIndex(e => e.Email).IsUnique();
-            // });
 
             builder.Entity<Kullanici>().HasAlternateKey(k => k.Email);
 
             builder.Entity<ETasinmaz>(entity =>
             {
-                entity.HasIndex(e => new {e.Ada, e.Parsel, e.IlId, e.IlceId, e.MahalleId}).IsUnique();
+                entity.HasIndex(e => new { e.Ada, e.Parsel, e.IlId, e.IlceId, e.MahalleId }).IsUnique();
             });
         }
 

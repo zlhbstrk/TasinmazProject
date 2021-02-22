@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -15,7 +14,7 @@ namespace Tasinmaz.Entities
         public Il Il { get; set; } //Navigation Property
 
         [MaxLength(30)]
-        [Required(ErrorMessage="Ad alanı boş geçilemez!")]
+        [Required(ErrorMessage = "Ad alanı boş geçilemez!")]
         public string Ad { get; set; }
     }
 }

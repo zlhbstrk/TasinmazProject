@@ -33,37 +33,13 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                IList<Ilce> ilceler = await _DefaultDbContext.tblIlce.ToListAsync();
-                IList<Il> iller = await _DefaultDbContext.tblIl.ToListAsync();
+                IList<Ilce> model = await _DefaultDbContext.tblIlce.Include(i => i.Il).OrderBy(i => i.Ad).Skip(skipDeger).Take(takeDeger).ToListAsync();
 
-                // var model = _DefaultDbContext.tblIlce.Include(m => m.Il).ToListAsync();
-                
-
-                return (from ilce in ilceler
-                        join il in iller on ilce.IlId equals il.Id
-                        select new Ilce()
-                        {
-                            Id = ilce.Id,
-                            Ad = ilce.Ad,
-                            IlId = ilce.IlId,
-                            Il = new Il()
-                            {
-                                Ad = il.Ad,
-                                Id = il.Id,
-                                Plaka = il.Plaka
-                            }
-                        }).OrderBy(i => i.Ad).Skip(skipDeger).Take<Ilce>(takeDeger).ToList<Ilce>();
-                
-                // return (await _DefaultDbContext.tblIlce.ToListAsync<Ilce>()).Skip(skipDeger).Take<Ilce>(takeDeger).ToList<Ilce>();
-
-                // var model = (await _DefaultDbContext.tblIlce.ToListAsync<Ilce>()).Include(x => x.Il.Where(k => IlId == k.Id)).ToList<Ilce>();
-                // if (model != null)
-                // {
-                //     Ilce Ilce = new Ilce();
-                //     Il Il = new Il();
-                // }
-
-                
+                if (model == null)
+                {
+                    throw new System.NotImplementedException();
+                }
+                return model;
             }
         }
 
@@ -71,7 +47,7 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return await _DefaultDbContext.tblIlce.OrderBy(i => i.Ad).ToListAsync();
+                return await _DefaultDbContext.tblIlce.Include(i => i.Il).OrderBy(i => i.Ad).ToListAsync();
             }
         }
 
@@ -84,7 +60,7 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return await _DefaultDbContext.tblIlce.FindAsync(id);
+                return await _DefaultDbContext.tblIlce.Include(i => i.Il).FirstOrDefaultAsync(i => i.Id == id);
             }
         }
 
@@ -92,7 +68,7 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return await (_DefaultDbContext.tblIlce.CountAsync());
+                return await _DefaultDbContext.tblIlce.CountAsync();
             }
         }
 

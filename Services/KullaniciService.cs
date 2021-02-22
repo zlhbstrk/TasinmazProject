@@ -4,17 +4,17 @@ using Microsoft.EntityFrameworkCore;
 using Tasinmaz.Contracts;
 using Tasinmaz.Entities;
 using System.Linq;
-using System.Configuration;
 
 namespace Tasinmaz.Services
 {
     public class KullaniciService : IRepository<Kullanici>
     {
-        public async Task<Kullanici> Add(Kullanici entity) // summray
+        public async Task<Kullanici> Add(Kullanici entity)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
                 _DefaultDbContext.tblKullanici.Add(entity);
+                //entity.Sifre = SHA256()
                 await _DefaultDbContext.SaveChangesAsync();
                 return entity;
             }
@@ -35,7 +35,7 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return (await _DefaultDbContext.tblKullanici.ToListAsync<Kullanici>()).Where(k => k.AktifMi).OrderBy(k => k.Ad).Skip(skipDeger).Take<Kullanici>(takeDeger).ToList<Kullanici>();
+                return await _DefaultDbContext.tblKullanici.Where(k => k.AktifMi).OrderBy(k => k.Ad).Skip(skipDeger).Take(takeDeger).ToListAsync();
             }
         }
 
@@ -43,7 +43,7 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return (await _DefaultDbContext.tblKullanici.OrderBy(k => k.Ad).ToListAsync<Kullanici>()).Where(k => k.AktifMi).ToList<Kullanici>();
+                return await _DefaultDbContext.tblKullanici.Where(k => k.AktifMi).OrderBy(k => k.Ad).ToListAsync();
             }
         }
 
@@ -56,7 +56,7 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return await _DefaultDbContext.tblKullanici.FindAsync(id);
+                return await _DefaultDbContext.tblKullanici.FirstOrDefaultAsync(k => k.Id == id);
             }
         }
 
@@ -64,7 +64,7 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return await (_DefaultDbContext.tblKullanici.Where<Kullanici>(k => k.AktifMi).CountAsync());
+                return await _DefaultDbContext.tblKullanici.Where(k => k.AktifMi).CountAsync();
             }
         }
 
@@ -82,12 +82,15 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                var liste = await _DefaultDbContext.tblKullanici.Where<Kullanici>(k => k.Email == email && k.Sifre == sifre && k.AktifMi).ToListAsync();
+                var liste = await _DefaultDbContext.tblKullanici.Where(k => k.Email == email && k.Sifre == sifre && k.AktifMi).ToListAsync();
 
-                if(liste.Count > 0){
+                if (liste.Count > 0)
+                {
                     liste[0].Sifre = null;
                     return liste[0];
-                }else{
+                }
+                else
+                {
                     return null;
                 }
             }

@@ -23,7 +23,7 @@ namespace Tasinmaz.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(Il entity)
         {
-            if (ModelState.IsValid)
+            try
             {
                 var eklenenIl = await _il.Add(entity);
                 await _log.Add(new Log()
@@ -38,24 +38,27 @@ namespace Tasinmaz.Controllers
                 });
                 return CreatedAtAction("GetById", new { id = eklenenIl.Id }, eklenenIl);
             }
-            await _log.Add(new Log()
+            catch (System.Exception)
             {
-                DurumId = 2,
-                IslemTipId = 3,
-                Aciklama = entity.Ad + " İli Eklenemedi",
-                KullaniciId = 29,
-                KullaniciAdi = "Zeliha",
-                Tarih = DateTime.Now,
-                IP = "123.123.123"
-            });
-            return BadRequest(ModelState);
+                await _log.Add(new Log()
+                {
+                    DurumId = 2,
+                    IslemTipId = 3,
+                    Aciklama = entity.Ad + " İli Eklenemedi",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
+                });
+                return BadRequest(ModelState);
+            }
         }
 
         [HttpDelete]
         [Route("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            if (await _il.GetById(id) != null)
+            try
             {
                 await _il.Delete(id);
                 await _log.Add(new Log()
@@ -70,61 +73,98 @@ namespace Tasinmaz.Controllers
                 });
                 return Ok();
             }
-            await _log.Add(new Log()
+            catch (System.Exception)
             {
-                DurumId = 2,
-                IslemTipId = 4,
-                Aciklama = id + " Id'li İl Silinemedi",
-                KullaniciId = 29,
-                KullaniciAdi = "Zeliha",
-                Tarih = DateTime.Now,
-                IP = "123.123.123"
-            });
-            return NotFound();
+                await _log.Add(new Log()
+                {
+                    DurumId = 2,
+                    IslemTipId = 4,
+                    Aciklama = id + " Id'li İl Silinemedi",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
+                });
+                return NotFound();
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> FullGetAll()
         {
-            var il = await _il.FullGetAll();
-            await _log.Add(new Log()
+            try
             {
-                DurumId = 1,
-                IslemTipId = 6,
-                Aciklama = "İller Listelendi",
-                KullaniciId = 29,
-                KullaniciAdi = "Zeliha",
-                Tarih = DateTime.Now,
-                IP = "123.123.123"
-            });
-            return Ok(il);
+                var il = await _il.FullGetAll();
+                await _log.Add(new Log()
+                {
+                    DurumId = 1,
+                    IslemTipId = 6,
+                    Aciklama = "İller Listelendi",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
+                });
+                return Ok(il);
+            }
+            catch (System.Exception)
+            {
+                await _log.Add(new Log()
+                {
+                    DurumId = 2,
+                    IslemTipId = 6,
+                    Aciklama = "İller Listelenemedi",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
+                });
+                return NotFound();
+            }
         }
 
         [HttpGet]
         [Route("{skipDeger}/{takeDeger}")]
         public async Task<IActionResult> GetAll(int skipDeger, int takeDeger)
         {
-            var il = await _il.GetAll(skipDeger, takeDeger, 1);
-            await _log.Add(new Log()
+            try
             {
-                DurumId = 1,
-                IslemTipId = 6,
-                Aciklama = "İller Listelendi",
-                KullaniciId = 29,
-                KullaniciAdi = "Zeliha",
-                Tarih = DateTime.Now,
-                IP = "123.123.123"
-            });
-            return Ok(il);
+                var il = await _il.GetAll(skipDeger, takeDeger, 1);
+                await _log.Add(new Log()
+                {
+                    DurumId = 1,
+                    IslemTipId = 6,
+                    Aciklama = "İller Listelendi",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
+                });
+                return Ok(il);
+            }
+            catch (System.Exception)
+            {
+                await _log.Add(new Log()
+                {
+                    DurumId = 2,
+                    IslemTipId = 6,
+                    Aciklama = "İller Listelenemedi",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
+                });
+                return NotFound();
+            }
         }
 
         [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var il = await _il.GetById(id);
-            if (il != null)
+            try
             {
+                var il = await _il.GetById(id);
                 await _log.Add(new Log()
                 {
                     DurumId = 1,
@@ -137,29 +177,39 @@ namespace Tasinmaz.Controllers
                 });
                 return Ok(il);
             }
-            await _log.Add(new Log()
+            catch (System.Exception)
             {
-                DurumId = 2,
-                IslemTipId = 7,
-                Aciklama = id + " Id'li İl Listelenemedi",
-                KullaniciId = 29,
-                KullaniciAdi = "Zeliha",
-                Tarih = DateTime.Now,
-                IP = "123.123.123"
-            });
-            return NotFound();
+                await _log.Add(new Log()
+                {
+                    DurumId = 2,
+                    IslemTipId = 7,
+                    Aciklama = id + " Id'li İl Listelenemedi",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
+                });
+                return NotFound();
+            }
         }
 
         [HttpGet]
         public async Task<int> GetCount()
         {
-            return await _il.GetCount();
+            try
+            {
+                return await _il.GetCount();
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
         }
 
         [HttpPut]
         public async Task<IActionResult> Update(Il entity)
         {
-            if (await _il.GetById(entity.Id) != null)
+            try
             {
                 await _log.Add(new Log()
                 {
@@ -173,17 +223,20 @@ namespace Tasinmaz.Controllers
                 });
                 return Ok(_il.Update(entity));
             }
-            await _log.Add(new Log()
+            catch (System.Exception)
             {
-                DurumId = 2,
-                IslemTipId = 5,
-                Aciklama = entity.Ad + " İli Düzenlenemedi",
-                KullaniciId = 29,
-                KullaniciAdi = "Zeliha",
-                Tarih = DateTime.Now,
-                IP = "123.123.123"
-            });
-            return NotFound();
+                await _log.Add(new Log()
+                {
+                    DurumId = 2,
+                    IslemTipId = 5,
+                    Aciklama = entity.Ad + " İli Düzenlenemedi",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
+                });
+                return NotFound();
+            }
         }
     }
 }

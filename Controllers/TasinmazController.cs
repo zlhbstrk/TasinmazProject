@@ -22,7 +22,7 @@ namespace Tasinmaz
         [HttpPost]
         public async Task<IActionResult> Add(ETasinmaz entity)
         {
-            if (ModelState.IsValid)
+            try
             {
                 var eklenenTasinmaz = await _tasinmaz.Add(entity);
                 await _log.Add(new Log()
@@ -37,24 +37,27 @@ namespace Tasinmaz
                 });
                 return CreatedAtAction("GetById", new { id = eklenenTasinmaz.Id }, eklenenTasinmaz);
             }
-            await _log.Add(new Log()
+            catch (System.Exception)
             {
-                DurumId = 2,
-                IslemTipId = 3,
-                Aciklama = entity.Id + " Id'li Taşınmaz Eklenemedi",
-                KullaniciId = 29,
-                KullaniciAdi = "Zeliha",
-                Tarih = DateTime.Now,
-                IP = "123.123.123"
-            });
-            return BadRequest(ModelState);
+                await _log.Add(new Log()
+                {
+                    DurumId = 2,
+                    IslemTipId = 3,
+                    Aciklama = entity.Adres + " Adresli Taşınmaz Eklenemedi",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
+                });
+                return BadRequest(ModelState);
+            }
         }
 
         [HttpDelete]
         [Route("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            if (await _tasinmaz.GetById(id) != null)
+            try
             {
                 await _tasinmaz.Delete(id);
                 await _log.Add(new Log()
@@ -69,61 +72,98 @@ namespace Tasinmaz
                 });
                 return Ok();
             }
-            await _log.Add(new Log()
+            catch (System.Exception)
             {
-                DurumId = 2,
-                IslemTipId = 4,
-                Aciklama = id + "Id'li Taşınmaz Silinemedi",
-                KullaniciId = 29,
-                KullaniciAdi = "Zeliha",
-                Tarih = DateTime.Now,
-                IP = "123.123.123"
-            });
-            return NotFound();
+                await _log.Add(new Log()
+                {
+                    DurumId = 2,
+                    IslemTipId = 4,
+                    Aciklama = id + "Id'li Taşınmaz Silinemedi",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
+                });
+                return NotFound();
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> FullGetAll()
         {
-            var tasinmaz = await _tasinmaz.FullGetAll();
-            await _log.Add(new Log()
+            try
             {
-                DurumId = 1,
-                IslemTipId = 6,
-                Aciklama = "Taşınmazlar Listelendi",
-                KullaniciId = 29,
-                KullaniciAdi = "Zeliha",
-                Tarih = DateTime.Now,
-                IP = "123.123.123"
-            });
-            return Ok(tasinmaz);
+                var tasinmaz = await _tasinmaz.FullGetAll();
+                await _log.Add(new Log()
+                {
+                    DurumId = 1,
+                    IslemTipId = 6,
+                    Aciklama = "Taşınmazlar Listelendi",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
+                });
+                return Ok(tasinmaz);
+            }
+            catch (System.Exception)
+            {
+                await _log.Add(new Log()
+                {
+                    DurumId = 2,
+                    IslemTipId = 6,
+                    Aciklama = "Taşınmazlar Listelenemedi",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
+                });
+                return NotFound();
+            }
         }
 
         [HttpGet]
         [Route("{skipDeger}/{takeDeger}")]
         public async Task<IActionResult> GetAll(int skipDeger, int takeDeger)
         {
-            var tasinmaz = await _tasinmaz.GetAll(skipDeger, takeDeger, 29);
-            await _log.Add(new Log()
+            try
             {
-                DurumId = 1,
-                IslemTipId = 6,
-                Aciklama = "Taşınmazlar Listelendi",
-                KullaniciId = 29,
-                KullaniciAdi = "Zeliha",
-                Tarih = DateTime.Now,
-                IP = "123.123.123"
-            });
-            return Ok(tasinmaz);
+                var tasinmaz = await _tasinmaz.GetAll(skipDeger, takeDeger, 29);
+                await _log.Add(new Log()
+                {
+                    DurumId = 1,
+                    IslemTipId = 6,
+                    Aciklama = "Taşınmazlar Listelendi",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
+                });
+                return Ok(tasinmaz);
+            }
+            catch (System.Exception)
+            {
+                await _log.Add(new Log()
+                {
+                    DurumId = 2,
+                    IslemTipId = 6,
+                    Aciklama = "Taşınmazlar Listelenemedi",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
+                });
+                return NotFound();
+            }
         }
 
         [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var tasinmaz = await _tasinmaz.GetById(id);
-            if (tasinmaz != null)
+            try
             {
+                var tasinmaz = await _tasinmaz.GetById(id);
                 await _log.Add(new Log()
                 {
                     DurumId = 1,
@@ -136,26 +176,29 @@ namespace Tasinmaz
                 });
                 return Ok(tasinmaz);
             }
-            await _log.Add(new Log()
+            catch (System.Exception)
             {
-                DurumId = 2,
-                IslemTipId = 7,
-                Aciklama = id + " Id'li Taşınmaz Listelenemedi",
-                KullaniciId = 29,
-                KullaniciAdi = "Zeliha",
-                Tarih = DateTime.Now,
-                IP = "123.123.123"
-            });
-            return NotFound();
+                await _log.Add(new Log()
+                {
+                    DurumId = 2,
+                    IslemTipId = 7,
+                    Aciklama = id + " Id'li Taşınmaz Listelenemedi",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
+                });
+                return NotFound();
+            }
         }
 
         [HttpGet]
         [Route("{filter}")]
         public async Task<IActionResult> GetAllFilter(string filter)
         {
-            var tasinmaz = await _tasinmaz.GetAllFilter(filter);
-            if (tasinmaz != null)
+            try
             {
+                var tasinmaz = await _tasinmaz.GetAllFilter(filter);
                 await _log.Add(new Log()
                 {
                     DurumId = 1,
@@ -168,29 +211,39 @@ namespace Tasinmaz
                 });
                 return Ok(tasinmaz);
             }
-            await _log.Add(new Log()
+            catch (System.Exception)
             {
-                DurumId = 2,
-                IslemTipId = 8,
-                Aciklama = filter + " ile Taşınmaz Filtrelenemedi",
-                KullaniciId = 29,
-                KullaniciAdi = "Zeliha",
-                Tarih = DateTime.Now,
-                IP = "123.123.123"
-            });
-            return NotFound();
+                await _log.Add(new Log()
+                {
+                    DurumId = 2,
+                    IslemTipId = 8,
+                    Aciklama = filter + " ile Taşınmaz Filtrelenemedi",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
+                });
+                return NotFound();
+            }
         }
 
         [HttpGet]
         public async Task<int> GetCount()
         {
-            return await _tasinmaz.GetCount();
+            try
+            {
+                return await _tasinmaz.GetCount();
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
         }
 
         [HttpPut]
         public async Task<IActionResult> Update(ETasinmaz entity)
         {
-            if (await _tasinmaz.GetById(entity.Id) != null)
+            try
             {
                 await _log.Add(new Log()
                 {
@@ -204,17 +257,20 @@ namespace Tasinmaz
                 });
                 return Ok(_tasinmaz.Update(entity));
             }
-            await _log.Add(new Log()
+            catch (System.Exception)
             {
-                DurumId = 2,
-                IslemTipId = 5,
-                Aciklama = entity.Id + " Id'li Taşınmaz Düzenlenemedi",
-                KullaniciId = 29,
-                KullaniciAdi = "Zeliha",
-                Tarih = DateTime.Now,
-                IP = "123.123.123"
-            });
-            return NotFound();
+                await _log.Add(new Log()
+                {
+                    DurumId = 2,
+                    IslemTipId = 5,
+                    Aciklama = entity.Id + " Id'li Taşınmaz Düzenlenemedi",
+                    KullaniciId = 29,
+                    KullaniciAdi = "Zeliha",
+                    Tarih = DateTime.Now,
+                    IP = "123.123.123"
+                });
+                return NotFound();
+            }
         }
     }
 }

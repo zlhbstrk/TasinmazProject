@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Tasinmaz.Contracts;
 using Tasinmaz.Entities;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Tasinmaz.Services
 {
@@ -13,8 +15,17 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
+                using (SHA256 sha = SHA256.Create())
+                {
+                    byte[] bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(entity.Sifre));
+                    StringBuilder builder = new StringBuilder();
+                    for (int i = 0; i < bytes.Length; i++)
+                    {
+                        builder.Append(bytes[i].ToString("x2"));
+                    }
+                    entity.Sifre = builder.ToString();
+                }
                 _DefaultDbContext.tblKullanici.Add(entity);
-                //entity.Sifre = SHA256()
                 await _DefaultDbContext.SaveChangesAsync();
                 return entity;
             }

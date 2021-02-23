@@ -19,34 +19,60 @@ namespace Tasinmaz.Controllers
         [HttpGet]
         public async Task<IActionResult> FullGetAll()
         {
-            var log = await _log.FullGetAll();
-            return Ok(log);
+            try
+            {
+                var log = await _log.FullGetAll();
+                return Ok(log);
+            }
+            catch (System.Exception)
+            {
+                return NotFound();
+            }
+
         }
 
         [HttpGet]
         [Route("{skipDeger}/{takeDeger}")]
         public async Task<IActionResult> GetAll(int skipDeger, int takeDeger)
         {
-            var log = await _log.GetAll(skipDeger, takeDeger, 1);
-            return Ok(log);
+            try
+            {
+                var log = await _log.GetAll(skipDeger, takeDeger, 1);
+                return Ok(log);
+            }
+            catch (System.Exception)
+            {
+                return NotFound();
+            }
+
         }
 
         [HttpGet]
         [Route("{filter}")]
         public async Task<IActionResult> GetAllFilter(string filter)
         {
-            var log = await _log.GetAllFilter(filter);
-            if (log != null)
+            try
             {
+                var log = await _log.GetAllFilter(filter);
                 return Ok(log);
             }
-            return NotFound();
+            catch (System.Exception)
+            {
+                return NotFound();
+            }
         }
 
         [HttpGet]
         public async Task<int> GetCount()
         {
-            return await _log.GetCount();
+            try
+            {
+                return await _log.GetCount();
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
         }
     }
 }

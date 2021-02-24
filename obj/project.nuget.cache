@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "auipK1urkApFwFxJ3dwVu+F0uW8OygwzqvKrhGrFS2KBH7vTWjs8QzGZNInTX1lHoYXtdcdtTRCpoz199zohpQ==",
+  "dgSpecHash": "Oaggut/+631++JUfISCAb1VYyI85EgblVmir+Rr4jISPbjxl6L73+dPePRwbgLAE7wY9yrFvCOgYTE+IqNkKjQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\zlhbs\\Desktop\\TasinmazProjesi\\TasinmazProjesiWeb\\Tasinmaz\\TasinmazProject\\Tasinmaz.csproj",
+  "projectFilePath": "C:\\Users\\zlhbs\\Desktop\\TasinmazProjesi\\TasinmazProjesiWeb\\TasinmazWeb\\TasinmazProject\\Tasinmaz.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\zlhbs\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\zlhbs\\.nuget\\packages\\microsoft.aspnetcore.authentication.certificate\\5.0.2\\microsoft.aspnetcore.authentication.certificate.5.0.2.nupkg.sha512",

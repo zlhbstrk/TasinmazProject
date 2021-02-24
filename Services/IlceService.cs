@@ -24,7 +24,8 @@ namespace Tasinmaz.Services
             using (var _DefaultDbContext = new DefaultDbContext())
             {
                 var silinenIlce = await GetById(id);
-                _DefaultDbContext.tblIlce.Remove(silinenIlce);
+                silinenIlce.AktifMi = false;
+                _DefaultDbContext.tblIlce.Update(silinenIlce);
                 await _DefaultDbContext.SaveChangesAsync();
             }
         }
@@ -33,7 +34,7 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                IList<Ilce> model = await _DefaultDbContext.tblIlce.Include(i => i.Il).OrderBy(i => i.Ad).Skip(skipDeger).Take(takeDeger).ToListAsync();
+                IList<Ilce> model = await _DefaultDbContext.tblIlce.Include(i => i.Il).Where(i => i.AktifMi).OrderBy(i => i.Ad).Skip(skipDeger).Take(takeDeger).ToListAsync();
 
                 if (model == null)
                 {
@@ -47,7 +48,7 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return await _DefaultDbContext.tblIlce.Include(i => i.Il).OrderBy(i => i.Ad).ToListAsync();
+                return await _DefaultDbContext.tblIlce.Include(i => i.Il).Where(i => i.AktifMi).OrderBy(i => i.Ad).ToListAsync();
             }
         }
 
@@ -68,7 +69,7 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return await _DefaultDbContext.tblIlce.CountAsync();
+                return await _DefaultDbContext.tblIlce.Where(i => i.AktifMi).CountAsync();
             }
         }
 
@@ -77,6 +78,7 @@ namespace Tasinmaz.Services
             using (var _DefaultDbContext = new DefaultDbContext())
             {
                 _DefaultDbContext.tblIlce.Update(entity);
+                entity.AktifMi = true;
                 await _DefaultDbContext.SaveChangesAsync();
                 return entity;
             }

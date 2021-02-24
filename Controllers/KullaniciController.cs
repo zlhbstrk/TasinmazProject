@@ -24,18 +24,35 @@ namespace Tasinmaz.Controllers
         {
             try
             {
-                var eklenenKullanici = await _kullanici.Add(entity);
-                await _log.Add(new Log()
+                if (ModelState.IsValid)
                 {
-                    DurumId = 1,
-                    IslemTipId = 3,
-                    Aciklama = entity.Ad + " Kullanıcısı Eklendi",
-                    KullaniciId = 29,
-                    KullaniciAdi = "Zeliha",
-                    Tarih = DateTime.Now,
-                    IP = "123.123.123"
-                });
-                return CreatedAtAction("GetById", new { id = eklenenKullanici.Id }, eklenenKullanici); //201 + eklenenKullanici
+                    var eklenenKullanici = await _kullanici.Add(entity);
+                    await _log.Add(new Log()
+                    {
+                        DurumId = 1,
+                        IslemTipId = 3,
+                        Aciklama = entity.Ad + " Kullanıcısı Eklendi",
+                        KullaniciId = 29,
+                        KullaniciAdi = "Zeliha",
+                        Tarih = DateTime.Now,
+                        IP = "123.123.123"
+                    });
+                    return CreatedAtAction("GetById", new { id = eklenenKullanici.Id }, eklenenKullanici); //201 + eklenenKullanici
+                }
+                else
+                {
+                    await _log.Add(new Log()
+                    {
+                        DurumId = 2,
+                        IslemTipId = 3,
+                        Aciklama = entity.Ad + " Kullanıcısı Eklenemedi",
+                        KullaniciId = 29,
+                        KullaniciAdi = "Zeliha",
+                        Tarih = DateTime.Now,
+                        IP = "123.123.123"
+                    });
+                    return BadRequest(ModelState); //Response Code-400 + validation errors
+                }
             }
             catch (System.Exception)
             {
@@ -59,18 +76,35 @@ namespace Tasinmaz.Controllers
         {
             try
             {
-                await _kullanici.Delete(id);
-                await _log.Add(new Log()
+                if (await _kullanici.GetById(id) != null)
                 {
-                    DurumId = 1,
-                    IslemTipId = 4,
-                    Aciklama = id + " Id'li Kullanıcı Silindi",
-                    KullaniciId = 29,
-                    KullaniciAdi = "Zeliha",
-                    Tarih = DateTime.Now,
-                    IP = "123.123.123"
-                });
-                return Ok(); //200
+                    await _kullanici.Delete(id);
+                    await _log.Add(new Log()
+                    {
+                        DurumId = 1,
+                        IslemTipId = 4,
+                        Aciklama = id + " Id'li Kullanıcı Silindi",
+                        KullaniciId = 29,
+                        KullaniciAdi = "Zeliha",
+                        Tarih = DateTime.Now,
+                        IP = "123.123.123"
+                    });
+                    return Ok(); //200
+                }
+                else
+                {
+                    await _log.Add(new Log()
+                    {
+                        DurumId = 2,
+                        IslemTipId = 4,
+                        Aciklama = id + " Id'li Kullanıcı Silinemedi",
+                        KullaniciId = 29,
+                        KullaniciAdi = "Zeliha",
+                        Tarih = DateTime.Now,
+                        IP = "123.123.123"
+                    });
+                    return NotFound();
+                }
             }
             catch (System.Exception)
             {
@@ -100,6 +134,10 @@ namespace Tasinmaz.Controllers
                     DurumId = 1,
                     IslemTipId = 6,
                     Aciklama = "Kullanıcılar Listelendi",
+                    // KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                    // KullaniciAdi = Request.Headers["current-user-name"],
+                    // Tarih = DateTime.Now,
+                    // IP = Request.Headers["ip-address"]
                     KullaniciId = 29,
                     KullaniciAdi = "Zeliha",
                     Tarih = DateTime.Now,
@@ -109,7 +147,7 @@ namespace Tasinmaz.Controllers
             }
             catch (System.Exception)
             {
-                 await _log.Add(new Log()
+                await _log.Add(new Log()
                 {
                     DurumId = 2,
                     IslemTipId = 6,
@@ -164,17 +202,34 @@ namespace Tasinmaz.Controllers
             try
             {
                 var kullanici = await _kullanici.GetById(id);
-                await _log.Add(new Log()
+                if (kullanici != null)
                 {
-                    DurumId = 1,
-                    IslemTipId = 7,
-                    Aciklama = id + " Id'li Kullanıcı Listelendi",
-                    KullaniciId = 29,
-                    KullaniciAdi = "Zeliha",
-                    Tarih = DateTime.Now,
-                    IP = "123.123.123"
-                });
-                return Ok(kullanici);
+                    await _log.Add(new Log()
+                    {
+                        DurumId = 1,
+                        IslemTipId = 7,
+                        Aciklama = id + " Id'li Kullanıcı Listelendi",
+                        KullaniciId = 29,
+                        KullaniciAdi = "Zeliha",
+                        Tarih = DateTime.Now,
+                        IP = "123.123.123"
+                    });
+                    return Ok(kullanici);
+                }
+                else
+                {
+                    await _log.Add(new Log()
+                    {
+                        DurumId = 2,
+                        IslemTipId = 7,
+                        Aciklama = id + " Id'li Kullanıcı Listelenemedi",
+                        KullaniciId = 29,
+                        KullaniciAdi = "Zeliha",
+                        Tarih = DateTime.Now,
+                        IP = "123.123.123"
+                    });
+                    return NotFound(); //Response Code-404
+                }
             }
             catch (System.Exception)
             {
@@ -210,17 +265,34 @@ namespace Tasinmaz.Controllers
         {
             try
             {
-                await _log.Add(new Log()
+                if (await _kullanici.GetById(entity.Id) != null)
                 {
-                    DurumId = 1,
-                    IslemTipId = 5,
-                    Aciklama = entity.Ad + " Kullanıcısı Düzenlendi",
-                    KullaniciId = 29,
-                    KullaniciAdi = "Zeliha",
-                    Tarih = DateTime.Now,
-                    IP = "123.123.123"
-                });
-                return Ok(_kullanici.Update(entity)); //200 + data
+                    await _log.Add(new Log()
+                    {
+                        DurumId = 1,
+                        IslemTipId = 5,
+                        Aciklama = entity.Ad + " Kullanıcısı Düzenlendi",
+                        KullaniciId = 29,
+                        KullaniciAdi = "Zeliha",
+                        Tarih = DateTime.Now,
+                        IP = "123.123.123"
+                    });
+                    return Ok(_kullanici.Update(entity)); //200 + data
+                }
+                else
+                {
+                    await _log.Add(new Log()
+                    {
+                        DurumId = 2,
+                        IslemTipId = 5,
+                        Aciklama = entity.Ad + " Kullanıcısı Düzenemelendi",
+                        KullaniciId = 29,
+                        KullaniciAdi = "Zeliha",
+                        Tarih = DateTime.Now,
+                        IP = "123.123.123"
+                    });
+                    return NotFound();
+                }
             }
             catch (System.Exception)
             {
@@ -245,17 +317,34 @@ namespace Tasinmaz.Controllers
             try
             {
                 var kullanici = _kullanici.Login(email, sifre);
-                await _log.Add(new Log()
+                if (kullanici != null)
                 {
-                    DurumId = 1,
-                    IslemTipId = 1,
-                    Aciklama = "Sisteme Giriş Yapıldı",
-                    KullaniciId = 29,
-                    KullaniciAdi = "Zeliha",
-                    Tarih = DateTime.Now,
-                    IP = "123.123.123"
-                });
-                return Ok(kullanici);
+                    await _log.Add(new Log()
+                    {
+                        DurumId = 1,
+                        IslemTipId = 1,
+                        Aciklama = "Sisteme Giriş Yapıldı",
+                        KullaniciId = 29,
+                        KullaniciAdi = "Zeliha",
+                        Tarih = DateTime.Now,
+                        IP = "123.123.123"
+                    });
+                    return Ok(kullanici);
+                }
+                else
+                {
+                    await _log.Add(new Log()
+                    {
+                        DurumId = 2,
+                        IslemTipId = 1,
+                        Aciklama = "Sisteme Giriş Yapılamadı",
+                        KullaniciId = 29,
+                        KullaniciAdi = "Zeliha",
+                        Tarih = DateTime.Now,
+                        IP = "123.123.123"
+                    });
+                    return NotFound(); //Response Code-404
+                }
             }
             catch (System.Exception)
             {

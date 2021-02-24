@@ -15,5 +15,6 @@ namespace Tasinmaz.Entities
 
         [Required(ErrorMessage = "Plaka alanı boş geçilemez!")]
         public int Plaka { get; set; }
+        public bool AktifMi { get; set; }
     }
 }

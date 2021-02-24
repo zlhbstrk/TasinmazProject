@@ -24,7 +24,8 @@ namespace Tasinmaz.Services
             using (var _DefaultDbContext = new DefaultDbContext())
             {
                 var silinenIl = await GetById(id);
-                _DefaultDbContext.tblIl.Remove(silinenIl);
+                silinenIl.AktifMi = false;
+                _DefaultDbContext.tblIl.Update(silinenIl);
                 await _DefaultDbContext.SaveChangesAsync();
             }
         }
@@ -33,14 +34,14 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return await _DefaultDbContext.tblIl.OrderBy(i => i.Plaka).Skip(skipDeger).Take(takeDeger).ToListAsync();
+                return await _DefaultDbContext.tblIl.Where(i => i.AktifMi).OrderBy(i => i.Plaka).Skip(skipDeger).Take(takeDeger).ToListAsync();
             }
         }
         public async Task<IList<Il>> FullGetAll()
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return await _DefaultDbContext.tblIl.OrderBy(i => i.Ad).ToListAsync();
+                return await _DefaultDbContext.tblIl.Where(i => i.AktifMi).OrderBy(i => i.Ad).ToListAsync();
             }
         }
 
@@ -61,7 +62,7 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return await _DefaultDbContext.tblIl.CountAsync();
+                return await _DefaultDbContext.tblIl.Where(i => i.AktifMi).CountAsync();
             }
         }
 
@@ -70,6 +71,7 @@ namespace Tasinmaz.Services
             using (var _DefaultDbContext = new DefaultDbContext())
             {
                 _DefaultDbContext.tblIl.Update(entity);
+                entity.AktifMi = true;
                 await _DefaultDbContext.SaveChangesAsync();
                 return entity;
             }

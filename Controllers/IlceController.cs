@@ -24,18 +24,35 @@ namespace Tasinmaz.Controllers
         {
             try
             {
-                var eklenenIlce = await _ilce.Add(entity);
-                await _log.Add(new Log()
+                if (ModelState.IsValid)
                 {
-                    DurumId = 1,
-                    IslemTipId = 3,
-                    Aciklama = entity.Ad + " İlçesi Eklendi",
-                    KullaniciId = 29,
-                    KullaniciAdi = "Zeliha",
-                    Tarih = DateTime.Now,
-                    IP = "123.123.123"
-                });
-                return CreatedAtAction("GetById", new { id = eklenenIlce.Id }, eklenenIlce);
+                    var eklenenIlce = await _ilce.Add(entity);
+                    await _log.Add(new Log()
+                    {
+                        DurumId = 1,
+                        IslemTipId = 3,
+                        Aciklama = entity.Ad + " İlçesi Eklendi",
+                        KullaniciId = 29,
+                        KullaniciAdi = "Zeliha",
+                        Tarih = DateTime.Now,
+                        IP = "123.123.123"
+                    });
+                    return CreatedAtAction("GetById", new { id = eklenenIlce.Id }, eklenenIlce);
+                }
+                else
+                {
+                    await _log.Add(new Log()
+                    {
+                        DurumId = 2,
+                        IslemTipId = 3,
+                        Aciklama = entity.Ad + " İlçesi Eklenemedi",
+                        KullaniciId = 29,
+                        KullaniciAdi = "Zeliha",
+                        Tarih = DateTime.Now,
+                        IP = "123.123.123"
+                    });
+                    return BadRequest(ModelState);
+                }
             }
             catch (System.Exception)
             {
@@ -59,18 +76,35 @@ namespace Tasinmaz.Controllers
         {
             try
             {
-                await _ilce.Delete(id);
-                await _log.Add(new Log()
+                if (await _ilce.GetById(id) != null)
                 {
-                    DurumId = 1,
-                    IslemTipId = 4,
-                    Aciklama = id + " Id'li İlçe Silindi",
-                    KullaniciId = 29,
-                    KullaniciAdi = "Zeliha",
-                    Tarih = DateTime.Now,
-                    IP = "123.123.123"
-                });
-                return Ok();
+                    await _ilce.Delete(id);
+                    await _log.Add(new Log()
+                    {
+                        DurumId = 1,
+                        IslemTipId = 4,
+                        Aciklama = id + " Id'li İlçe Silindi",
+                        KullaniciId = 29,
+                        KullaniciAdi = "Zeliha",
+                        Tarih = DateTime.Now,
+                        IP = "123.123.123"
+                    });
+                    return Ok();
+                }
+                else
+                {
+                    await _log.Add(new Log()
+                    {
+                        DurumId = 2,
+                        IslemTipId = 4,
+                        Aciklama = id + " Id'li İlçe Silinemedi",
+                        KullaniciId = 29,
+                        KullaniciAdi = "Zeliha",
+                        Tarih = DateTime.Now,
+                        IP = "123.123.123"
+                    });
+                    return NotFound();
+                }
             }
             catch (System.Exception)
             {
@@ -164,17 +198,34 @@ namespace Tasinmaz.Controllers
             try
             {
                 var ilce = await _ilce.GetById(id);
-                await _log.Add(new Log()
+                if (ilce != null)
                 {
-                    DurumId = 1,
-                    IslemTipId = 7,
-                    Aciklama = id + " Id'li İlçe Listelendi",
-                    KullaniciId = 29,
-                    KullaniciAdi = "Zeliha",
-                    Tarih = DateTime.Now,
-                    IP = "123.123.123"
-                });
-                return Ok(ilce);
+                    await _log.Add(new Log()
+                    {
+                        DurumId = 1,
+                        IslemTipId = 7,
+                        Aciklama = id + " Id'li İlçe Listelendi",
+                        KullaniciId = 29,
+                        KullaniciAdi = "Zeliha",
+                        Tarih = DateTime.Now,
+                        IP = "123.123.123"
+                    });
+                    return Ok(ilce);
+                }
+                else
+                {
+                    await _log.Add(new Log()
+                    {
+                        DurumId = 2,
+                        IslemTipId = 7,
+                        Aciklama = id + " Id'li İlçe Listelenemedi",
+                        KullaniciId = 29,
+                        KullaniciAdi = "Zeliha",
+                        Tarih = DateTime.Now,
+                        IP = "123.123.123"
+                    });
+                    return NotFound();
+                }
             }
             catch (System.Exception)
             {
@@ -210,17 +261,34 @@ namespace Tasinmaz.Controllers
         {
             try
             {
-                await _log.Add(new Log()
+                if (await _ilce.GetById(entity.Id) != null)
                 {
-                    DurumId = 1,
-                    IslemTipId = 5,
-                    Aciklama = entity.Ad + " İlçesi Düzenlendi",
-                    KullaniciId = 29,
-                    KullaniciAdi = "Zeliha",
-                    Tarih = DateTime.Now,
-                    IP = "123.123.123"
-                });
-                return Ok(_ilce.Update(entity));
+                    await _log.Add(new Log()
+                    {
+                        DurumId = 1,
+                        IslemTipId = 5,
+                        Aciklama = entity.Ad + " İlçesi Düzenlendi",
+                        KullaniciId = 29,
+                        KullaniciAdi = "Zeliha",
+                        Tarih = DateTime.Now,
+                        IP = "123.123.123"
+                    });
+                    return Ok(_ilce.Update(entity));
+                }
+                else
+                {
+                    await _log.Add(new Log()
+                    {
+                        DurumId = 2,
+                        IslemTipId = 5,
+                        Aciklama = entity.Ad + " İlçesi Düzenlenemedi",
+                        KullaniciId = 29,
+                        KullaniciAdi = "Zeliha",
+                        Tarih = DateTime.Now,
+                        IP = "123.123.123"
+                    });
+                    return NotFound();
+                }
             }
             catch (System.Exception)
             {

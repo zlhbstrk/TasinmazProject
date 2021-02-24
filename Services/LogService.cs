@@ -11,9 +11,6 @@ namespace Tasinmaz.Services
     {
         public async Task<Log> Add(Log entity)
         {
-            // KullaniciID = Local Storage 'den alınan veri ile dolacak!
-            // KullaniciAdi = Local Storage 'den alınan veri ile dolacak!
-            // IP = "js ile çekilmeye çalışılacak" 
             using (var _DefaultDbContext = new DefaultDbContext())
             {
                 _DefaultDbContext.tblLog.Add(entity);
@@ -50,9 +47,19 @@ namespace Tasinmaz.Services
             }
         }
 
-        public Task<IList<Log>> GetAllFilter(string filter)
+        public async Task<IList<Log>> GetAllFilter(string filter)
         {
-            throw new System.NotImplementedException();
+            using (var _DefaultDbContext = new DefaultDbContext())
+            {
+                return await (from l in _DefaultDbContext.tblLog
+                              where
+                                    l.KullaniciAdi.ToLower().Contains(filter.ToLower()) ||
+                                    l.Durum.Ad.ToLower().Contains(filter.ToLower()) ||
+                                    l.IslemTip.Ad.ToLower().Contains(filter.ToLower()) ||
+                                    l.Aciklama.ToLower().Contains(filter.ToLower()) ||
+                                    l.IP.Contains(filter)
+                              select l).OrderByDescending(l => l.Tarih).ToListAsync();
+            }
         }
 
         public Task<Log> GetById(int id)

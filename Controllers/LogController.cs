@@ -28,7 +28,6 @@ namespace Tasinmaz.Controllers
             {
                 return NotFound();
             }
-
         }
 
         [HttpGet]
@@ -44,7 +43,6 @@ namespace Tasinmaz.Controllers
             {
                 return NotFound();
             }
-
         }
 
         [HttpGet]
@@ -54,7 +52,14 @@ namespace Tasinmaz.Controllers
             try
             {
                 var log = await _log.GetAllFilter(filter);
-                return Ok(log);
+                if (log != null)
+                {
+                    return Ok(log);
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
             catch (System.Exception)
             {

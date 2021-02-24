@@ -24,7 +24,8 @@ namespace Tasinmaz.Services
             using (var _DefaultDbContext = new DefaultDbContext())
             {
                 var silinenMahalle = await GetById(id);
-                _DefaultDbContext.tblMahalle.Remove(silinenMahalle);
+                silinenMahalle.AktifMi = false;
+                _DefaultDbContext.tblMahalle.Update(silinenMahalle);
                 await _DefaultDbContext.SaveChangesAsync();
             }
         }
@@ -34,7 +35,7 @@ namespace Tasinmaz.Services
             using (var _DefaultDbContext = new DefaultDbContext())
             {
                 IList<Mahalle> model = await _DefaultDbContext.tblMahalle.Include(m => m.Ilce).ThenInclude(m => m.Il)
-                                        .OrderBy(m => m.Ad).Skip(skipDeger).Take(takeDeger).ToListAsync();
+                                        .Where(m => m.AktifMi).OrderBy(m => m.Ad).Skip(skipDeger).Take(takeDeger).ToListAsync();
 
                 if (model == null)
                 {
@@ -47,7 +48,7 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return await _DefaultDbContext.tblMahalle.Include(m => m.Ilce).ThenInclude(m => m.Il).OrderBy(m => m.Ad).ToListAsync();
+                return await _DefaultDbContext.tblMahalle.Include(m => m.Ilce).ThenInclude(m => m.Il).Where(m => m.AktifMi).OrderBy(m => m.Ad).ToListAsync();
             }
         }
         public Task<IList<Mahalle>> GetAllFilter(string filter)
@@ -73,7 +74,7 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return await _DefaultDbContext.tblMahalle.CountAsync();
+                return await _DefaultDbContext.tblMahalle.Where(m => m.AktifMi).CountAsync();
             }
         }
 
@@ -82,6 +83,7 @@ namespace Tasinmaz.Services
             using (var _DefaultDbContext = new DefaultDbContext())
             {
                 _DefaultDbContext.tblMahalle.Update(entity);
+                entity.AktifMi = true;
                 await _DefaultDbContext.SaveChangesAsync();
                 return entity;
             }

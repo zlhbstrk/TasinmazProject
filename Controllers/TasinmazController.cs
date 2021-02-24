@@ -24,18 +24,35 @@ namespace Tasinmaz
         {
             try
             {
-                var eklenenTasinmaz = await _tasinmaz.Add(entity);
-                await _log.Add(new Log()
+                if (ModelState.IsValid)
                 {
-                    DurumId = 1,
-                    IslemTipId = 3,
-                    Aciklama = entity.Id + " Id'li Taşınmaz Eklendi",
-                    KullaniciId = 29,
-                    KullaniciAdi = "Zeliha",
-                    Tarih = DateTime.Now,
-                    IP = "123.123.123"
-                });
-                return CreatedAtAction("GetById", new { id = eklenenTasinmaz.Id }, eklenenTasinmaz);
+                    var eklenenTasinmaz = await _tasinmaz.Add(entity);
+                    await _log.Add(new Log()
+                    {
+                        DurumId = 1,
+                        IslemTipId = 3,
+                        Aciklama = entity.Id + " Id'li Taşınmaz Eklendi",
+                        KullaniciId = 29,
+                        KullaniciAdi = "Zeliha",
+                        Tarih = DateTime.Now,
+                        IP = "123.123.123"
+                    });
+                    return CreatedAtAction("GetById", new { id = eklenenTasinmaz.Id }, eklenenTasinmaz);
+                }
+                else
+                {
+                    await _log.Add(new Log()
+                    {
+                        DurumId = 2,
+                        IslemTipId = 3,
+                        Aciklama = entity.Adres + " Adresli Taşınmaz Eklenemedi",
+                        KullaniciId = 29,
+                        KullaniciAdi = "Zeliha",
+                        Tarih = DateTime.Now,
+                        IP = "123.123.123"
+                    });
+                    return BadRequest(ModelState);
+                }
             }
             catch (System.Exception)
             {
@@ -59,18 +76,35 @@ namespace Tasinmaz
         {
             try
             {
-                await _tasinmaz.Delete(id);
-                await _log.Add(new Log()
+                if (await _tasinmaz.GetById(id) != null)
                 {
-                    DurumId = 1,
-                    IslemTipId = 4,
-                    Aciklama = id + " Id'li Taşınmaz Silindi",
-                    KullaniciId = 29,
-                    KullaniciAdi = "Zeliha",
-                    Tarih = DateTime.Now,
-                    IP = "123.123.123"
-                });
-                return Ok();
+                    await _tasinmaz.Delete(id);
+                    await _log.Add(new Log()
+                    {
+                        DurumId = 1,
+                        IslemTipId = 4,
+                        Aciklama = id + " Id'li Taşınmaz Silindi",
+                        KullaniciId = 29,
+                        KullaniciAdi = "Zeliha",
+                        Tarih = DateTime.Now,
+                        IP = "123.123.123"
+                    });
+                    return Ok();
+                }
+                else
+                {
+                    await _log.Add(new Log()
+                    {
+                        DurumId = 2,
+                        IslemTipId = 4,
+                        Aciklama = id + "Id'li Taşınmaz Silinemedi",
+                        KullaniciId = 29,
+                        KullaniciAdi = "Zeliha",
+                        Tarih = DateTime.Now,
+                        IP = "123.123.123"
+                    });
+                    return NotFound();
+                }
             }
             catch (System.Exception)
             {
@@ -164,17 +198,34 @@ namespace Tasinmaz
             try
             {
                 var tasinmaz = await _tasinmaz.GetById(id);
-                await _log.Add(new Log()
+                if (tasinmaz != null)
                 {
-                    DurumId = 1,
-                    IslemTipId = 7,
-                    Aciklama = id + " Id'li Taşınmaz Listelendi",
-                    KullaniciId = 29,
-                    KullaniciAdi = "Zeliha",
-                    Tarih = DateTime.Now,
-                    IP = "123.123.123"
-                });
-                return Ok(tasinmaz);
+                    await _log.Add(new Log()
+                    {
+                        DurumId = 1,
+                        IslemTipId = 7,
+                        Aciklama = id + " Id'li Taşınmaz Listelendi",
+                        KullaniciId = 29,
+                        KullaniciAdi = "Zeliha",
+                        Tarih = DateTime.Now,
+                        IP = "123.123.123"
+                    });
+                    return Ok(tasinmaz);
+                }
+                else
+                {
+                    await _log.Add(new Log()
+                    {
+                        DurumId = 2,
+                        IslemTipId = 7,
+                        Aciklama = id + " Id'li Taşınmaz Listelenemedi",
+                        KullaniciId = 29,
+                        KullaniciAdi = "Zeliha",
+                        Tarih = DateTime.Now,
+                        IP = "123.123.123"
+                    });
+                    return NotFound();
+                }
             }
             catch (System.Exception)
             {
@@ -199,17 +250,34 @@ namespace Tasinmaz
             try
             {
                 var tasinmaz = await _tasinmaz.GetAllFilter(filter);
-                await _log.Add(new Log()
+                if (tasinmaz != null)
                 {
-                    DurumId = 1,
-                    IslemTipId = 8,
-                    Aciklama = filter + " ile Taşınmaz Filtrelendi",
-                    KullaniciId = 29,
-                    KullaniciAdi = "Zeliha",
-                    Tarih = DateTime.Now,
-                    IP = "123.123.123"
-                });
-                return Ok(tasinmaz);
+                    await _log.Add(new Log()
+                    {
+                        DurumId = 1,
+                        IslemTipId = 8,
+                        Aciklama = filter + " ile Taşınmaz Filtrelendi",
+                        KullaniciId = 29,
+                        KullaniciAdi = "Zeliha",
+                        Tarih = DateTime.Now,
+                        IP = "123.123.123"
+                    });
+                    return Ok(tasinmaz);
+                }
+                else
+                {
+                    await _log.Add(new Log()
+                    {
+                        DurumId = 2,
+                        IslemTipId = 8,
+                        Aciklama = filter + " ile Taşınmaz Filtrelenemedi",
+                        KullaniciId = 29,
+                        KullaniciAdi = "Zeliha",
+                        Tarih = DateTime.Now,
+                        IP = "123.123.123"
+                    });
+                    return NotFound();
+                }
             }
             catch (System.Exception)
             {
@@ -245,17 +313,34 @@ namespace Tasinmaz
         {
             try
             {
-                await _log.Add(new Log()
+                if (await _tasinmaz.GetById(entity.Id) != null)
                 {
-                    DurumId = 1,
-                    IslemTipId = 5,
-                    Aciklama = entity.Id + " Id'li Taşınmaz Düzenlendi",
-                    KullaniciId = 29,
-                    KullaniciAdi = "Zeliha",
-                    Tarih = DateTime.Now,
-                    IP = "123.123.123"
-                });
-                return Ok(_tasinmaz.Update(entity));
+                    await _log.Add(new Log()
+                    {
+                        DurumId = 1,
+                        IslemTipId = 5,
+                        Aciklama = entity.Id + " Id'li Taşınmaz Düzenlendi",
+                        KullaniciId = 29,
+                        KullaniciAdi = "Zeliha",
+                        Tarih = DateTime.Now,
+                        IP = "123.123.123"
+                    });
+                    return Ok(_tasinmaz.Update(entity));
+                }
+                else
+                {
+                    await _log.Add(new Log()
+                    {
+                        DurumId = 2,
+                        IslemTipId = 5,
+                        Aciklama = entity.Id + " Id'li Taşınmaz Düzenlenemedi",
+                        KullaniciId = 29,
+                        KullaniciAdi = "Zeliha",
+                        Tarih = DateTime.Now,
+                        IP = "123.123.123"
+                    });
+                    return NotFound();
+                }
             }
             catch (System.Exception)
             {

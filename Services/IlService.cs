@@ -14,6 +14,7 @@ namespace Tasinmaz.Services
             using (var _DefaultDbContext = new DefaultDbContext())
             {
                 _DefaultDbContext.tblIl.Add(entity);
+                entity.AktifMi = true;
                 await _DefaultDbContext.SaveChangesAsync();
                 return entity;
             }
@@ -30,7 +31,7 @@ namespace Tasinmaz.Services
             }
         }
 
-        public async Task<IList<Il>> GetAll(int skipDeger, int takeDeger, int kullaniciId)
+        public async Task<IList<Il>> GetAll(int skipDeger, int takeDeger, int kullaniciId, int kullaniciYetki)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
@@ -78,6 +79,10 @@ namespace Tasinmaz.Services
         }
 
         public Task<Il> Login(string email, string sifre)
+        {
+            throw new System.NotImplementedException();
+        }
+        public Task<Il> Logout(string email, string sifre)
         {
             throw new System.NotImplementedException();
         }

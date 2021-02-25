@@ -24,7 +24,7 @@ namespace Tasinmaz.Services
             throw new System.NotImplementedException();
         }
 
-        public async Task<IList<Log>> GetAll(int skipDeger, int takeDeger, int kullaniciId)
+        public async Task<IList<Log>> GetAll(int skipDeger, int takeDeger, int kullaniciId, int kullaniciYetki)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
@@ -81,6 +81,10 @@ namespace Tasinmaz.Services
         }
 
         public Task<Log> Login(string email, string sifre)
+        {
+            throw new System.NotImplementedException();
+        }
+        public Task<Log> Logout(string email, string sifre)
         {
             throw new System.NotImplementedException();
         }

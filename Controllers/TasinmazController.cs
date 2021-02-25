@@ -24,6 +24,7 @@ namespace Tasinmaz
         {
             try
             {
+                entity.KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]);
                 if (ModelState.IsValid)
                 {
                     var eklenenTasinmaz = await _tasinmaz.Add(entity);
@@ -32,39 +33,41 @@ namespace Tasinmaz
                         DurumId = 1,
                         IslemTipId = 3,
                         Aciklama = entity.Id + " Id'li Taşınmaz Eklendi",
-                        KullaniciId = 29,
-                        KullaniciAdi = "Zeliha",
+                        KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                        KullaniciAdi = Request.Headers["current-user-name"],
                         Tarih = DateTime.Now,
-                        IP = "123.123.123"
+                        IP = Request.Headers["ip-address"]
                     });
                     return CreatedAtAction("GetById", new { id = eklenenTasinmaz.Id }, eklenenTasinmaz);
                 }
                 else
                 {
+                    entity.KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]);
                     await _log.Add(new Log()
                     {
                         DurumId = 2,
                         IslemTipId = 3,
                         Aciklama = entity.Adres + " Adresli Taşınmaz Eklenemedi",
-                        KullaniciId = 29,
-                        KullaniciAdi = "Zeliha",
+                        KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                        KullaniciAdi = Request.Headers["current-user-name"],
                         Tarih = DateTime.Now,
-                        IP = "123.123.123"
+                        IP = Request.Headers["ip-address"]
                     });
                     return BadRequest(ModelState);
                 }
             }
             catch (System.Exception)
             {
+                entity.KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]);
                 await _log.Add(new Log()
                 {
                     DurumId = 2,
                     IslemTipId = 3,
-                    Aciklama = entity.Adres + " Adresli Taşınmaz Eklenemedi",
-                    KullaniciId = 29,
-                    KullaniciAdi = "Zeliha",
+                    Aciklama = "Taşınmaz Servisinde Ekleme Hatası Oluştu!",
+                    KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                    KullaniciAdi = Request.Headers["current-user-name"],
                     Tarih = DateTime.Now,
-                    IP = "123.123.123"
+                    IP = Request.Headers["ip-address"]
                 });
                 return BadRequest(ModelState);
             }
@@ -84,10 +87,10 @@ namespace Tasinmaz
                         DurumId = 1,
                         IslemTipId = 4,
                         Aciklama = id + " Id'li Taşınmaz Silindi",
-                        KullaniciId = 29,
-                        KullaniciAdi = "Zeliha",
+                        KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                        KullaniciAdi = Request.Headers["current-user-name"],
                         Tarih = DateTime.Now,
-                        IP = "123.123.123"
+                        IP = Request.Headers["ip-address"]
                     });
                     return Ok();
                 }
@@ -98,10 +101,10 @@ namespace Tasinmaz
                         DurumId = 2,
                         IslemTipId = 4,
                         Aciklama = id + "Id'li Taşınmaz Silinemedi",
-                        KullaniciId = 29,
-                        KullaniciAdi = "Zeliha",
+                        KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                        KullaniciAdi = Request.Headers["current-user-name"],
                         Tarih = DateTime.Now,
-                        IP = "123.123.123"
+                        IP = Request.Headers["ip-address"]
                     });
                     return NotFound();
                 }
@@ -112,11 +115,11 @@ namespace Tasinmaz
                 {
                     DurumId = 2,
                     IslemTipId = 4,
-                    Aciklama = id + "Id'li Taşınmaz Silinemedi",
-                    KullaniciId = 29,
-                    KullaniciAdi = "Zeliha",
+                    Aciklama = "Taşınmaz Servisinde Silme Hatası Oluştu!",
+                    KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                    KullaniciAdi = Request.Headers["current-user-name"],
                     Tarih = DateTime.Now,
-                    IP = "123.123.123"
+                    IP = Request.Headers["ip-address"]
                 });
                 return NotFound();
             }
@@ -133,10 +136,10 @@ namespace Tasinmaz
                     DurumId = 1,
                     IslemTipId = 6,
                     Aciklama = "Taşınmazlar Listelendi",
-                    KullaniciId = 29,
-                    KullaniciAdi = "Zeliha",
+                    KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                    KullaniciAdi = Request.Headers["current-user-name"],
                     Tarih = DateTime.Now,
-                    IP = "123.123.123"
+                    IP = Request.Headers["ip-address"]
                 });
                 return Ok(tasinmaz);
             }
@@ -146,11 +149,11 @@ namespace Tasinmaz
                 {
                     DurumId = 2,
                     IslemTipId = 6,
-                    Aciklama = "Taşınmazlar Listelenemedi",
-                    KullaniciId = 29,
-                    KullaniciAdi = "Zeliha",
+                    Aciklama = "Taşınmaz Servisinde Listeleme Hatası Oluştu!",
+                    KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                    KullaniciAdi = Request.Headers["current-user-name"],
                     Tarih = DateTime.Now,
-                    IP = "123.123.123"
+                    IP = Request.Headers["ip-address"]
                 });
                 return NotFound();
             }
@@ -158,20 +161,22 @@ namespace Tasinmaz
 
         [HttpGet]
         [Route("{skipDeger}/{takeDeger}")]
-        public async Task<IActionResult> GetAll(int skipDeger, int takeDeger)
+        public async Task<IActionResult> GetAll(int skipDeger, int takeDeger, int kullaniciId, int kullaniciYetki)
         {
             try
             {
-                var tasinmaz = await _tasinmaz.GetAll(skipDeger, takeDeger, 29);
+                kullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]);
+                kullaniciYetki = Convert.ToInt32(Request.Headers["current-user-type"]);
+                var tasinmaz = await _tasinmaz.GetAll(skipDeger, takeDeger, kullaniciId, kullaniciYetki);
                 await _log.Add(new Log()
                 {
                     DurumId = 1,
                     IslemTipId = 6,
                     Aciklama = "Taşınmazlar Listelendi",
-                    KullaniciId = 29,
-                    KullaniciAdi = "Zeliha",
+                    KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                    KullaniciAdi = Request.Headers["current-user-name"],
                     Tarih = DateTime.Now,
-                    IP = "123.123.123"
+                    IP = Request.Headers["ip-address"]
                 });
                 return Ok(tasinmaz);
             }
@@ -181,11 +186,11 @@ namespace Tasinmaz
                 {
                     DurumId = 2,
                     IslemTipId = 6,
-                    Aciklama = "Taşınmazlar Listelenemedi",
-                    KullaniciId = 29,
-                    KullaniciAdi = "Zeliha",
+                    Aciklama = "Taşınmaz Servisinde Listeleme Hatası Oluştu!",
+                    KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                    KullaniciAdi = Request.Headers["current-user-name"],
                     Tarih = DateTime.Now,
-                    IP = "123.123.123"
+                    IP = Request.Headers["ip-address"]
                 });
                 return NotFound();
             }
@@ -205,10 +210,10 @@ namespace Tasinmaz
                         DurumId = 1,
                         IslemTipId = 7,
                         Aciklama = id + " Id'li Taşınmaz Listelendi",
-                        KullaniciId = 29,
-                        KullaniciAdi = "Zeliha",
+                        KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                        KullaniciAdi = Request.Headers["current-user-name"],
                         Tarih = DateTime.Now,
-                        IP = "123.123.123"
+                        IP = Request.Headers["ip-address"]
                     });
                     return Ok(tasinmaz);
                 }
@@ -219,10 +224,10 @@ namespace Tasinmaz
                         DurumId = 2,
                         IslemTipId = 7,
                         Aciklama = id + " Id'li Taşınmaz Listelenemedi",
-                        KullaniciId = 29,
-                        KullaniciAdi = "Zeliha",
+                        KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                        KullaniciAdi = Request.Headers["current-user-name"],
                         Tarih = DateTime.Now,
-                        IP = "123.123.123"
+                        IP = Request.Headers["ip-address"]
                     });
                     return NotFound();
                 }
@@ -233,11 +238,11 @@ namespace Tasinmaz
                 {
                     DurumId = 2,
                     IslemTipId = 7,
-                    Aciklama = id + " Id'li Taşınmaz Listelenemedi",
-                    KullaniciId = 29,
-                    KullaniciAdi = "Zeliha",
+                    Aciklama = "Taşınmaz Servisinde GetById Hatası Oluştu!",
+                    KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                    KullaniciAdi = Request.Headers["current-user-name"],
                     Tarih = DateTime.Now,
-                    IP = "123.123.123"
+                    IP = Request.Headers["ip-address"]
                 });
                 return NotFound();
             }
@@ -257,10 +262,10 @@ namespace Tasinmaz
                         DurumId = 1,
                         IslemTipId = 8,
                         Aciklama = filter + " ile Taşınmaz Filtrelendi",
-                        KullaniciId = 29,
-                        KullaniciAdi = "Zeliha",
+                        KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                        KullaniciAdi = Request.Headers["current-user-name"],
                         Tarih = DateTime.Now,
-                        IP = "123.123.123"
+                        IP = Request.Headers["ip-address"]
                     });
                     return Ok(tasinmaz);
                 }
@@ -271,10 +276,10 @@ namespace Tasinmaz
                         DurumId = 2,
                         IslemTipId = 8,
                         Aciklama = filter + " ile Taşınmaz Filtrelenemedi",
-                        KullaniciId = 29,
-                        KullaniciAdi = "Zeliha",
+                        KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                        KullaniciAdi = Request.Headers["current-user-name"],
                         Tarih = DateTime.Now,
-                        IP = "123.123.123"
+                        IP = Request.Headers["ip-address"]
                     });
                     return NotFound();
                 }
@@ -285,11 +290,11 @@ namespace Tasinmaz
                 {
                     DurumId = 2,
                     IslemTipId = 8,
-                    Aciklama = filter + " ile Taşınmaz Filtrelenemedi",
-                    KullaniciId = 29,
-                    KullaniciAdi = "Zeliha",
+                    Aciklama = "Taşınmaz Servisinde Filtreleme Hatası Oluştu!",
+                    KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                    KullaniciAdi = Request.Headers["current-user-name"],
                     Tarih = DateTime.Now,
-                    IP = "123.123.123"
+                    IP = Request.Headers["ip-address"]
                 });
                 return NotFound();
             }
@@ -315,44 +320,47 @@ namespace Tasinmaz
             {
                 if (await _tasinmaz.GetById(entity.Id) != null)
                 {
+                    entity.KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]);
                     await _log.Add(new Log()
                     {
                         DurumId = 1,
                         IslemTipId = 5,
                         Aciklama = entity.Id + " Id'li Taşınmaz Düzenlendi",
-                        KullaniciId = 29,
-                        KullaniciAdi = "Zeliha",
+                        KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                        KullaniciAdi = Request.Headers["current-user-name"],
                         Tarih = DateTime.Now,
-                        IP = "123.123.123"
+                        IP = Request.Headers["ip-address"]
                     });
                     return Ok(_tasinmaz.Update(entity));
                 }
                 else
                 {
+                    entity.KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]);
                     await _log.Add(new Log()
                     {
                         DurumId = 2,
                         IslemTipId = 5,
                         Aciklama = entity.Id + " Id'li Taşınmaz Düzenlenemedi",
-                        KullaniciId = 29,
-                        KullaniciAdi = "Zeliha",
+                        KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                        KullaniciAdi = Request.Headers["current-user-name"],
                         Tarih = DateTime.Now,
-                        IP = "123.123.123"
+                        IP = Request.Headers["ip-address"]
                     });
                     return NotFound();
                 }
             }
             catch (System.Exception)
             {
+                entity.KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]);
                 await _log.Add(new Log()
                 {
                     DurumId = 2,
                     IslemTipId = 5,
-                    Aciklama = entity.Id + " Id'li Taşınmaz Düzenlenemedi",
-                    KullaniciId = 29,
-                    KullaniciAdi = "Zeliha",
+                    Aciklama = "Taşınmaz Servisinde Düzenleme Hatası Oluştu!",
+                    KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                    KullaniciAdi = Request.Headers["current-user-name"],
                     Tarih = DateTime.Now,
-                    IP = "123.123.123"
+                    IP = Request.Headers["ip-address"]
                 });
                 return NotFound();
             }

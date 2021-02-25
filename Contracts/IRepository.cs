@@ -7,8 +7,9 @@ namespace Tasinmaz.Contracts
     {
         Task<T> GetById(int id);
         Task<T> Login(string email, string sifre);
+        Task<T> Logout(string email, string sifre);
         Task<IList<T>> FullGetAll();
-        Task<IList<T>> GetAll(int skipDeger, int takeDeger, int kullaniciId);
+        Task<IList<T>> GetAll(int skipDeger, int takeDeger, int kullaniciId, int kullaniciYetki);
         Task<int> GetCount();
         Task<T> Add(T entity);
         Task Delete(int id);

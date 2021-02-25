@@ -32,10 +32,10 @@ namespace Tasinmaz.Controllers
                         DurumId = 1,
                         IslemTipId = 3,
                         Aciklama = entity.Ad + " İlçesi Eklendi",
-                        KullaniciId = 29,
-                        KullaniciAdi = "Zeliha",
+                        KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                        KullaniciAdi = Request.Headers["current-user-name"],
                         Tarih = DateTime.Now,
-                        IP = "123.123.123"
+                        IP = Request.Headers["ip-address"]
                     });
                     return CreatedAtAction("GetById", new { id = eklenenIlce.Id }, eklenenIlce);
                 }
@@ -46,10 +46,10 @@ namespace Tasinmaz.Controllers
                         DurumId = 2,
                         IslemTipId = 3,
                         Aciklama = entity.Ad + " İlçesi Eklenemedi",
-                        KullaniciId = 29,
-                        KullaniciAdi = "Zeliha",
+                        KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                        KullaniciAdi = Request.Headers["current-user-name"],
                         Tarih = DateTime.Now,
-                        IP = "123.123.123"
+                        IP = Request.Headers["ip-address"]
                     });
                     return BadRequest(ModelState);
                 }
@@ -60,11 +60,11 @@ namespace Tasinmaz.Controllers
                 {
                     DurumId = 2,
                     IslemTipId = 3,
-                    Aciklama = entity.Ad + " İlçesi Eklenemedi",
-                    KullaniciId = 29,
-                    KullaniciAdi = "Zeliha",
+                    Aciklama = "İlçe Servisinde Ekleme Hatası Oluştu!",
+                    KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                    KullaniciAdi = Request.Headers["current-user-name"],
                     Tarih = DateTime.Now,
-                    IP = "123.123.123"
+                    IP = Request.Headers["ip-address"]
                 });
                 return BadRequest(ModelState);
             }
@@ -84,10 +84,10 @@ namespace Tasinmaz.Controllers
                         DurumId = 1,
                         IslemTipId = 4,
                         Aciklama = id + " Id'li İlçe Silindi",
-                        KullaniciId = 29,
-                        KullaniciAdi = "Zeliha",
+                        KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                        KullaniciAdi = Request.Headers["current-user-name"],
                         Tarih = DateTime.Now,
-                        IP = "123.123.123"
+                        IP = Request.Headers["ip-address"]
                     });
                     return Ok();
                 }
@@ -98,10 +98,10 @@ namespace Tasinmaz.Controllers
                         DurumId = 2,
                         IslemTipId = 4,
                         Aciklama = id + " Id'li İlçe Silinemedi",
-                        KullaniciId = 29,
-                        KullaniciAdi = "Zeliha",
+                        KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                        KullaniciAdi = Request.Headers["current-user-name"],
                         Tarih = DateTime.Now,
-                        IP = "123.123.123"
+                        IP = Request.Headers["ip-address"]
                     });
                     return NotFound();
                 }
@@ -112,11 +112,11 @@ namespace Tasinmaz.Controllers
                 {
                     DurumId = 2,
                     IslemTipId = 4,
-                    Aciklama = id + " Id'li İlçe Silinemedi",
-                    KullaniciId = 29,
-                    KullaniciAdi = "Zeliha",
+                    Aciklama = "İlçe Servisinde Silme Hatası Oluştu!",
+                    KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                    KullaniciAdi = Request.Headers["current-user-name"],
                     Tarih = DateTime.Now,
-                    IP = "123.123.123"
+                    IP = Request.Headers["ip-address"]
                 });
                 return NotFound();
             }
@@ -128,16 +128,16 @@ namespace Tasinmaz.Controllers
         {
             try
             {
-                var ilce = await _ilce.GetAll(skipDeger, takeDeger, 1);
+                var ilce = await _ilce.GetAll(skipDeger, takeDeger, 1, 1);
                 await _log.Add(new Log()
                 {
                     DurumId = 1,
                     IslemTipId = 6,
                     Aciklama = "İlçeler Listelendi",
-                    KullaniciId = 29,
-                    KullaniciAdi = "Zeliha",
+                    KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                    KullaniciAdi = Request.Headers["current-user-name"],
                     Tarih = DateTime.Now,
-                    IP = "123.123.123"
+                    IP = Request.Headers["ip-address"]
                 });
                 return Ok(ilce);
             }
@@ -147,11 +147,11 @@ namespace Tasinmaz.Controllers
                 {
                     DurumId = 2,
                     IslemTipId = 6,
-                    Aciklama = "İlçeler Listelenemedi",
-                    KullaniciId = 29,
-                    KullaniciAdi = "Zeliha",
+                    Aciklama = "İlçe Servisinde Lİsteleme Hatası Oluştu!",
+                    KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                    KullaniciAdi = Request.Headers["current-user-name"],
                     Tarih = DateTime.Now,
-                    IP = "123.123.123"
+                    IP = Request.Headers["ip-address"]
                 });
                 return NotFound();
             }
@@ -168,10 +168,10 @@ namespace Tasinmaz.Controllers
                     DurumId = 1,
                     IslemTipId = 6,
                     Aciklama = "İlçeler Listelendi",
-                    KullaniciId = 29,
-                    KullaniciAdi = "Zeliha",
+                    KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                    KullaniciAdi = Request.Headers["current-user-name"],
                     Tarih = DateTime.Now,
-                    IP = "123.123.123"
+                    IP = Request.Headers["ip-address"]
                 });
                 return Ok(ilce);
             }
@@ -181,11 +181,11 @@ namespace Tasinmaz.Controllers
                 {
                     DurumId = 2,
                     IslemTipId = 6,
-                    Aciklama = "İlçeler Listelenemedi",
-                    KullaniciId = 29,
-                    KullaniciAdi = "Zeliha",
+                    Aciklama = "İlçe Servisinde Listeleme Hatası Oluştu!",
+                    KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                    KullaniciAdi = Request.Headers["current-user-name"],
                     Tarih = DateTime.Now,
-                    IP = "123.123.123"
+                    IP = Request.Headers["ip-address"]
                 });
                 return NotFound();
             }
@@ -205,10 +205,10 @@ namespace Tasinmaz.Controllers
                         DurumId = 1,
                         IslemTipId = 7,
                         Aciklama = id + " Id'li İlçe Listelendi",
-                        KullaniciId = 29,
-                        KullaniciAdi = "Zeliha",
+                        KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                        KullaniciAdi = Request.Headers["current-user-name"],
                         Tarih = DateTime.Now,
-                        IP = "123.123.123"
+                        IP = Request.Headers["ip-address"]
                     });
                     return Ok(ilce);
                 }
@@ -219,10 +219,10 @@ namespace Tasinmaz.Controllers
                         DurumId = 2,
                         IslemTipId = 7,
                         Aciklama = id + " Id'li İlçe Listelenemedi",
-                        KullaniciId = 29,
-                        KullaniciAdi = "Zeliha",
+                        KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                        KullaniciAdi = Request.Headers["current-user-name"],
                         Tarih = DateTime.Now,
-                        IP = "123.123.123"
+                        IP = Request.Headers["ip-address"]
                     });
                     return NotFound();
                 }
@@ -233,11 +233,11 @@ namespace Tasinmaz.Controllers
                 {
                     DurumId = 2,
                     IslemTipId = 7,
-                    Aciklama = id + " Id'li İlçe Listelenemedi",
-                    KullaniciId = 29,
-                    KullaniciAdi = "Zeliha",
+                    Aciklama = "İlçe Servisinde GetById Hatası Oluştu!",
+                    KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                    KullaniciAdi = Request.Headers["current-user-name"],
                     Tarih = DateTime.Now,
-                    IP = "123.123.123"
+                    IP = Request.Headers["ip-address"]
                 });
                 return NotFound();
             }
@@ -268,10 +268,10 @@ namespace Tasinmaz.Controllers
                         DurumId = 1,
                         IslemTipId = 5,
                         Aciklama = entity.Ad + " İlçesi Düzenlendi",
-                        KullaniciId = 29,
-                        KullaniciAdi = "Zeliha",
+                        KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                        KullaniciAdi = Request.Headers["current-user-name"],
                         Tarih = DateTime.Now,
-                        IP = "123.123.123"
+                        IP = Request.Headers["ip-address"]
                     });
                     return Ok(_ilce.Update(entity));
                 }
@@ -282,10 +282,10 @@ namespace Tasinmaz.Controllers
                         DurumId = 2,
                         IslemTipId = 5,
                         Aciklama = entity.Ad + " İlçesi Düzenlenemedi",
-                        KullaniciId = 29,
-                        KullaniciAdi = "Zeliha",
+                        KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                        KullaniciAdi = Request.Headers["current-user-name"],
                         Tarih = DateTime.Now,
-                        IP = "123.123.123"
+                        IP = Request.Headers["ip-address"]
                     });
                     return NotFound();
                 }
@@ -296,11 +296,11 @@ namespace Tasinmaz.Controllers
                 {
                     DurumId = 2,
                     IslemTipId = 5,
-                    Aciklama = entity.Ad + " İlçesi Düzenlenemedi",
-                    KullaniciId = 29,
-                    KullaniciAdi = "Zeliha",
+                    Aciklama = "İlçe Servisinde Düzenleme Hatası Oluştu!",
+                    KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                    KullaniciAdi = Request.Headers["current-user-name"],
                     Tarih = DateTime.Now,
-                    IP = "123.123.123"
+                    IP = Request.Headers["ip-address"]
                 });
                 return NotFound();
             }

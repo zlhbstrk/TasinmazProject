@@ -14,7 +14,6 @@ namespace Tasinmaz.Services
             using (var _DefaultDbContext = new DefaultDbContext())
             {
                 _DefaultDbContext.tblTasinmaz.Add(entity);
-                entity.KullaniciId = 29; //Log Add() -> Local Storage 'den alınan veri ile dolacak!
                 await _DefaultDbContext.SaveChangesAsync();
                 return entity;
             }
@@ -31,18 +30,27 @@ namespace Tasinmaz.Services
             }
         }
 
-        public async Task<IList<ETasinmaz>> GetAll(int skipDeger, int takeDeger, int kullaniciId)
+        public async Task<IList<ETasinmaz>> GetAll(int skipDeger, int takeDeger, int kullaniciId, int kullaniciYetki)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                IList<ETasinmaz> model = await _DefaultDbContext.tblTasinmaz.Include(t => t.Mahalle).ThenInclude(t => t.Ilce).ThenInclude(t => t.Il)
-                                            .Include(t => t.Kullanici).OrderBy(t => t.Adres).Where(t => t.AktifMi).Skip(skipDeger).Take(takeDeger).ToListAsync();
-
-                if (model == null)
+                if (kullaniciYetki == 1)
                 {
-                    throw new System.NotImplementedException(); //*
+                    return await _DefaultDbContext.tblTasinmaz.Include(t => t.Mahalle).ThenInclude(t => t.Ilce).ThenInclude(t => t.Il)
+                                            .Include(t => t.Kullanici).OrderBy(t => t.Adres).Where(t => t.AktifMi).Skip(skipDeger).Take(takeDeger).ToListAsync();
                 }
-                return model;
+                else
+                {
+                    return await _DefaultDbContext.tblTasinmaz.Include(t => t.Mahalle).ThenInclude(t => t.Ilce).ThenInclude(t => t.Il)
+                                            .Include(t => t.Kullanici).OrderBy(t => t.Adres).Where(t => t.KullaniciId == kullaniciId && t.AktifMi).Skip(skipDeger).Take(takeDeger).ToListAsync();
+                }
+                
+
+                // if (model == null)
+                // {
+                //     throw new System.NotImplementedException(); //*
+                // }
+                // return model;
             }
         }
         public async Task<IList<ETasinmaz>> FullGetAll()
@@ -59,13 +67,13 @@ namespace Tasinmaz.Services
             {
                 return await (from t in _DefaultDbContext.tblTasinmaz
                               where
-                                    t.Mahalle.Ad.ToLower().Contains(filter.ToLower()) ||
-                                    t.Ilce.Ad.ToLower().Contains(filter.ToLower()) ||
-                                    t.Il.Ad.ToLower().Contains(filter.ToLower()) ||
-                                    t.Ada.ToLower().Contains(filter.ToLower()) ||
-                                    t.Parsel.ToLower().Contains(filter.ToLower()) ||
-                                    t.Nitelik.ToLower().Contains(filter.ToLower()) ||
-                                    t.Adres.ToLower().Contains(filter.ToLower())
+                                    t.Mahalle.Ad.ToLower().Contains(filter.Trim().ToLower()) ||
+                                    t.Ilce.Ad.ToLower().Contains(filter.Trim().ToLower()) ||
+                                    t.Il.Ad.ToLower().Contains(filter.Trim().ToLower()) ||
+                                    t.Ada.ToLower().Contains(filter.Trim().ToLower()) ||
+                                    t.Parsel.ToLower().Contains(filter.Trim().ToLower()) ||
+                                    t.Nitelik.ToLower().Contains(filter.Trim().ToLower()) ||
+                                    t.Adres.ToLower().Contains(filter.Trim().ToLower())
                               select t).Where(t => t.AktifMi).OrderBy(t => t.Adres).ToListAsync();
             }
         }
@@ -93,13 +101,17 @@ namespace Tasinmaz.Services
             {
                 _DefaultDbContext.tblTasinmaz.Update(entity);
                 entity.AktifMi = true;
-                entity.KullaniciId = 29;
+                // entity.KullaniciId = 29;
                 await _DefaultDbContext.SaveChangesAsync();
                 return entity;
             }
         }
 
         public Task<ETasinmaz> Login(string email, string sifre)
+        {
+            throw new System.NotImplementedException();
+        }
+        public Task<ETasinmaz> Logout(string email, string sifre)
         {
             throw new System.NotImplementedException();
         }

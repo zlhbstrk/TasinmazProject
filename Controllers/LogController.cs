@@ -36,7 +36,7 @@ namespace Tasinmaz.Controllers
         {
             try
             {
-                var log = await _log.GetAll(skipDeger, takeDeger, 1);
+                var log = await _log.GetAll(skipDeger, takeDeger, 1, 1);
                 return Ok(log);
             }
             catch (System.Exception)

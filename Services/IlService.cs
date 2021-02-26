@@ -42,7 +42,7 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                return await _DefaultDbContext.tblIl.Where(i => i.AktifMi).OrderBy(i => i.Ad).ToListAsync();
+                return await _DefaultDbContext.tblIl.Where(i => i.AktifMi).OrderBy(i => i.Plaka).ToListAsync();
             }
         }
 

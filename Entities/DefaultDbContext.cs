@@ -42,7 +42,7 @@ namespace Tasinmaz.Entities
 
             builder.Entity<ETasinmaz>(entity =>
             {
-                entity.HasIndex(e => new { e.Ada, e.Parsel, e.IlId, e.IlceId, e.MahalleId }).IsUnique();
+                entity.HasIndex(e => new { e.Ada, e.Parsel, e.Nitelik, e.IlId, e.IlceId, e.MahalleId }).IsUnique();
             });
         }
 

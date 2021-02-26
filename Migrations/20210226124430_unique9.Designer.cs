@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Tasinmaz.Entities;
@@ -9,9 +10,10 @@ using Tasinmaz.Entities;
 namespace Tasinmaz.Migrations
 {
     [DbContext(typeof(DefaultDbContext))]
-    partial class DefaultContextModelSnapshot : ModelSnapshot
+    [Migration("20210226124430_unique9")]
+    partial class unique9
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,7 +89,7 @@ namespace Tasinmaz.Migrations
 
                     b.HasIndex("MahalleId");
 
-                    b.HasIndex("Ada", "Parsel", "Nitelik", "IlId", "IlceId", "MahalleId")
+                    b.HasIndex("Ada", "Parsel", "IlId", "IlceId", "MahalleId", "Nitelik")
                         .IsUnique();
 
                     b.ToTable("tblTasinmaz");

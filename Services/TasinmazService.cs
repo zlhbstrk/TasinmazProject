@@ -37,7 +37,7 @@ namespace Tasinmaz.Services
                 if (kullaniciYetki == 1)
                 {
                     return await _DefaultDbContext.tblTasinmaz.Include(t => t.Mahalle).ThenInclude(t => t.Ilce).ThenInclude(t => t.Il)
-                                            .Include(t => t.Kullanici).OrderBy(t => t.Adres).Where(t => t.AktifMi).Skip(skipDeger).Take(takeDeger).ToListAsync();
+                                            .Include(t => t.Kullanici).Where(t => t.AktifMi).OrderBy(t => t.Adres).Skip(skipDeger).Take(takeDeger).ToListAsync();
                 }
                 else
                 {
@@ -51,7 +51,7 @@ namespace Tasinmaz.Services
             using (var _DefaultDbContext = new DefaultDbContext())
             {
                 return await _DefaultDbContext.tblTasinmaz.Include(t => t.Mahalle).ThenInclude(t => t.Ilce).ThenInclude(t => t.Il)
-                            .Include(t => t.Kullanici).OrderBy(t => t.Adres).Where(t => t.AktifMi).ToListAsync();
+                            .Include(t => t.Kullanici).Where(t => t.AktifMi).OrderBy(t => t.Adres).ToListAsync();
             }
         }
         public async Task<IList<ETasinmaz>> GetAllFilter(string filter)
@@ -130,7 +130,7 @@ namespace Tasinmaz.Services
                                             t.Parsel.ToLower().Contains(filter.Trim().ToLower()) ||
                                             t.Nitelik.ToLower().Contains(filter.Trim().ToLower()) ||
                                             t.Adres.ToLower().Contains(filter.Trim().ToLower()))
-                                .Where(t => t.AktifMi).Skip(skipDeger).Take(takeDeger).ToListAsync();
+                                .Skip(skipDeger).Take(takeDeger).ToListAsync();
                 }
                 else
                 {

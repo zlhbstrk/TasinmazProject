@@ -163,7 +163,7 @@ namespace Tasinmaz.Controllers
         {
             try
             {
-                var il = await _il.GetAll(skipDeger, takeDeger, 1, 1);
+                var il = await _il.GetAll(skipDeger, takeDeger);
                 await _log.Add(new Log()
                 {
                     DurumId = 1,

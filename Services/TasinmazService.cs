@@ -30,7 +30,7 @@ namespace Tasinmaz.Services
             }
         }
 
-        public async Task<IList<ETasinmaz>> GetAll(int skipDeger, int takeDeger, int kullaniciId, int kullaniciYetki)
+        public async Task<IList<ETasinmaz>> GetAllYetki(int skipDeger, int takeDeger, int kullaniciId, int kullaniciYetki)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
@@ -44,13 +44,6 @@ namespace Tasinmaz.Services
                     return await _DefaultDbContext.tblTasinmaz.Include(t => t.Mahalle).ThenInclude(t => t.Ilce).ThenInclude(t => t.Il)
                                             .Include(t => t.Kullanici).OrderBy(t => t.Adres).Where(t => t.KullaniciId == kullaniciId && t.AktifMi).Skip(skipDeger).Take(takeDeger).ToListAsync();
                 }
-                
-
-                // if (model == null)
-                // {
-                //     throw new System.NotImplementedException(); //*
-                // }
-                // return model;
             }
         }
         public async Task<IList<ETasinmaz>> FullGetAll()
@@ -111,9 +104,62 @@ namespace Tasinmaz.Services
         {
             throw new System.NotImplementedException();
         }
-        public Task<ETasinmaz> Logout(string email, string sifre)
+        public Task<ETasinmaz> Logout()
         {
             throw new System.NotImplementedException();
         }
+
+        public Task<IList<ETasinmaz>> GetAll(int skipDeger, int takeDeger)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public async Task<IList<ETasinmaz>> GetSearchAndFilter(int skipDeger, int takeDeger, string filter)
+        {
+            using (var _DefaultDbContext = new DefaultDbContext())
+            {
+                IList<ETasinmaz> model;
+                if (filter != "-1")
+                {
+                    model = await _DefaultDbContext.tblTasinmaz.Include(t => t.Mahalle).Include(t => t.Ilce).Include(t => t.Il)
+                                .OrderBy(t => t.Adres)
+                                .Where(t => t.Mahalle.Ad.ToLower().Contains(filter.Trim().ToLower()) ||
+                                            t.Ilce.Ad.ToLower().Contains(filter.Trim().ToLower()) ||
+                                            t.Il.Ad.ToLower().Contains(filter.Trim().ToLower()) ||
+                                            t.Ada.ToLower().Contains(filter.Trim().ToLower()) ||
+                                            t.Parsel.ToLower().Contains(filter.Trim().ToLower()) ||
+                                            t.Nitelik.ToLower().Contains(filter.Trim().ToLower()) ||
+                                            t.Adres.ToLower().Contains(filter.Trim().ToLower()))
+                                .Where(t => t.AktifMi).Skip(skipDeger).Take(takeDeger).ToListAsync();
+                }
+                else
+                {
+                    model = await _DefaultDbContext.tblTasinmaz.Include(t => t.Mahalle).ThenInclude(t => t.Ilce).ThenInclude(t => t.Il)
+                                 .OrderBy(t => t.Adres).Skip(skipDeger).Take(takeDeger).ToListAsync();
+                }
+
+
+                if (model == null)
+                {
+                    throw new System.NotImplementedException();
+                }
+                return model;
+            }
+        }
+
+        public async Task<int> FilterGetCount(string filter)
+        {
+            using (var _DefaultDbContext = new DefaultDbContext())
+            {
+                return await _DefaultDbContext.tblTasinmaz.Where(t => t.Mahalle.Ad.ToLower().Contains(filter.Trim().ToLower()) ||
+                                    t.Ilce.Ad.ToLower().Contains(filter.Trim().ToLower()) ||
+                                    t.Il.Ad.ToLower().Contains(filter.Trim().ToLower()) ||
+                                    t.Ada.ToLower().Contains(filter.Trim().ToLower()) ||
+                                    t.Parsel.ToLower().Contains(filter.Trim().ToLower()) ||
+                                    t.Nitelik.ToLower().Contains(filter.Trim().ToLower()) ||
+                                    t.Adres.ToLower().Contains(filter.Trim().ToLower())).CountAsync();
+            }
+        }
+
     }
 }

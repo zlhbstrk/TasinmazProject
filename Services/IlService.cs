@@ -31,7 +31,7 @@ namespace Tasinmaz.Services
             }
         }
 
-        public async Task<IList<Il>> GetAll(int skipDeger, int takeDeger, int kullaniciId, int kullaniciYetki)
+        public async Task<IList<Il>> GetAll(int skipDeger, int takeDeger)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
@@ -82,7 +82,22 @@ namespace Tasinmaz.Services
         {
             throw new System.NotImplementedException();
         }
-        public Task<Il> Logout(string email, string sifre)
+        public Task<Il> Logout()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<IList<Il>> GetAllYetki(int skipDeger, int takeDeger, int kullaniciId, int kullaniciYetki)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<IList<Il>> GetSearchAndFilter(int skipDeger, int takeDeger, string filter)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<int> FilterGetCount(string filter)
         {
             throw new System.NotImplementedException();
         }

@@ -128,7 +128,7 @@ namespace Tasinmaz.Controllers
         {
             try
             {
-                var kullanici = await _kullanici.GetAll(skipDeger, takeDeger, 1, 1);
+                var kullanici = await _kullanici.GetAll(skipDeger, takeDeger);
                 await _log.Add(new Log()
                 {
                     DurumId = 1,
@@ -307,6 +307,21 @@ namespace Tasinmaz.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            await _log.Add(new Log()
+            {
+                DurumId = 1,
+                IslemTipId = 2,
+                Aciklama = "Sistemden Çıkış Yapıldı",
+                KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                KullaniciAdi = Request.Headers["current-user-name"],
+                Tarih = DateTime.Now,
+                IP = Request.Headers["ip-address"]
+            });
+            return Ok();
+        }
+        [HttpGet]
         [Route("{email}/{sifre}")]
         public async Task<IActionResult> Login(string email, string sifre)
         {
@@ -320,10 +335,10 @@ namespace Tasinmaz.Controllers
                         DurumId = 1,
                         IslemTipId = 1,
                         Aciklama = "Sisteme Giriş Yapıldı",
-                        KullaniciId = 29,
-                        KullaniciAdi = "xyz",
+                        KullaniciId = kullanici.Result.Id,
+                        KullaniciAdi = kullanici.Result.Ad,
                         Tarih = DateTime.Now,
-                        IP = ""
+                        IP = Request.Headers["ip-address"]
                     });
                     return Ok(kullanici);
                 }
@@ -334,10 +349,10 @@ namespace Tasinmaz.Controllers
                         DurumId = 2,
                         IslemTipId = 1,
                         Aciklama = "Sisteme Giriş Yapılamadı",
-                        KullaniciId = 29,
-                        KullaniciAdi = "xyz",
+                        KullaniciId = 81,
+                        KullaniciAdi = Request.Headers["current-user-email"],
                         Tarih = DateTime.Now,
-                        IP = ""
+                        IP = Request.Headers["ip-address"]
                     });
                     return NotFound(); //Response Code-404
                 }
@@ -349,10 +364,10 @@ namespace Tasinmaz.Controllers
                     DurumId = 2,
                     IslemTipId = 1,
                     Aciklama = "Kullanıcı Servisinde Login Hatası Oluştu!",
-                    KullaniciId = 29,
-                    KullaniciAdi = "xyz",
+                    KullaniciId = 81,
+                    KullaniciAdi = Request.Headers["current-user-email"],
                     Tarih = DateTime.Now,
-                    IP = ""
+                    IP = Request.Headers["ip-address"]
                 });
                 return NotFound(); //Response Code-404
             }

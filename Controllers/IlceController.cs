@@ -128,7 +128,7 @@ namespace Tasinmaz.Controllers
         {
             try
             {
-                var ilce = await _ilce.GetAll(skipDeger, takeDeger, 1, 1);
+                var ilce = await _ilce.GetAll(skipDeger, takeDeger);
                 await _log.Add(new Log()
                 {
                     DurumId = 1,

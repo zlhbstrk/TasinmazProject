@@ -9,6 +9,7 @@ namespace Tasinmaz.Services
 {
     public class LogService : IRepository<Log>
     {
+
         public async Task<Log> Add(Log entity)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
@@ -24,13 +25,12 @@ namespace Tasinmaz.Services
             throw new System.NotImplementedException();
         }
 
-        public async Task<IList<Log>> GetAll(int skipDeger, int takeDeger, int kullaniciId, int kullaniciYetki)
+        public async Task<IList<Log>> GetAll(int skipDeger, int takeDeger, string filter)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
                 IList<Log> model = await _DefaultDbContext.tblLog.Include(l => l.Kullanici).Include(l => l.Durum).Include(l => l.IslemTip)
-                                    .OrderByDescending(l => l.Tarih).Skip(skipDeger).Take(takeDeger).ToListAsync();
-
+                             .OrderByDescending(l => l.Tarih).Skip(skipDeger).Take(takeDeger).ToListAsync();
                 if (model == null)
                 {
                     throw new System.NotImplementedException();
@@ -43,7 +43,38 @@ namespace Tasinmaz.Services
             using (var _DefaultDbContext = new DefaultDbContext())
             {
                 return await _DefaultDbContext.tblLog.Include(l => l.Kullanici).Include(l => l.Durum).Include(l => l.IslemTip)
-                        .OrderBy(l => l.Tarih).ToListAsync();
+                        .OrderByDescending(l => l.Tarih).ToListAsync();
+            }
+        }
+
+
+        public async Task<IList<Log>> GetSearchAndFilter(int skipDeger, int takeDeger, string filter)
+        {
+            using (var _DefaultDbContext = new DefaultDbContext())
+            {
+                IList<Log> model;
+                if (filter != "-1")
+                {
+                    model = await _DefaultDbContext.tblLog.Include(l => l.Kullanici).Include(l => l.Durum).Include(l => l.IslemTip)
+                                .OrderByDescending(l => l.Tarih)
+                                .Where(l => l.KullaniciAdi.ToLower().Contains(filter.ToLower()) ||
+                                            l.Durum.Ad.ToLower().Contains(filter.ToLower()) ||
+                                            l.IslemTip.Ad.ToLower().Contains(filter.ToLower()) ||
+                                            l.Aciklama.ToLower().Contains(filter.ToLower()) ||
+                                            l.IP.Contains(filter))
+                                .Skip(skipDeger).Take(takeDeger).ToListAsync();
+                }
+                else
+                {
+                    model = await _DefaultDbContext.tblLog.Include(l => l.Kullanici).Include(l => l.Durum).Include(l => l.IslemTip)
+                                 .OrderByDescending(l => l.Tarih).Skip(skipDeger).Take(takeDeger).ToListAsync();
+                }
+
+                if (model == null)
+                {
+                    throw new System.NotImplementedException();
+                }
+                return model;
             }
         }
 
@@ -75,6 +106,18 @@ namespace Tasinmaz.Services
             }
         }
 
+        public async Task<int> FilterGetCount(string filter)
+        {
+            using (var _DefaultDbContext = new DefaultDbContext())
+            {
+                return await _DefaultDbContext.tblLog.Where(l => l.KullaniciAdi.ToLower().Contains(filter.ToLower()) ||
+                                                                 l.Durum.Ad.ToLower().Contains(filter.ToLower()) ||
+                                                                 l.IslemTip.Ad.ToLower().Contains(filter.ToLower()) ||
+                                                                 l.Aciklama.ToLower().Contains(filter.ToLower()) ||
+                                                                 l.IP.Contains(filter)).CountAsync();
+            }
+        }
+
         public Task<Log> Update(Log entity)
         {
             throw new System.NotImplementedException();
@@ -84,7 +127,17 @@ namespace Tasinmaz.Services
         {
             throw new System.NotImplementedException();
         }
-        public Task<Log> Logout(string email, string sifre)
+        public Task<Log> Logout()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<IList<Log>> GetAllYetki(int skipDeger, int takeDeger, int kullaniciId, int kullaniciYetki)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<IList<Log>> GetAll(int skipDeger, int takeDeger)
         {
             throw new System.NotImplementedException();
         }

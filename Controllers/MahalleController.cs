@@ -162,7 +162,7 @@ namespace Tasinmaz.Controllers
         {
             try
             {
-                var mahalle = await _mahalle.GetAll(skipDeger, takeDeger, 1, 1);
+                var mahalle = await _mahalle.GetAll(skipDeger, takeDeger);
                 await _log.Add(new Log()
                 {
                     DurumId = 1,

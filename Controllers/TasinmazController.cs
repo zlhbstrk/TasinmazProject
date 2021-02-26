@@ -161,13 +161,13 @@ namespace Tasinmaz
 
         [HttpGet]
         [Route("{skipDeger}/{takeDeger}")]
-        public async Task<IActionResult> GetAll(int skipDeger, int takeDeger, int kullaniciId, int kullaniciYetki)
+        public async Task<IActionResult> GetAll(int skipDeger, int takeDeger)
         {
             try
             {
-                kullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]);
-                kullaniciYetki = Convert.ToInt32(Request.Headers["current-user-type"]);
-                var tasinmaz = await _tasinmaz.GetAll(skipDeger, takeDeger, kullaniciId, kullaniciYetki);
+                int kullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]);
+                int kullaniciYetki = Convert.ToInt32(Request.Headers["current-user-type"]);
+                var tasinmaz = await _tasinmaz.GetAllYetki(skipDeger, takeDeger, kullaniciId, kullaniciYetki);
                 await _log.Add(new Log()
                 {
                     DurumId = 1,
@@ -362,6 +362,42 @@ namespace Tasinmaz
                     Tarih = DateTime.Now,
                     IP = Request.Headers["ip-address"]
                 });
+                return NotFound();
+            }
+        }
+
+        [HttpGet]
+        [Route("{filter}")]
+        public async Task<int> FilterGetCount(string filter)
+        {
+            try
+            {
+                return await _tasinmaz.FilterGetCount(filter);
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpGet]
+        [Route("{skipDeger}/{takeDeger}/{filter}")]
+        public async Task<IActionResult> GetSearchAndFilter(int skipDeger, int takeDeger, string filter)
+        {
+            try
+            {
+                var tasinmaz = await _tasinmaz.GetSearchAndFilter(skipDeger, takeDeger, filter);
+                if (tasinmaz != null)
+                {
+                    return Ok(tasinmaz);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (System.Exception)
+            {
                 return NotFound();
             }
         }

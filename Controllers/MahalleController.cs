@@ -10,10 +10,10 @@ namespace Tasinmaz.Controllers
     [Route("api/[controller]/[action]")]
     public class MahalleController : ControllerBase
     {
-        private IRepository<Mahalle> _mahalle;
-        private IRepository<Log> _log;
+        private IMahalleRepositoryy _mahalle;
+        private ILogRepository _log;
 
-        public MahalleController(IRepository<Mahalle> mahalle, IRepository<Log> log)
+        public MahalleController(IMahalleRepositoryy mahalle, ILogRepository log)
         {
             _mahalle = mahalle;
             _log = log;

@@ -10,10 +10,10 @@ namespace Tasinmaz
     [Route("api/[controller]/[action]")]
     public class TasinmazController : ControllerBase
     {
-        private IRepository<ETasinmaz> _tasinmaz;
-        private IRepository<Log> _log;
+        private ITasinmazRepository _tasinmaz;
+        private ILogRepository _log;
 
-        public TasinmazController(IRepository<ETasinmaz> tasinmaz, IRepository<Log> log)
+        public TasinmazController(ITasinmazRepository tasinmaz, ILogRepository log)
         {
             _tasinmaz = tasinmaz;
             _log = log;

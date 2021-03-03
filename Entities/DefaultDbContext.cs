@@ -21,7 +21,7 @@ namespace Tasinmaz.Entities
             optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Username=postgres;Password=msn.msn123;Database=dbTasinmaz;");
         }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+        protected override void OnModelCreating(ModelBuilder builder) //Fluent API
         {
             builder.Entity<Il>(entity =>
             {
@@ -42,7 +42,7 @@ namespace Tasinmaz.Entities
 
             builder.Entity<ETasinmaz>(entity =>
             {
-                entity.HasIndex(e => new { e.Ada, e.Parsel, e.Nitelik, e.IlId, e.IlceId, e.MahalleId }).IsUnique();
+                entity.HasIndex(e => new { e.Ada, e.Parsel, e.Nitelik, e.Adres, e.IlId, e.IlceId, e.MahalleId }).IsUnique();
             });
         }
 

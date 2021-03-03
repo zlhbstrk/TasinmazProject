@@ -7,7 +7,7 @@ using Tasinmaz.Entities;
 
 namespace Tasinmaz.Services
 {
-    public class LogService : IRepository<Log>
+    public class LogService : ILogRepository
     {
 
         public async Task<Log> Add(Log entity)
@@ -20,12 +20,7 @@ namespace Tasinmaz.Services
             }
         }
 
-        public Task Delete(int id)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public async Task<IList<Log>> GetAll(int skipDeger, int takeDeger, string filter)
+        public async Task<IList<Log>> GetAll(int skipDeger, int takeDeger)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
@@ -93,11 +88,6 @@ namespace Tasinmaz.Services
             }
         }
 
-        public Task<Log> GetById(int id)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public async Task<int> GetCount()
         {
             using (var _DefaultDbContext = new DefaultDbContext())
@@ -116,30 +106,6 @@ namespace Tasinmaz.Services
                                                                  l.Aciklama.ToLower().Contains(filter.ToLower()) ||
                                                                  l.IP.Contains(filter)).CountAsync();
             }
-        }
-
-        public Task<Log> Update(Log entity)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<Log> Login(string email, string sifre)
-        {
-            throw new System.NotImplementedException();
-        }
-        public Task<Log> Logout()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<IList<Log>> GetAllYetki(int skipDeger, int takeDeger, int kullaniciId, int kullaniciYetki)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<IList<Log>> GetAll(int skipDeger, int takeDeger)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

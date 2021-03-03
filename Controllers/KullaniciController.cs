@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Tasinmaz.Contracts;
 using Tasinmaz.Entities;
+using Tasinmaz.Models;
+using Tasinmaz.Helpers;
 
 namespace Tasinmaz.Controllers
 {
@@ -10,10 +12,10 @@ namespace Tasinmaz.Controllers
     [Route("api/[controller]/[action]")]
     public class KullaniciController : ControllerBase
     {
-        private IRepository<Kullanici> _kullanici;
-        private IRepository<Log> _log;
+        private IKullaniciRepository _kullanici;
+        private ILogRepository _log;
 
-        public KullaniciController(IRepository<Kullanici> kullanici, IRepository<Log> log)
+        public KullaniciController(IKullaniciRepository kullanici, ILogRepository log)
         {
             _kullanici = kullanici;
             _log = log;
@@ -26,18 +28,35 @@ namespace Tasinmaz.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var eklenenKullanici = await _kullanici.Add(entity);
-                    await _log.Add(new Log()
+                    if (Helper.SifreKontrol(entity.Sifre) == entity.Sifre)
                     {
-                        DurumId = 1,
-                        IslemTipId = 3,
-                        Aciklama = entity.Ad + " Kullanıcısı Eklendi",
-                        KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
-                        KullaniciAdi = Request.Headers["current-user-name"],
-                        Tarih = DateTime.Now,
-                        IP = Request.Headers["ip-address"]
-                    });
-                    return CreatedAtAction("GetById", new { id = eklenenKullanici.Id }, eklenenKullanici); //201 + eklenenKullanici
+                        var eklenenKullanici = await _kullanici.Add(entity);
+                        await _log.Add(new Log()
+                        {
+                            DurumId = 1,
+                            IslemTipId = 3,
+                            Aciklama = entity.Ad + " Kullanıcısı Eklendi",
+                            KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                            KullaniciAdi = Request.Headers["current-user-name"],
+                            Tarih = DateTime.Now,
+                            IP = Request.Headers["ip-address"]
+                        });
+                        return CreatedAtAction("GetById", new { id = eklenenKullanici.Id }, eklenenKullanici); //201 + eklenenKullanici
+                    }
+                    else
+                    {
+                        await _log.Add(new Log()
+                        {
+                            DurumId = 2,
+                            IslemTipId = 3,
+                            Aciklama = entity.Sifre + " Şifre Formatı Yanlıştır",
+                            KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                            KullaniciAdi = Request.Headers["current-user-name"],
+                            Tarih = DateTime.Now,
+                            IP = Request.Headers["ip-address"]
+                        });
+                        return BadRequest(ModelState);
+                    }
                 }
                 else
                 {
@@ -54,13 +73,13 @@ namespace Tasinmaz.Controllers
                     return BadRequest(ModelState); //Response Code-400 + validation errors
                 }
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
                 await _log.Add(new Log()
                 {
                     DurumId = 2,
                     IslemTipId = 3,
-                    Aciklama = "Kullanıcı Servisinde Ekleme Hatası Oluştu!",
+                    Aciklama = "Kullanıcı Servisinde Ekleme Hatası Oluştu!" + ex.Message,
                     KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
                     KullaniciAdi = Request.Headers["current-user-name"],
                     Tarih = DateTime.Now,
@@ -370,6 +389,59 @@ namespace Tasinmaz.Controllers
                     IP = Request.Headers["ip-address"]
                 });
                 return NotFound(); //Response Code-404
+            }
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> PasswordChange(int id, PasswordChangeDto entity)
+        {
+            try
+            {
+                var o = await _kullanici.PasswordControl(id, entity.MevcutSifre);
+                if (o)
+                {
+                    await _kullanici.PasswordChange(entity);
+                    await _log.Add(new Log()
+                    {
+                        DurumId = 1,
+                        IslemTipId = 5,
+                        Aciklama = entity.Id + " Id'li Kullanıcının Şifresi Düzenlendi",
+                        KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                        KullaniciAdi = Request.Headers["current-user-name"],
+                        Tarih = DateTime.Now,
+                        IP = Request.Headers["ip-address"]
+                    });
+                    return Ok("Başarılı"); //200 + data
+                }
+                else
+                {
+                    await _log.Add(new Log()
+                    {
+                        DurumId = 2,
+                        IslemTipId = 5,
+                        Aciklama = entity.Id + " Id'li Kullanıcının Şifresi Düzenemelendi",
+                        KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                        KullaniciAdi = Request.Headers["current-user-name"],
+                        Tarih = DateTime.Now,
+                        IP = Request.Headers["ip-address"]
+                    });
+                    return NoContent();
+                }
+            }
+            catch (System.Exception)
+            {
+                await _log.Add(new Log()
+                {
+                    DurumId = 2,
+                    IslemTipId = 5,
+                    Aciklama = "Kullanıcı Servisinde Düzenleme Hatası Oluştu!",
+                    KullaniciId = Convert.ToInt32(Request.Headers["current-user-id"]),
+                    KullaniciAdi = Request.Headers["current-user-name"],
+                    Tarih = DateTime.Now,
+                    IP = Request.Headers["ip-address"]
+                });
+                return BadRequest();
             }
         }
     }

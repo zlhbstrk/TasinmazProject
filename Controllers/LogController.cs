@@ -9,9 +9,9 @@ namespace Tasinmaz.Controllers
     [Route("api/[controller]/[action]")]
     public class LogController : ControllerBase
     {
-        private IRepository<Log> _log;
+        private ILogRepository _log;
 
-        public LogController(IRepository<Log> log)
+        public LogController(ILogRepository log)
         {
             _log = log;
         }

@@ -3,28 +3,21 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Tasinmaz.Contracts;
 using Tasinmaz.Entities;
+using Tasinmaz.Helpers;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using Tasinmaz.Models;
 
 namespace Tasinmaz.Services
 {
-    public class KullaniciService : IRepository<Kullanici>
+    public class KullaniciService : IKullaniciRepository
     {
         public async Task<Kullanici> Add(Kullanici entity)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
-                using (SHA256 sha = SHA256.Create())
-                {
-                    byte[] bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(entity.Sifre));
-                    StringBuilder builder = new StringBuilder();
-                    for (int i = 0; i < bytes.Length; i++)
-                    {
-                        builder.Append(bytes[i].ToString("x2"));
-                    }
-                    entity.Sifre = builder.ToString();
-                }
+                entity.Sifre = Helper.Sifreleme(entity.Sifre);
                 _DefaultDbContext.tblKullanici.Add(entity);
                 await _DefaultDbContext.SaveChangesAsync();
                 return entity;
@@ -58,11 +51,6 @@ namespace Tasinmaz.Services
             }
         }
 
-        public Task<IList<Kullanici>> GetAllFilter(string filter)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public async Task<Kullanici> GetById(int id)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
@@ -93,6 +81,7 @@ namespace Tasinmaz.Services
         {
             using (var _DefaultDbContext = new DefaultDbContext())
             {
+                sifre = Helper.Sifreleme(sifre);
                 var liste = await _DefaultDbContext.tblKullanici.Where(k => k.Email == email && k.Sifre == sifre && k.AktifMi).ToListAsync();
 
                 if (liste.Count > 0)
@@ -114,19 +103,33 @@ namespace Tasinmaz.Services
             }
         }
 
-        public Task<IList<Kullanici>> GetAllYetki(int skipDeger, int takeDeger, int kullaniciId, int kullaniciYetki)
+        public async Task<bool> PasswordChange(PasswordChangeDto entity)
         {
-            throw new System.NotImplementedException();
+            using (var _DefaultDbContext = new DefaultDbContext())
+            {
+                var kullanici = _DefaultDbContext.tblKullanici.Find(entity.Id);
+                kullanici.Sifre = Helper.Sifreleme(entity.YeniSifre);
+                _DefaultDbContext.tblKullanici.Update(kullanici);
+                await _DefaultDbContext.SaveChangesAsync();
+                return true;
+            }
         }
 
-        public Task<IList<Kullanici>> GetSearchAndFilter(int skipDeger, int takeDeger, string filter)
+        public async Task<bool> PasswordControl(int id, string password)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<int> FilterGetCount(string filter)
-        {
-            throw new System.NotImplementedException();
+            using (var _DefaultDbContext = new DefaultDbContext())
+            {
+                password = Helper.Sifreleme(password);
+                var liste = await _DefaultDbContext.tblKullanici.Where(k => k.Id == id && k.Sifre == password).ToListAsync();
+                if (liste.Count > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
     }
 }

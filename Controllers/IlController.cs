@@ -10,11 +10,11 @@ namespace Tasinmaz.Controllers
     [Route("api/[controller]/[action]")]
     public class IlController : ControllerBase
     {
-        private IRepository<Il> _il;
+        private IIlRepository _il;
 
-        private IRepository<Log> _log;
+        private ILogRepository _log;
 
-        public IlController(IRepository<Il> il, IRepository<Log> log)
+        public IlController(IIlRepository il, ILogRepository log)
         {
             _il = il;
             _log = log;

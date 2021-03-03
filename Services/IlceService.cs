@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Tasinmaz.Services
 {
-    public class IlceService : IRepository<Ilce>
+    public class IlceService : IIlceRepository
     {
         public async Task<Ilce> Add(Ilce entity)
         {
@@ -53,11 +53,6 @@ namespace Tasinmaz.Services
             }
         }
 
-        public Task<IList<Ilce>> GetAllFilter(string filter)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public async Task<Ilce> GetById(int id)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
@@ -83,30 +78,6 @@ namespace Tasinmaz.Services
                 await _DefaultDbContext.SaveChangesAsync();
                 return entity;
             }
-        }
-
-        public Task<Ilce> Login(string email, string sifre)
-        {
-            throw new System.NotImplementedException();
-        }
-        public Task<Ilce> Logout()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<IList<Ilce>> GetAllYetki(int skipDeger, int takeDeger, int kullaniciId, int kullaniciYetki)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<IList<Ilce>> GetSearchAndFilter(int skipDeger, int takeDeger, string filter)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<int> FilterGetCount(string filter)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

@@ -7,7 +7,7 @@ using Tasinmaz.Entities;
 
 namespace Tasinmaz.Services
 {
-    public class TasinmazService : IRepository<ETasinmaz>
+    public class TasinmazService : ITasinmazRepository
     {
         public async Task<ETasinmaz> Add(ETasinmaz entity)
         {
@@ -100,18 +100,12 @@ namespace Tasinmaz.Services
             }
         }
 
-        public Task<ETasinmaz> Login(string email, string sifre)
+        public async Task<IList<ETasinmaz>> GetAll(int skipDeger, int takeDeger)
         {
-            throw new System.NotImplementedException();
-        }
-        public Task<ETasinmaz> Logout()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<IList<ETasinmaz>> GetAll(int skipDeger, int takeDeger)
-        {
-            throw new System.NotImplementedException();
+            using (var _DefaultDbContext = new DefaultDbContext())
+            {
+                return await _DefaultDbContext.tblTasinmaz.Where(t => t.AktifMi).OrderBy(t => t.Adres).Skip(skipDeger).Take(takeDeger).ToListAsync();
+            }
         }
 
         public async Task<IList<ETasinmaz>> GetSearchAndFilter(int skipDeger, int takeDeger, string filter)
@@ -160,6 +154,5 @@ namespace Tasinmaz.Services
                                     t.Adres.ToLower().Contains(filter.Trim().ToLower())).CountAsync();
             }
         }
-
     }
 }

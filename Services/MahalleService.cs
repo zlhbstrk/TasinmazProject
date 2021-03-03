@@ -7,7 +7,7 @@ using Tasinmaz.Entities;
 
 namespace Tasinmaz.Services
 {
-    public class MahalleService : IRepository<Mahalle>
+    public class MahalleService : IMahalleRepositoryy
     {
         public async Task<Mahalle> Add(Mahalle entity)
         {
@@ -52,10 +52,6 @@ namespace Tasinmaz.Services
                 return await _DefaultDbContext.tblMahalle.Include(m => m.Ilce).ThenInclude(m => m.Il).Where(m => m.AktifMi).OrderBy(m => m.Ad).ToListAsync();
             }
         }
-        public Task<IList<Mahalle>> GetAllFilter(string filter)
-        {
-            throw new System.NotImplementedException();
-        }
 
         public async Task<Mahalle> GetById(int id)
         {
@@ -88,30 +84,6 @@ namespace Tasinmaz.Services
                 await _DefaultDbContext.SaveChangesAsync();
                 return entity;
             }
-        }
-
-        public Task<Mahalle> Login(string email, string sifre)
-        {
-            throw new System.NotImplementedException();
-        }
-         public Task<Mahalle> Logout()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<IList<Mahalle>> GetAllYetki(int skipDeger, int takeDeger, int kullaniciId, int kullaniciYetki)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<IList<Mahalle>> GetSearchAndFilter(int skipDeger, int takeDeger, string filter)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<int> FilterGetCount(string filter)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

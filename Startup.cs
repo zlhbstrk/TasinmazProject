@@ -9,6 +9,7 @@ using Tasinmaz.Contracts;
 using Tasinmaz.Services;
 using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Cors;
+using System.Threading.Tasks;
 
 namespace Tasinmaz
 {
@@ -23,12 +24,12 @@ namespace Tasinmaz
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IRepository<Kullanici>, KullaniciService>();
-            services.AddSingleton<IRepository<Il>, IlService>();
-            services.AddSingleton<IRepository<Ilce>, IlceService>();
-            services.AddSingleton<IRepository<Mahalle>, MahalleService>();
-            services.AddSingleton<IRepository<ETasinmaz>, TasinmazService>();
-            services.AddSingleton<IRepository<Log>, LogService>();
+            services.AddSingleton<IKullaniciRepository, KullaniciService>();
+            services.AddSingleton<IIlRepository, IlService>();
+            services.AddSingleton<IIlceRepository, IlceService>();
+            services.AddSingleton<IMahalleRepositoryy, MahalleService>();
+            services.AddSingleton<ITasinmazRepository, TasinmazService>();
+            services.AddSingleton<ILogRepository, LogService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Tasinmaz", Version = "v1" });
@@ -65,5 +66,10 @@ namespace Tasinmaz
                 endpoints.MapControllers();
             });
         }
+    }
+
+    internal interface IMahalleRepository
+    {
+        Task Add(Mahalle entity);
     }
 }

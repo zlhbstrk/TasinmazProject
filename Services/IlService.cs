@@ -7,7 +7,7 @@ using Tasinmaz.Entities;
 
 namespace Tasinmaz.Services
 {
-    public class IlService : IRepository<Il>
+    public class IlService : IIlRepository
     {
         public async Task<Il> Add(Il entity)
         {
@@ -46,11 +46,6 @@ namespace Tasinmaz.Services
             }
         }
 
-        public Task<IList<Il>> GetAllFilter(string filter)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public async Task<Il> GetById(int id)
         {
             using (var _DefaultDbContext = new DefaultDbContext())
@@ -76,30 +71,6 @@ namespace Tasinmaz.Services
                 await _DefaultDbContext.SaveChangesAsync();
                 return entity;
             }
-        }
-
-        public Task<Il> Login(string email, string sifre)
-        {
-            throw new System.NotImplementedException();
-        }
-        public Task<Il> Logout()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<IList<Il>> GetAllYetki(int skipDeger, int takeDeger, int kullaniciId, int kullaniciYetki)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<IList<Il>> GetSearchAndFilter(int skipDeger, int takeDeger, string filter)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<int> FilterGetCount(string filter)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }
